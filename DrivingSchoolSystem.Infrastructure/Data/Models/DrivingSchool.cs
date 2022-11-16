@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
@@ -13,6 +7,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public DrivingSchool()
         {
             Users = new List<User>();
+            EducationCategories = new List<DrivingSchoolCategory>();
         }
 
         [Key]
@@ -30,6 +25,11 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [StringLength(50)]
         public string Address { get; set; } = null!;
 
+        [StringLength(15)]
+        public string? PhoneContact { get; set; }
+
         public IEnumerable<User> Users { get; set; }
+        
+        public IEnumerable<DrivingSchoolCategory> EducationCategories { get; set; }
     }
 }

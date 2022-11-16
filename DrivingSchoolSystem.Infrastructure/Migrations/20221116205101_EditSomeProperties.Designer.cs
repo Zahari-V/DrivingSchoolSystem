@@ -4,6 +4,7 @@ using DrivingSchoolSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrivingSchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221116205101_EditSomeProperties")]
+    partial class EditSomeProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,10 +95,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("PhoneContact")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.Property<string>("Town")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -105,21 +103,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DrivingSchools");
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
-                {
-                    b.Property<int>("DrivingSchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DrivingSchoolId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("DrivingSchoolsCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
@@ -498,25 +481,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
-                {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany("DrivingSchoolsCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", "DrivingSchool")
-                        .WithMany("EducationCategories")
-                        .HasForeignKey("DrivingSchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("DrivingSchool");
-                });
-
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
                 {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "User")
@@ -660,15 +624,11 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Category", b =>
                 {
-                    b.Navigation("DrivingSchoolsCategories");
-
                     b.Navigation("InstructorsCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", b =>
                 {
-                    b.Navigation("EducationCategories");
-
                     b.Navigation("Users");
                 });
 

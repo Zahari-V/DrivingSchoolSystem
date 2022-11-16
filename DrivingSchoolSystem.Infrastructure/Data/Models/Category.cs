@@ -7,6 +7,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public Category()
         {
             InstructorsCategories = new List<InstructorCategory>();
+            DrivingSchoolsCategories = new List<DrivingSchoolCategory>();
         }
 
         [Key]
@@ -21,5 +22,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public string ImageUrl { get; set; } = null!;
 
         public IEnumerable<InstructorCategory> InstructorsCategories { get; set; }
+        
+        public IEnumerable<DrivingSchoolCategory> DrivingSchoolsCategories { get; set; }
     }
 }

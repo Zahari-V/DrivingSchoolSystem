@@ -1,7 +1,7 @@
-﻿using DrivingSchoolSystem.Infrastructure.Data.Models;
+﻿using DrivingSchoolSystem.Infrastructure.Data.Configuration;
+using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace DrivingSchoolSystem.Infrastructure.Data
 {
@@ -12,28 +12,42 @@ namespace DrivingSchoolSystem.Infrastructure.Data
         {
         }
 
-        public DbSet<Course> Courses { get; set; }
+        public DbSet<Course> Courses { get; set; } = null!;
         
-        public DbSet<StudentCard> StudentCards { get; set; }
-        
-        public DbSet<Category> Categories { get; set; }
-       
-        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<StudentCard> StudentCards { get; set; } = null!;
 
-        public DbSet<DrivingSchool> DrivingSchools { get; set; }
-        
-        public DbSet<Student> Students { get; set; }
-        
-        public DbSet<Instructor> Instructors { get; set; }
-        
-        public DbSet<InstructorCategory> InstructorsCategories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        public DbSet<Schedule> Schedules { get; set; } = null!;
+
+        public DbSet<DrivingSchool> DrivingSchools { get; set; } = null!;
+
+        public DbSet<Student> Students { get; set; } = null!;
+
+        public DbSet<Instructor> Instructors { get; set; } = null!;
+
+        public DbSet<InstructorCategory> InstructorsCategories { get; set; } = null!;
+
+        public DbSet<DrivingSchoolCategory> DrivingSchoolsCategories { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<User>(u =>
+            {
+                u.Property(u => u.UserName).HasMaxLength(25);
+                u.Property(u => u.NormalizedUserName).HasMaxLength(25);
+                u.Property(u => u.Email).HasMaxLength(25).IsRequired();
+                u.Property(u => u.NormalizedEmail).HasMaxLength(25);
+                u.Property(u => u.PhoneNumber).HasMaxLength(15).IsRequired();
+            });
+
             builder.Entity<InstructorCategory>()
                 .HasKey(ic => new { ic.InstructorId , ic.CategoryId });
+
+            builder.Entity<DrivingSchoolCategory>()
+                .HasKey(dsc => new { dsc.DrivingSchoolId, dsc.CategoryId });
 
             builder.Entity<Schedule>()
                 .Property(s => s.IsDone)
@@ -44,12 +58,20 @@ namespace DrivingSchoolSystem.Infrastructure.Data
                 s.Property(s => s.BirthDate).HasColumnType("date");
             });
 
+            builder.Entity<Course>(c =>
+            {
+                c.Property(c => c.StartDate).HasColumnType("date");
+            });
+
             builder.Entity<StudentCard>(sc =>
             {
                 sc.Property(sc => sc.DrivedHours).HasDefaultValue(0);
                 sc.HasOne(sc => sc.Instructor).WithMany(i => i.StudentCards).OnDelete(DeleteBehavior.Restrict);
                 sc.HasOne(sc => sc.Student).WithMany(s => s.StudentCards).OnDelete(DeleteBehavior.Restrict);
             });
+
+            //builder.ApplyConfiguration(new DrivingSchoolConfiguration());
+            //builder.ApplyConfiguration(new CategoryConfiguration());
         }
     }
 }
