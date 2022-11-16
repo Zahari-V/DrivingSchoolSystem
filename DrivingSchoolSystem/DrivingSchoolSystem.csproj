@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DrivingSchoolSystem.Core\DrivingSchoolSystem.Core.csproj" />
+    <ProjectReference Include="..\DrivingSchoolSystem.Infrastructure\DrivingSchoolSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
