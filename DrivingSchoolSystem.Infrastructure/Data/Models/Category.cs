@@ -18,7 +18,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(200)]
+        [StringLength(400)]
         public string ImageUrl { get; set; } = null!;
 
         public IEnumerable<InstructorCategory> InstructorsCategories { get; set; }

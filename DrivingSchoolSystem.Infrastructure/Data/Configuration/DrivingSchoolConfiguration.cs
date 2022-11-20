@@ -16,6 +16,15 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
                 Address = "ул. „Железничарска“ 34",
                 PhoneContact = "0888129915"
             });
+
+            builder.HasData(new DrivingSchool()
+            {
+                Id = 2,
+                Name = "\"РОСЕН - 85\" ООД",
+                Town = "София",
+                Address = "ул. „Въстаник“ 5",
+                PhoneContact = "0899833302"
+            });
         }
     }
 }

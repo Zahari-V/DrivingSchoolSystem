@@ -18,7 +18,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [StringLength(30)]
         public string LastName { get; set; } = null!;
 
-        [StringLength(200)]
+        [StringLength(400)]
         public string? ImageUrl { get; set; }
 
         [Required]

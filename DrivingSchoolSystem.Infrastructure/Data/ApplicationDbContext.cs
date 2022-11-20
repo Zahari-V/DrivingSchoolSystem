@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -36,7 +36,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data
 
             builder.Entity<User>(u =>
             {
-                u.Property(u => u.UserName).HasMaxLength(25);
+                u.Property(u => u.UserName).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedUserName).HasMaxLength(25);
                 u.Property(u => u.Email).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedEmail).HasMaxLength(25);
@@ -70,8 +70,11 @@ namespace DrivingSchoolSystem.Infrastructure.Data
                 sc.HasOne(sc => sc.Student).WithMany(s => s.StudentCards).OnDelete(DeleteBehavior.Restrict);
             });
 
-            //builder.ApplyConfiguration(new DrivingSchoolConfiguration());
-            //builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new DrivingSchoolConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
         }
     }
 }
