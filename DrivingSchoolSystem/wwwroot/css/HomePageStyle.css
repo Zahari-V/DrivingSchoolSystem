@@ -1,0 +1,26 @@
+﻿.custom-color-background {
+    background-color: #80aee0;
+}
+
+.color-dark-blue {
+    color: #fee600;
+}
+
+.custom-font {
+    font-family: Cursive;
+}
+
+.custom-shadow {
+    text-shadow: 3px 3px black;
+}
+
+.heading {
+    background-color: #3b75b4;
+    border-radius: 20px;
+}
+
+.custom-image {
+    width: 400px;
+    height: 350px;
+    border-radius: 50px;
+}

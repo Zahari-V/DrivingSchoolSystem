@@ -1,3 +1,5 @@
+using DrivingSchoolSystem.Core.Contracts;
+using DrivingSchoolSystem.Core.Services;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedAccount = false;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddScoped<IDrivingSchoolService, DrivingSchoolService>();
 
 builder.Services.AddControllersWithViews();
 
