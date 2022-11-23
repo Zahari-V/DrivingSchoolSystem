@@ -2,8 +2,8 @@
     background-color: #80aee0;
 }
 
-.color-dark-blue {
-    color: #fee600;
+.color-yellow {
+    color: #e9d300;
 }
 
 .custom-font {
@@ -11,16 +11,22 @@
 }
 
 .custom-shadow {
-    text-shadow: 3px 3px black;
-}
-
-.heading {
-    background-color: #3b75b4;
-    border-radius: 20px;
+    text-shadow: 2px 1px 1px black;
 }
 
 .custom-image {
     width: 400px;
     height: 350px;
     border-radius: 50px;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: #e9d300;
+}
+
+.sidenav {
+    height: 100%;
+    overflow-x: hidden;
+    padding-top: 60px; /* Place content 60px from the top */
 }

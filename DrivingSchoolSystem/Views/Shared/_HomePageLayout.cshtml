@@ -9,12 +9,45 @@
     <link rel="stylesheet" href="~/DrivingSchoolSystem.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/HomePageStyle.css" asp-append-version="true" />
 </head>
-<body class="custom-color-background">
-    <div class="container">
-        <main role="main">
-                @RenderBody()
-        </main>
+<body class="custom-font custom-color-background d-flex flex-column position-fixed h-100 w-100">
+    <div class="d-flex h-100">
+        <header class="w-25">
+            <div class="d-flex flex-column sidenav p-3 shadow-lg color-yellow">
+                <div class="fs-4 fw-bold custom-shadow border-bottom">
+                    <a asp-controller="Home" asp-action="Index">
+                        Driving School System
+                    </a>
+                </div>
+                <div class="fs-2">
+                    <ul class="custom-shadow">
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Home" asp-action="About">
+                                About Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mt-auto mb-auto">
+            <main role="main">
+                    @RenderBody()
+            </main>
+        </div>
     </div>
+
+    <footer class="border-top footer text-center">
+        <div class="container">
+            &copy; 2022 - DrivingSchoolSystem - <a>Privacy</a>
+        </div>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

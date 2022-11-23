@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Models.Account;
+﻿using DrivingSchoolSystem.Core.Contracts;
+using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,18 +12,21 @@ namespace DrivingSchoolSystem.Controllers
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IDrivingSchoolService drivingSchoolService;
 
         public AccountController(
             SignInManager<User> _signInManager,
-            UserManager<User> _userManager)
+            UserManager<User> _userManager,
+            IDrivingSchoolService _drivingSchoolService)
         {
             signInManager = _signInManager;
             userManager = _userManager;
+            drivingSchoolService = _drivingSchoolService;
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Register()
+        private IActionResult Register()
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
@@ -34,16 +38,21 @@ namespace DrivingSchoolSystem.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        private async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            if (true)
+            {
+
+            }
+
             User user = new User()
             {
-                UserName = model.UserName,
+                UserName = model.Username,
                 Email = model.Email
             };
 
@@ -106,6 +115,18 @@ namespace DrivingSchoolSystem.Controllers
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ProvidedEmail()
+        {
+            var model = new ProvidedEmailModel()
+            {
+                DrivingSchools = drivingSchoolService.GetAllDrivingSchools()
+            };
+
+            return View(model);
         }
     }
 }
