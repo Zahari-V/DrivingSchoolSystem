@@ -7,10 +7,11 @@ namespace DrivingSchoolSystem.Core.Models.Account
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
-
+        
         [Required]
         public int DrivingSchoolId { get; set; }
-        
-        public IEnumerable<DrivingSchoolModel> DrivingSchools { get; set; } = null!;
+
+        public IEnumerable<DrivingSchoolModel> DrivingSchools { get; set; } =
+            new List<DrivingSchoolModel>();
     }
 }

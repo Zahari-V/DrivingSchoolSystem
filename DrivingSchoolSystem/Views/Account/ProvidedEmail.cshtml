@@ -2,11 +2,11 @@
 @model ProvidedEmailModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация";
     Layout = "_HomePageLayout";
 }
 
-<h1 class="text-center">Enter Provided Email</h1>
+<h2 class="text-center">Изберете вашата автошкола и имейла предоставен от вас на автошколата</h2>
 
 <div class="row">
     <div class="col-md-4 offset-md-4">
@@ -14,9 +14,9 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-center mb-3">
-                <label asp-for="@Model.DrivingSchoolId">Driving School</label>
+                <label asp-for="@Model.DrivingSchoolId">Изберете вашата Автошкола</label>
                 <select asp-for="@Model.DrivingSchoolId" class="form-control">
-                    @foreach (var drivingSchool in Model.DrivingSchools)
+                    @foreach (var drivingSchool in @Model.DrivingSchools)
                     {
                         <option value="@drivingSchool.Id">@drivingSchool.Name</option>
                     }
@@ -24,12 +24,14 @@
                 <span asp-validation-for="@Model.DrivingSchoolId" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
-                <label asp-for="@Model.Email">Email</label>
+                <label asp-for="@Model.Email">
+                    Въведете имейла предоставен от вас на автошколата
+                </label>
                 <input class="form-control" autocomplete="username" aria-required="true" asp-for="@Model.Email" />
                 <span asp-validation-for="@Model.Email" class="text-danger"></span>
             </div>
             <div class="text-center">
-                <button id="registerSubmit" type="submit" class="btn btn-primary">Forward</button>
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Напред</button>
             </div>
         </form>
     </div>

@@ -29,5 +29,17 @@ namespace DrivingSchoolSystem.Core.Services
                 })
                 .AsEnumerable();
         }
+
+        public async Task<string> GetDrivingSchoolNameAsync(int drivingSchoolId)
+        {
+            var drivingSchool = await context.DrivingSchools.FindAsync(drivingSchoolId);
+
+            if (drivingSchool == null)
+            {
+                throw new NullReferenceException($"Driving School with this id {drivingSchoolId} cannot be find.");
+            }
+
+            return drivingSchool.Name;
+        }
     }
 }

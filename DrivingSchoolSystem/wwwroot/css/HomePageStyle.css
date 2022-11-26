@@ -27,6 +27,5 @@ a:link, a:visited {
 
 .sidenav {
     height: 100%;
-    overflow-x: hidden;
     padding-top: 60px; /* Place content 60px from the top */
 }

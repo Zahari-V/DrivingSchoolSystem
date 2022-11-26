@@ -22,6 +22,9 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public string? ImageUrl { get; set; }
 
         [Required]
+        public bool IsRegistered { get; set; }
+
+        [Required]
         public int DrivingSchoolId { get; set; }
 
         [ForeignKey(nameof(DrivingSchoolId))]

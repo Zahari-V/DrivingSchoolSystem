@@ -3,7 +3,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
+@*<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
@@ -14,5 +14,21 @@
             <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
+    
 }
-</ul>
+</ul>*@
+
+<div>
+@if (!SignInManager.IsSignedIn(User))
+{
+    <a class="btn btn-success  d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="Account"
+    asp-action="Login">Влез</a>
+    <a class="btn btn-danger d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="Account"
+    asp-action="ProvidedEmail">Регистрирай се</a>
+}
+else
+{
+    <a class="btn btn-primary d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="Account"
+    asp-action="Logout">Изход</a>
+}
+</div>

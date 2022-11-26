@@ -2,7 +2,7 @@
 @model LoginViewModel
 
 @{
-    ViewData["Title"] = "Log In";
+    ViewData["Title"] = "Влез";
     Layout = "_HomePageLayout";
 }
 
@@ -14,17 +14,17 @@
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="text-center mb-3">
-                    <label class="form-label">Username</label>
+                    <label class="form-label">Потребителско име</label>
                     <input asp-for="@Model.Username" class="form-control" autocomplete="username" aria-required="true" />
                     <span asp-validation-for="@Model.Username" class="text-danger"></span>
                 </div>
                 <div class="text-center mb-3">
-                    <label class="form-label">Password</label>
+                    <label class="form-label">Парола</label>
                     <input asp-for="@Model.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="@Model.Password" class="text-danger"></span>
                 </div>
                 <div class="text-center">
-                    <button id="login-submit" type="submit" class="btn btn-primary">Log In</button>
+                    <button id="login-submit" type="submit" class="btn btn-primary">Влез</button>
                 </div>
             </form>
         </section>

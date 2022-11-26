@@ -4,6 +4,9 @@ using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace DrivingSchoolSystem.Controllers
 {
@@ -15,60 +18,13 @@ namespace DrivingSchoolSystem.Controllers
         private readonly IDrivingSchoolService drivingSchoolService;
 
         public AccountController(
-            SignInManager<User> _signInManager,
+            SignInManager<User> _signInManager, 
             UserManager<User> _userManager,
             IDrivingSchoolService _drivingSchoolService)
         {
             signInManager = _signInManager;
             userManager = _userManager;
             drivingSchoolService = _drivingSchoolService;
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        private IActionResult Register()
-        {
-            if (User.Identity?.IsAuthenticated ?? false)
-            {
-                return RedirectToAction("System", "Home");
-            }
-
-            return View(new RegisterViewModel());
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        private async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (true)
-            {
-
-            }
-
-            User user = new User()
-            {
-                UserName = model.Username,
-                Email = model.Email
-            };
-
-            var result = await userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("System", "Home");
-            }
-
-            foreach (var item in result.Errors)
-            {
-                ModelState.AddModelError("", item.Description);
-            }
-
-            return View(model);
         }
 
         [AllowAnonymous]
@@ -121,12 +77,152 @@ namespace DrivingSchoolSystem.Controllers
         [HttpGet]
         public IActionResult ProvidedEmail()
         {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("System", "Home");
+            }
+
             var model = new ProvidedEmailModel()
             {
-                DrivingSchools = drivingSchoolService.GetAllDrivingSchools()
+                DrivingSchools = drivingSchoolService.GetAllDrivingSchools().ToList()
             };
 
             return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ProvidedEmail(ProvidedEmailModel model)
+        {
+            model.DrivingSchools = drivingSchoolService.GetAllDrivingSchools().ToList();
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Грешка в модела!");
+
+                return View(model);
+            }
+
+            var emailExistInDrivingSchool = await userManager.Users
+                .AnyAsync(u => u.DrivingSchoolId == model.DrivingSchoolId && u.Email == model.Email);
+
+            if (emailExistInDrivingSchool)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+
+                if (user.IsRegistered)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                return RedirectToAction
+                    ("RegisterConfirmation", "Account", new { email = model.Email });
+            }
+
+            ModelState.AddModelError("", "Няма такъв имейл в тази автошкола!");
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> RegisterConfirmation(string email)
+        {
+            if (email == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound($"Не може да се намери потребител с този имейл '{email}'.");
+            }
+
+            if (user.IsRegistered)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var userId = await userManager.GetUserIdAsync(user);
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            ViewBag.EmailConfirmationUrl = Url.Action("Register", "Account", new { userId = userId, code = code });
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Register(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            if (user.IsRegistered)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                await userManager.ConfirmEmailAsync(user, code);
+            }
+
+            var model = new RegisterViewModel();
+
+            model.Email = user.Email;
+            model.DrivingSchoolName = await drivingSchoolService
+                .GetDrivingSchoolNameAsync(user.DrivingSchoolId);
+            model.IsDisplay = user.EmailConfirmed;
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                return NotFound($"Не може да се намери потребител с този имейл '{model.Email}'.");
+            }
+
+            user.UserName = model.Username;
+
+            var hasher = new PasswordHasher<User>();
+            user.PasswordHash =
+                 hasher.HashPassword(user, model.Password);
+            user.IsRegistered = true;
+
+            var result = await userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Грешка при запазването на данните.");
+
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Account");
         }
     }
 }

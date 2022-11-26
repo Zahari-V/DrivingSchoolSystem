@@ -41,6 +41,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data
                 u.Property(u => u.Email).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedEmail).HasMaxLength(25);
                 u.Property(u => u.PhoneNumber).HasMaxLength(15).IsRequired();
+                u.Property(u => u.IsRegistered).HasDefaultValue(false);
             });
 
             builder.Entity<InstructorCategory>()
