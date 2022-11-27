@@ -1,7 +1,7 @@
-using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Services;
+using DrivingSchoolSystem.Extensions;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +15,10 @@ builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
 })
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<IDrivingSchoolService, DrivingSchoolService>();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddControllersWithViews();
 
@@ -41,9 +42,20 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
+
 app.MapRazorPages();
 
 app.Run();

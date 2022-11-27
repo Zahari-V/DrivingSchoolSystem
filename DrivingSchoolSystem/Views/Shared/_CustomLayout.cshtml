@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DrivingSchoolSystem.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/HomePageStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/CustomStyle.css" asp-append-version="true" />
 </head>
-<body class="custom-font custom-color-background d-flex flex-column position-fixed h-100 w-100">
-    <div class="d-flex h-100">
-        <header class="w-25">
+<body class="custom-font custom-color-background m-0 d-flex">
+
+    <div class="w-25">
+        <nav>
             <div class="d-flex flex-column sidenav p-3 shadow-lg color-yellow">
                 <div class="fs-4 fw-bold custom-shadow border-bottom">
                     <a asp-controller="Home" asp-action="Index">
@@ -32,22 +33,18 @@
                         </li>
                     </ul>
                 </div>
-                <partial name="_LoginPartial" />
+                <partial name="_loginpartial" />
             </div>
-        </header>
-
-        <div class="container mt-auto mb-auto">
-            <main role="main">
-                    @RenderBody()
-            </main>
-        </div>
+        </nav>
     </div>
 
-    <footer class="border-top footer text-center">
-        <div class="container">
-            &copy; 2022 - DrivingSchoolSystem - <a>Privacy</a>
-        </div>
-    </footer>
+    <div class="container">
+        <main role="main" class="w-100 h-100">
+            <div class="h-100 d-flex pt-3 pb-3">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

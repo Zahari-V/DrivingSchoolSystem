@@ -3,30 +3,32 @@
 
 @{
     ViewData["Title"] = "Влез";
-    Layout = "_HomePageLayout";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <section>
-            <form id="account" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="text-center mb-3">
-                    <label class="form-label">Потребителско име</label>
-                    <input asp-for="@Model.Username" class="form-control" autocomplete="username" aria-required="true" />
-                    <span asp-validation-for="@Model.Username" class="text-danger"></span>
-                </div>
-                <div class="text-center mb-3">
-                    <label class="form-label">Парола</label>
-                    <input asp-for="@Model.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
-                </div>
-                <div class="text-center">
-                    <button id="login-submit" type="submit" class="btn btn-primary">Влез</button>
-                </div>
-            </form>
-        </section>
+<div class="w-100 mt-auto mb-auto">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <section>
+                <form id="account" method="post">
+                    <hr />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="text-center mb-3">
+                        <label class="form-label">Потребителско име</label>
+                        <input asp-for="@Model.Username" class="form-control" autocomplete="username" aria-required="true" />
+                        <span asp-validation-for="@Model.Username" class="text-danger"></span>
+                    </div>
+                    <div class="text-center mb-3">
+                        <label class="form-label">Парола</label>
+                        <input asp-for="@Model.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" />
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="text-center">
+                        <button id="login-submit" type="submit" class="btn btn-primary">Влез</button>
+                    </div>
+                </form>
+            </section>
+        </div>
     </div>
 </div>

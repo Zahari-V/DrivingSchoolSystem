@@ -116,7 +116,8 @@ namespace DrivingSchoolSystem.Controllers
                 }
 
                 return RedirectToAction
-                    ("RegisterConfirmation", "Account", new { email = model.Email });
+                    ("RegisterConfirmation", "Account", 
+                    new { email = model.Email, userId = user.Id});
             }
 
             ModelState.AddModelError("", "Няма такъв имейл в тази автошкола!");
@@ -126,14 +127,14 @@ namespace DrivingSchoolSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> RegisterConfirmation(string email)
+        public async Task<IActionResult> RegisterConfirmation(string email, string userId)
         {
-            if (email == null)
+            if (email == null || userId == null)
             {
                 return RedirectToPage("/Index");
             }
 
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByIdAsync(userId);
 
             if (user == null)
             {
@@ -145,7 +146,6 @@ namespace DrivingSchoolSystem.Controllers
                 return RedirectToAction("Login");
             }
 
-            var userId = await userManager.GetUserIdAsync(user);
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             ViewBag.EmailConfirmationUrl = Url.Action("Register", "Account", new { userId = userId, code = code });
