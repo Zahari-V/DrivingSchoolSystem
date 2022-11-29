@@ -2,7 +2,7 @@
 
 namespace DrivingSchoolSystem.Core.Models.Account
 {
-    public class RegisterViewModel
+    public class RegisterModel
     {
         [Required]
         public string Username { get; set; } = null!;

@@ -1,5 +1,5 @@
 ﻿@using DrivingSchoolSystem.Core.Models.Account
-@model RegisterViewModel
+@model RegisterModel
 
 @{
     ViewData["Title"] = "Регистрация";
@@ -12,7 +12,6 @@
     var statusMessageClass = Model.IsDisplay ? "success" : "danger";
     <div class="w-100 mb-auto mt-auto">
         <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             @ViewBag.StatusMessage
         </div>
 

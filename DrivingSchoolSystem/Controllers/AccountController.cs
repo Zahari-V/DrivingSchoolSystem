@@ -36,12 +36,12 @@ namespace DrivingSchoolSystem.Controllers
                 return RedirectToAction("System", "Home");
             }
 
-            return View(new LoginViewModel());
+            return View(new LoginModel());
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -180,7 +180,7 @@ namespace DrivingSchoolSystem.Controllers
                 await userManager.ConfirmEmailAsync(user, code);
             }
 
-            var model = new RegisterViewModel();
+            var model = new RegisterModel();
 
             model.Email = user.Email;
             model.DrivingSchoolName = await drivingSchoolService
@@ -192,7 +192,7 @@ namespace DrivingSchoolSystem.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterModel model)
         {
             if (!ModelState.IsValid)
             {

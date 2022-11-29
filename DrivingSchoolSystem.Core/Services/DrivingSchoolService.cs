@@ -1,5 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models;
+using DrivingSchoolSystem.Core.Models.DrivingSchool;
 using DrivingSchoolSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;

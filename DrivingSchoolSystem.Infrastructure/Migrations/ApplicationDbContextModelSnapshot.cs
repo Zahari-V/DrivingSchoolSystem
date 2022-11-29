@@ -413,22 +413,22 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         {
                             Id = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eeeab4e0-80d8-4e31-8205-905befe222af",
+                            ConcurrencyStamp = "240c7d30-2224-498a-9bc5-453129f727cf",
                             DrivingSchoolId = 1,
                             Email = "avtostart_Vidin@abv.bg",
                             EmailConfirmed = false,
-                            FirstName = "Georgi",
+                            FirstName = "Георги",
                             ImageUrl = "https://imgs.search.brave.com/toKRUCUyE8TM1qEktBt5ukJhyHFq1j4ZJ555sHuxI7I/rs:fit:1200:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvdXNlci1wbmct/aWNvbi15b3VuZy11/c2VyLWljb24tMjQw/MC5wbmc",
-                            IsRegistered = false,
-                            LastName = "Georgiev",
+                            IsRegistered = true,
+                            LastName = "Георгиев",
                             LockoutEnabled = false,
-                            MiddleName = "Krasimirov",
+                            MiddleName = "Красимиров",
                             NormalizedEmail = "AVTOSTART_VIDIN@ABV.BG",
                             NormalizedUserName = "ADMIN-AVTOSTART-VIDIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAZBODIYnRMIniMfEyK+UP7ia25xqMHUk6LPhYrq/G90jXyOOS5jIKKFI/A/2y3qVg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOFmBJZ0ptyT/3dYrsq6ePqEY/RKm20NbcBeyKJHD6Q9q+LZRuXb8YfJW+8R+K6H4g==",
                             PhoneNumber = "0888326291",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d2122eac-1210-432d-9f4c-13e94f31eeea",
+                            SecurityStamp = "46024205-8cbd-49c1-8293-eb7426c08ce9",
                             TwoFactorEnabled = false,
                             UserName = "Admin-Avtostart-Vidin"
                         },
@@ -436,22 +436,22 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         {
                             Id = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "598fb101-4a36-497e-978b-7f5a6dbf8d86",
+                            ConcurrencyStamp = "1b0b2c41-22ce-401a-aa81-6e078ce1a188",
                             DrivingSchoolId = 2,
                             Email = "rosen85_Sofia@abv.bg",
                             EmailConfirmed = false,
-                            FirstName = "Petar",
+                            FirstName = "Петър",
                             ImageUrl = "https://imgs.search.brave.com/7RoZdgbwxvnACxZN74kJ9Cc7y2r9peTmTq-0bEu7zmE/rs:fit:1200:1024:1/g:ce/aHR0cDovL3d3dy5w/c2RncmFwaGljcy5j/b20vZmlsZS91c2Vy/LWljb24uanBn",
-                            IsRegistered = false,
-                            LastName = "Petrov",
+                            IsRegistered = true,
+                            LastName = "Петров",
                             LockoutEnabled = false,
-                            MiddleName = "Lubenov",
+                            MiddleName = "Любенов",
                             NormalizedEmail = "ROSEN85_SOFIA@ABV.BG",
                             NormalizedUserName = "ADMIN-ROSEN85-SOFIA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIVznuGuW47E9Yt0alRGinUlOIem1eARzktHdF84iFd0pU4Dsv4HgFb2ts1xw9ZU+g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOvAOCN3Sezazx2q+T2TOutExyi3KLSUc2LfMAClTTK4MQq8VvwgALfRMfyXzIAuOQ==",
                             PhoneNumber = "0889312141",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4761e7d2-ef03-4038-afde-bc5096c68e76",
+                            SecurityStamp = "8a92ec70-fb80-44c8-9a58-c74fbab12f2e",
                             TwoFactorEnabled = false,
                             UserName = "Admin-Rosen85-Sofia"
                         });
@@ -487,21 +487,21 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         new
                         {
                             Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "4264fac7-5c45-4d8a-ac1c-e685d4ae5276",
+                            ConcurrencyStamp = "0c041daa-3b91-4a75-aef6-9c35f13da138",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "f86e1120-a1dc-4e64-803b-96ca4787d21d",
+                            ConcurrencyStamp = "981d9a40-3b7c-4eca-a1f7-a19e7e03b28e",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         },
                         new
                         {
                             Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "7290ae6e-912d-44f9-b424-0e4a003dff96",
+                            ConcurrencyStamp = "f891606d-bd58-4efd-9015-a25bcf757c9f",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });

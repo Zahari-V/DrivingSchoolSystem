@@ -8,6 +8,7 @@ namespace DrivingSchoolSystem.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IDrivingSchoolService, DrivingSchoolService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }

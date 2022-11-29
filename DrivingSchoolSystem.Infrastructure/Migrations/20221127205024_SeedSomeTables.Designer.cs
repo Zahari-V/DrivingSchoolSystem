@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrivingSchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120212727_SeedSomeTables")]
+    [Migration("20221127205024_SeedSomeTables")]
     partial class SeedSomeTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -345,6 +345,11 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
+                    b.Property<bool>("IsRegistered")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -410,21 +415,22 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         {
                             Id = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c7ba5b48-9a52-4391-bb3c-3a54743dc25a",
+                            ConcurrencyStamp = "240c7d30-2224-498a-9bc5-453129f727cf",
                             DrivingSchoolId = 1,
                             Email = "avtostart_Vidin@abv.bg",
                             EmailConfirmed = false,
-                            FirstName = "Georgi",
+                            FirstName = "Георги",
                             ImageUrl = "https://imgs.search.brave.com/toKRUCUyE8TM1qEktBt5ukJhyHFq1j4ZJ555sHuxI7I/rs:fit:1200:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvdXNlci1wbmct/aWNvbi15b3VuZy11/c2VyLWljb24tMjQw/MC5wbmc",
-                            LastName = "Georgiev",
+                            IsRegistered = true,
+                            LastName = "Георгиев",
                             LockoutEnabled = false,
-                            MiddleName = "Krasimirov",
+                            MiddleName = "Красимиров",
                             NormalizedEmail = "AVTOSTART_VIDIN@ABV.BG",
                             NormalizedUserName = "ADMIN-AVTOSTART-VIDIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJMWSj0UFwVOW+brFGr9ew91/Qy9z37eDTKEgad0fLZZ8EmyuFp/2XtSueTRnarFWQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOFmBJZ0ptyT/3dYrsq6ePqEY/RKm20NbcBeyKJHD6Q9q+LZRuXb8YfJW+8R+K6H4g==",
                             PhoneNumber = "0888326291",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c96d1439-fec4-4b3f-ab7d-44806ae47891",
+                            SecurityStamp = "46024205-8cbd-49c1-8293-eb7426c08ce9",
                             TwoFactorEnabled = false,
                             UserName = "Admin-Avtostart-Vidin"
                         },
@@ -432,21 +438,22 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         {
                             Id = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c8ee137-dafa-4073-acb6-2d96ffeb66bb",
+                            ConcurrencyStamp = "1b0b2c41-22ce-401a-aa81-6e078ce1a188",
                             DrivingSchoolId = 2,
                             Email = "rosen85_Sofia@abv.bg",
                             EmailConfirmed = false,
-                            FirstName = "Petar",
+                            FirstName = "Петър",
                             ImageUrl = "https://imgs.search.brave.com/7RoZdgbwxvnACxZN74kJ9Cc7y2r9peTmTq-0bEu7zmE/rs:fit:1200:1024:1/g:ce/aHR0cDovL3d3dy5w/c2RncmFwaGljcy5j/b20vZmlsZS91c2Vy/LWljb24uanBn",
-                            LastName = "Petrov",
+                            IsRegistered = true,
+                            LastName = "Петров",
                             LockoutEnabled = false,
-                            MiddleName = "Lubenov",
+                            MiddleName = "Любенов",
                             NormalizedEmail = "ROSEN85_SOFIA@ABV.BG",
                             NormalizedUserName = "ADMIN-ROSEN85-SOFIA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAG0guR2eTpKqENYy79NR05bcVevhe+R6UECRlY75YFMNiuk8mvxjdqXRKwZiqFSNQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOvAOCN3Sezazx2q+T2TOutExyi3KLSUc2LfMAClTTK4MQq8VvwgALfRMfyXzIAuOQ==",
                             PhoneNumber = "0889312141",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6c548ec5-19ca-46fc-8bd7-68095c5dd446",
+                            SecurityStamp = "8a92ec70-fb80-44c8-9a58-c74fbab12f2e",
                             TwoFactorEnabled = false,
                             UserName = "Admin-Rosen85-Sofia"
                         });
@@ -482,21 +489,21 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         new
                         {
                             Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "f99e19ed-43fb-46e9-b00c-e26d98c48e7d",
+                            ConcurrencyStamp = "0c041daa-3b91-4a75-aef6-9c35f13da138",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "ceecb815-d838-43b7-8327-6d6e9625df23",
+                            ConcurrencyStamp = "981d9a40-3b7c-4eca-a1f7-a19e7e03b28e",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         },
                         new
                         {
                             Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "55e887f4-e44f-4612-8fd1-239f8a62f9dd",
+                            ConcurrencyStamp = "f891606d-bd58-4efd-9015-a25bcf757c9f",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });

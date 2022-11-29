@@ -1,1 +1,35 @@
-﻿<h1>Admin area</h1>
+﻿@{
+    ViewData["Title"] = "Администрация";
+}
+
+<div class="align-self-stretch mt-5">
+    <div class="">
+        <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
+        <br />
+        <h1>Администратор: @ViewBag.UserFullName</h1>
+    </div>
+
+    <div class="container mt-5 overflow-hidden">
+        <div class="row fs-2">
+            <div class="col d-block size-div bg-danger p-5 me-4">
+                <a asp-area="Admin" asp-controller="Account" asp-action="Index">
+                    <p>Акаунти</p>
+                    <img class="nav-icon" src="/images/icons/skills.png" alt="Account Icon" />
+                </a>
+            </div>
+            <div class="col d-block size-div bg-danger p-5 ms-4 me-4">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Index">
+                    <p>Курсове</p>
+                    <img class="nav-icon" src="/images/icons/online-education.png"
+                    alt="Course Icon" />
+                </a>
+            </div>
+            <div class="col d-block size-div bg-danger p-5 ms-4">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Index">
+                    <p>Автошкола</p>
+                    <img class="nav-icon" src="/images/icons/driving-school.png" alt="Driving School Icon" />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

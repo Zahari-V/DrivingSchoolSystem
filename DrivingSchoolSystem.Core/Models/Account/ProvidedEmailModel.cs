@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DrivingSchoolSystem.Core.Models.DrivingSchool;
 
 namespace DrivingSchoolSystem.Core.Models.Account
 {

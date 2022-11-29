@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrivingSchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221124183732_AddIsRegisteredInUser")]
-    partial class AddIsRegisteredInUser
+    [Migration("20221127204836_AddIsRegisterInUser")]
+    partial class AddIsRegisterInUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,62 +45,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ImageUrl = "https://imgs.search.brave.com/FHh0vvdqKaQ4tRliDZYO09P2VZALnkDn_GFTCPyXHBs/rs:fit:400:250:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWEtZnRy/LWltZy00MDB4MjUw/LnBuZw",
-                            Name = "Категория А"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ImageUrl = "https://imgs.search.brave.com/Vtxrn9269ymjU-lrju3p0RDU-Bxyg6U4DvRJ0tVZcVo/rs:fit:480:367:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWExLTQ4/MHgzNjcucG5n",
-                            Name = "Категория А1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ImageUrl = "https://imgs.search.brave.com/rZn_i_U4QdfSN8tIwPHyUNL_ibsMrcjHkt-fhUaVH5U/rs:fit:900:900:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWEyLWZ0/ci1pbWcucG5n",
-                            Name = "Категория A2"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ImageUrl = "https://imgs.search.brave.com/U0QAzA_anbbMsvGsPUXODhJd2HT74Q_TuXixh8DaZFg/rs:fit:700:536:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWItYjEu/cG5n",
-                            Name = "Категория B"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ImageUrl = "https://imgs.search.brave.com/UjwXBg0qLe2ers5_rw0ppBO_2oGTca4RL2eOkKMrkyc/rs:fit:900:900:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWItZS1m/dHItaW1nLnBuZw",
-                            Name = "Категория B+E"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ImageUrl = "https://imgs.search.brave.com/2vqlr1hK8Wa03qE8uEY-dqWxXBF9Yp8wA8P9UNPKZ4Y/rs:fit:900:900:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWMtZnRy/LWltZy5wbmc",
-                            Name = "Категория C"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ImageUrl = "https://imgs.search.brave.com/rYXho7__cqZo4sr1c--T7_B7D6u9HNWUsSp2DzTr3eI/rs:fit:900:900:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWMtZS1m/dHItaW1nLnBuZw",
-                            Name = "Категория C+E"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ImageUrl = "https://imgs.search.brave.com/VqKsfSA7_cYdRAeDKi-wMgnheJbvUh5HCzfhLWHzUXc/rs:fit:700:548:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWQucG5n",
-                            Name = "Категория D"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ImageUrl = "https://imgs.search.brave.com/Gd30GUaVD8I_B2tdcJbfMf7_wO4cBmYmubk01_fpYwk/rs:fit:400:250:1/g:ce/aHR0cHM6Ly9rYXJh/aS5iZS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNS9rYXRl/Z29yaXlhLWQxLWZ0/ci1pbWctNDAweDI1/MC5wbmc",
-                            Name = "Категория D1"
-                        });
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Course", b =>
@@ -163,24 +107,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DrivingSchools");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "ул. „Железничарска“ 34",
-                            Name = "\"Автостарт - Великин\" ЕООД",
-                            PhoneContact = "0888129915",
-                            Town = "Видин"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "ул. „Въстаник“ 5",
-                            Name = "\"РОСЕН - 85\" ООД",
-                            PhoneContact = "0899833302",
-                            Town = "София"
-                        });
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
@@ -409,54 +335,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "eeeab4e0-80d8-4e31-8205-905befe222af",
-                            DrivingSchoolId = 1,
-                            Email = "avtostart_Vidin@abv.bg",
-                            EmailConfirmed = false,
-                            FirstName = "Georgi",
-                            ImageUrl = "https://imgs.search.brave.com/toKRUCUyE8TM1qEktBt5ukJhyHFq1j4ZJ555sHuxI7I/rs:fit:1200:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvdXNlci1wbmct/aWNvbi15b3VuZy11/c2VyLWljb24tMjQw/MC5wbmc",
-                            IsRegistered = false,
-                            LastName = "Georgiev",
-                            LockoutEnabled = false,
-                            MiddleName = "Krasimirov",
-                            NormalizedEmail = "AVTOSTART_VIDIN@ABV.BG",
-                            NormalizedUserName = "ADMIN-AVTOSTART-VIDIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAZBODIYnRMIniMfEyK+UP7ia25xqMHUk6LPhYrq/G90jXyOOS5jIKKFI/A/2y3qVg==",
-                            PhoneNumber = "0888326291",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "d2122eac-1210-432d-9f4c-13e94f31eeea",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin-Avtostart-Vidin"
-                        },
-                        new
-                        {
-                            Id = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "598fb101-4a36-497e-978b-7f5a6dbf8d86",
-                            DrivingSchoolId = 2,
-                            Email = "rosen85_Sofia@abv.bg",
-                            EmailConfirmed = false,
-                            FirstName = "Petar",
-                            ImageUrl = "https://imgs.search.brave.com/7RoZdgbwxvnACxZN74kJ9Cc7y2r9peTmTq-0bEu7zmE/rs:fit:1200:1024:1/g:ce/aHR0cDovL3d3dy5w/c2RncmFwaGljcy5j/b20vZmlsZS91c2Vy/LWljb24uanBn",
-                            IsRegistered = false,
-                            LastName = "Petrov",
-                            LockoutEnabled = false,
-                            MiddleName = "Lubenov",
-                            NormalizedEmail = "ROSEN85_SOFIA@ABV.BG",
-                            NormalizedUserName = "ADMIN-ROSEN85-SOFIA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIVznuGuW47E9Yt0alRGinUlOIem1eARzktHdF84iFd0pU4Dsv4HgFb2ts1xw9ZU+g==",
-                            PhoneNumber = "0889312141",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4761e7d2-ef03-4038-afde-bc5096c68e76",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin-Rosen85-Sofia"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -484,29 +362,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "4264fac7-5c45-4d8a-ac1c-e685d4ae5276",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "f86e1120-a1dc-4e64-803b-96ca4787d21d",
-                            Name = "Instructor",
-                            NormalizedName = "INSTRUCTOR"
-                        },
-                        new
-                        {
-                            Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "7290ae6e-912d-44f9-b424-0e4a003dff96",
-                            Name = "Student",
-                            NormalizedName = "STUDENT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -596,18 +451,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
-                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf"
-                        },
-                        new
-                        {
-                            UserId = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
-                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

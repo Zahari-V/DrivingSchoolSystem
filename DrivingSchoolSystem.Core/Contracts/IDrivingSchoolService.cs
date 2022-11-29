@@ -1,4 +1,4 @@
-﻿using DrivingSchoolSystem.Core.Models;
+﻿using DrivingSchoolSystem.Core.Models.DrivingSchool;
 
 namespace DrivingSchoolSystem.Core.Contracts
 {

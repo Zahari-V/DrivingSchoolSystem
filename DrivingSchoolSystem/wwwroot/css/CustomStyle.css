@@ -40,3 +40,26 @@ a:link, a:visited {
     left: 0;
     top: 0;
 }
+
+.nav-icon {
+    width: 130px;
+    height: 130px;
+    background: #e9d300;
+    padding: 8px;
+}
+
+.size-div {
+    width: 300px;
+    height: 300px;
+}
+
+.functional-icon {
+    width: 30px;
+    height: 30px;
+    background: #e9d300;
+    padding: 3px;
+}
+
+.functional-menu {
+    width: 200px;
+}
