@@ -1,0 +1,30 @@
+﻿@using DrivingSchoolSystem.Core.Models.Account
+@model IEnumerable<AccountModel>
+
+@{
+    ViewData["Title"] = "Всички Акаунти";
+}
+
+<div class="align-self-stretch mt-5 w-75">
+    <h1>Администрация - @ViewData["Title"]</h1>
+
+    <table class="table table-danger text-start mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Пълно име</th>
+                <th scope="col">Длъжност</th>
+                <th scope="col">Телефон</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Model)
+            {
+                <tr>
+                    <td>@account.FullName</td>
+                    <td>@account.RoleName</td>
+                    <td>@account.PhoneNumber</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,11 +1,14 @@
 ﻿using DrivingSchoolSystem.Core.Models.Account;
+using DrivingSchoolSystem.Views.Account;
 
 namespace DrivingSchoolSystem.Core.Contracts
 {
     public interface IAccountService
     {
-        IEnumerable<AccountModel> GetAll();
+        Task<IEnumerable<AccountModel>> GetAllByDrivingSchoolIdAsync(int drivingSchoolId);
 
-        //string GetRoleNameById(string id);
+        Task<string> GetRoleNameByUserIdAsync(string userId);
+
+        IEnumerable<RoleModel> GetRoles();
     }
 }

@@ -24,7 +24,8 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         {
             var user = await userManager.FindByIdAsync(User.Id());
 
-            ViewBag.DrivingSchoolName = await drivingSchoolService.GetDrivingSchoolNameAsync(user.DrivingSchoolId);
+            ViewBag.DrivingSchoolName = await drivingSchoolService
+                .GetDrivingSchoolNameAsync(user.DrivingSchoolId);
             ViewBag.UserFullName = $"{user.FirstName} {user.MiddleName} {user.LastName}";
             
             return View();
