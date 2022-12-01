@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -8,14 +9,28 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "BirthDate",
+                table: "Students");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "AspNetUsers",
+                type: "nvarchar(25)",
+                maxLength: 25,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(25)",
+                oldMaxLength: 25);
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "42196e3c-e72a-4778-994f-36c85380e060", "981d9a40-3b7c-4eca-a1f7-a19e7e03b28e", "Instructor", "INSTRUCTOR" },
-                    { "9b325984-c63f-4dec-a00b-eeaab3d34035", "f891606d-bd58-4efd-9015-a25bcf757c9f", "Student", "STUDENT" },
-                    { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "0c041daa-3b91-4a75-aef6-9c35f13da138", "Admin", "ADMIN" }
+                    { "42196e3c-e72a-4778-994f-36c85380e060", "c3f92961-ee05-4cb5-8293-e558b626d8a0", "Instructor", "INSTRUCTOR" },
+                    { "9b325984-c63f-4dec-a00b-eeaab3d34035", "9f9d8e63-3ee9-4fc7-97d8-0354f7b09408", "Student", "STUDENT" },
+                    { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "ab7830bc-58e6-4e2f-a4c1-41b34ca4f00c", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -45,23 +60,13 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DrivingSchoolId", "Email", "EmailConfirmed", "FirstName", "ImageUrl", "IsRegistered", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "65474606-d7e0-48a6-a6b3-3136c233dd4d", 0, "1b0b2c41-22ce-401a-aa81-6e078ce1a188", 2, "rosen85_Sofia@abv.bg", false, "Петър", "https://imgs.search.brave.com/7RoZdgbwxvnACxZN74kJ9Cc7y2r9peTmTq-0bEu7zmE/rs:fit:1200:1024:1/g:ce/aHR0cDovL3d3dy5w/c2RncmFwaGljcy5j/b20vZmlsZS91c2Vy/LWljb24uanBn", true, "Петров", false, null, "Любенов", "ROSEN85_SOFIA@ABV.BG", "ADMIN-ROSEN85-SOFIA", "AQAAAAEAACcQAAAAEOvAOCN3Sezazx2q+T2TOutExyi3KLSUc2LfMAClTTK4MQq8VvwgALfRMfyXzIAuOQ==", "0889312141", false, "8a92ec70-fb80-44c8-9a58-c74fbab12f2e", false, "Admin-Rosen85-Sofia" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DrivingSchoolId", "Email", "EmailConfirmed", "FirstName", "ImageUrl", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "65474606-d7e0-48a6-a6b3-3136c233dd4d", 0, "9e61764a-d0f4-434b-83a6-262b3fa0a444", 2, "rosen85_Sofia@abv.bg", false, "Петър", null, "Петров", false, null, "Любенов", "ROSEN85_SOFIA@ABV.BG", null, null, "0889312141", false, "172c08e1-14a0-42a0-a6a5-f8b326596b7f", false, null });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DrivingSchoolId", "Email", "EmailConfirmed", "FirstName", "ImageUrl", "IsRegistered", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a98e90bc-1adc-4f87-bb4e-9e12a2d39090", 0, "240c7d30-2224-498a-9bc5-453129f727cf", 1, "avtostart_Vidin@abv.bg", false, "Георги", "https://imgs.search.brave.com/toKRUCUyE8TM1qEktBt5ukJhyHFq1j4ZJ555sHuxI7I/rs:fit:1200:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvdXNlci1wbmct/aWNvbi15b3VuZy11/c2VyLWljb24tMjQw/MC5wbmc", true, "Георгиев", false, null, "Красимиров", "AVTOSTART_VIDIN@ABV.BG", "ADMIN-AVTOSTART-VIDIN", "AQAAAAEAACcQAAAAEOFmBJZ0ptyT/3dYrsq6ePqEY/RKm20NbcBeyKJHD6Q9q+LZRuXb8YfJW+8R+K6H4g==", "0888326291", false, "46024205-8cbd-49c1-8293-eb7426c08ce9", false, "Admin-Avtostart-Vidin" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "65474606-d7e0-48a6-a6b3-3136c233dd4d" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "a98e90bc-1adc-4f87-bb4e-9e12a2d39090" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DrivingSchoolId", "Email", "EmailConfirmed", "FirstName", "ImageUrl", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "a98e90bc-1adc-4f87-bb4e-9e12a2d39090", 0, "1db3002e-4629-43ee-9968-0d83e686a026", 1, "avtostart_Vidin@abv.bg", false, "Георги", null, "Георгиев", false, null, "Красимиров", "AVTOSTART_VIDIN@ABV.BG", null, null, "0888326291", false, "033aa7cb-f69b-4c3e-a90b-3552c5892196", false, null });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -77,14 +82,19 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                 keyValue: "9b325984-c63f-4dec-a00b-eeaab3d34035");
 
             migrationBuilder.DeleteData(
-                table: "AspNetUserRoles",
-                keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "65474606-d7e0-48a6-a6b3-3136c233dd4d" });
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "b4656095-c561-4bfa-a5ad-08f7678af1bf");
 
             migrationBuilder.DeleteData(
-                table: "AspNetUserRoles",
-                keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "b4656095-c561-4bfa-a5ad-08f7678af1bf", "a98e90bc-1adc-4f87-bb4e-9e12a2d39090" });
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "65474606-d7e0-48a6-a6b3-3136c233dd4d");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "a98e90bc-1adc-4f87-bb4e-9e12a2d39090");
 
             migrationBuilder.DeleteData(
                 table: "Categories",
@@ -132,21 +142,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                 keyValue: 9);
 
             migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "b4656095-c561-4bfa-a5ad-08f7678af1bf");
-
-            migrationBuilder.DeleteData(
-                table: "AspNetUsers",
-                keyColumn: "Id",
-                keyValue: "65474606-d7e0-48a6-a6b3-3136c233dd4d");
-
-            migrationBuilder.DeleteData(
-                table: "AspNetUsers",
-                keyColumn: "Id",
-                keyValue: "a98e90bc-1adc-4f87-bb4e-9e12a2d39090");
-
-            migrationBuilder.DeleteData(
                 table: "DrivingSchools",
                 keyColumn: "Id",
                 keyValue: 1);
@@ -155,6 +150,25 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                 table: "DrivingSchools",
                 keyColumn: "Id",
                 keyValue: 2);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "BirthDate",
+                table: "Students",
+                type: "date",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "AspNetUsers",
+                type: "nvarchar(25)",
+                maxLength: 25,
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(25)",
+                oldMaxLength: 25,
+                oldNullable: true);
         }
     }
 }

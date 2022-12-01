@@ -22,6 +22,7 @@ namespace DrivingSchoolSystem.Core.Services
         public IEnumerable<DrivingSchoolModel> GetAllDrivingSchools()
         {
             return context.DrivingSchools
+                .AsNoTracking()
                 .Select(ds => new DrivingSchoolModel
                 {
                     Id = ds.Id,

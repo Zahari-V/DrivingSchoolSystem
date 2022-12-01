@@ -31,6 +31,6 @@ namespace DrivingSchoolSystem.Core.Models.Account
         [Required]
         public int DrivingSchoolId { get; set; }
 
-        public IEnumerable<RoleModel> Roles { get; set; } = null!;
+        public IEnumerable<RoleModel> Roles { get; set; } = new List<RoleModel>();
     }
 }

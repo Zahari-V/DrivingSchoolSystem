@@ -24,9 +24,6 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;
 
-        [Required]
-        public DateTime BirthDate { get; set; }
-
         public IEnumerable<StudentCard> StudentCards { get; set; }
     }
 }

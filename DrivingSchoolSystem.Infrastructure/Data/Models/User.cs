@@ -29,5 +29,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 
         [ForeignKey(nameof(DrivingSchoolId))]
         public DrivingSchool DrivingSchool { get; set; } = null!;
+
+        public IEnumerable<UserRole> UsersRoles { get; set; } = new List<UserRole>();
     }
 }

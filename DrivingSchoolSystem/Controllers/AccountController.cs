@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text;
 
 namespace DrivingSchoolSystem.Controllers
@@ -174,18 +175,26 @@ namespace DrivingSchoolSystem.Controllers
                 return RedirectToAction("Login");
             }
 
-            if (!user.EmailConfirmed)
-            {
-                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-                await userManager.ConfirmEmailAsync(user, code);
-            }
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await userManager.ConfirmEmailAsync(user, code);
 
+            if (result.Succeeded)
+            {
+                user.EmailConfirmed = true;
+                var res = await userManager.UpdateAsync(user);
+
+                if (!res.Succeeded)
+                {
+                    throw new ArgumentException("Email not confirmed!!!");
+                }
+            }
+          
             var model = new RegisterModel();
 
             model.Email = user.Email;
             model.DrivingSchoolName = await drivingSchoolService
                 .GetDrivingSchoolNameAsync(user.DrivingSchoolId);
-            model.IsDisplay = user.EmailConfirmed;
+            model.IsDisplay = user.EmailConfirmed;  
 
             return View(model);
         }
@@ -207,6 +216,7 @@ namespace DrivingSchoolSystem.Controllers
             }
 
             user.UserName = model.Username;
+            user.NormalizedUserName = model.Username.ToUpper();
 
             var hasher = new PasswordHasher<User>();
             user.PasswordHash =
@@ -216,6 +226,16 @@ namespace DrivingSchoolSystem.Controllers
             var result = await userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Грешка при запазването на данните.");
+
+                return View(model);
+            }
+
+            var claim = new Claim("DrivingSchoolId", $"{user.DrivingSchoolId}");
+            var claimRes = await userManager.AddClaimAsync(user, claim);
+
+            if (!claimRes.Succeeded)
             {
                 ModelState.AddModelError("", "Грешка при запазването на данните.");
 

@@ -1,7 +1,6 @@
 using DrivingSchoolSystem.Extensions;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +14,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
 })
-.AddRoles<IdentityRole>()
+.AddRoles<Role>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddApplicationServices();

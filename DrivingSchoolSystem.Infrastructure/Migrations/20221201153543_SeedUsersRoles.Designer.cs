@@ -4,6 +4,7 @@ using DrivingSchoolSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrivingSchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201153543_SeedUsersRoles")]
+    partial class SeedUsersRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -128,7 +130,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", b =>
@@ -160,7 +162,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DrivingSchools", (string)null);
+                    b.ToTable("DrivingSchools");
 
                     b.HasData(
                         new
@@ -193,7 +195,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("DrivingSchoolsCategories", (string)null);
+                    b.ToTable("DrivingSchoolsCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
@@ -212,7 +214,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Instructors", (string)null);
+                    b.ToTable("Instructors");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.InstructorCategory", b =>
@@ -227,7 +229,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("InstructorsCategories", (string)null);
+                    b.ToTable("InstructorsCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Role", b =>
@@ -303,7 +305,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("StudentCardId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
@@ -322,7 +324,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", b =>
@@ -355,7 +357,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCards", (string)null);
+                    b.ToTable("StudentCards");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>

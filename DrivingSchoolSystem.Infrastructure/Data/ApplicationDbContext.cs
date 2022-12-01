@@ -1,11 +1,12 @@
 ﻿using DrivingSchoolSystem.Infrastructure.Data.Configuration;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -36,12 +37,18 @@ namespace DrivingSchoolSystem.Infrastructure.Data
 
             builder.Entity<User>(u =>
             {
-                u.Property(u => u.UserName).HasMaxLength(25).IsRequired();
+                u.Property(u => u.UserName).HasMaxLength(25);
                 u.Property(u => u.NormalizedUserName).HasMaxLength(25);
                 u.Property(u => u.Email).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedEmail).HasMaxLength(25);
                 u.Property(u => u.PhoneNumber).HasMaxLength(15).IsRequired();
                 u.Property(u => u.IsRegistered).HasDefaultValue(false);
+            });
+
+            builder.Entity<UserRole>(ur =>
+            {
+                ur.HasOne(ur => ur.User).WithMany(u => u.UsersRoles).HasForeignKey(ur => ur.UserId);
+                ur.HasOne(ur => ur.Role).WithMany(u => u.UsersRoles).HasForeignKey(ur => ur.RoleId);
             });
 
             builder.Entity<InstructorCategory>()
@@ -53,11 +60,6 @@ namespace DrivingSchoolSystem.Infrastructure.Data
             builder.Entity<Schedule>()
                 .Property(s => s.IsDone)
                 .HasDefaultValue(false);
-
-            builder.Entity<Student>(s =>
-            {
-                s.Property(s => s.BirthDate).HasColumnType("date");
-            });
 
             builder.Entity<Course>(c =>
             {

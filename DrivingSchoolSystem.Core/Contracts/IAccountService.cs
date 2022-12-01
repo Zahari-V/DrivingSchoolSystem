@@ -7,8 +7,8 @@ namespace DrivingSchoolSystem.Core.Contracts
     {
         Task<IEnumerable<AccountModel>> GetAllByDrivingSchoolIdAsync(int drivingSchoolId);
 
-        Task<string> GetRoleNameByUserIdAsync(string userId);
+        Task<IEnumerable<RoleModel>> GetRolesAsync();
 
-        IEnumerable<RoleModel> GetRoles();
+        Task AddAccountAsync(AddModel model);
     }
 }

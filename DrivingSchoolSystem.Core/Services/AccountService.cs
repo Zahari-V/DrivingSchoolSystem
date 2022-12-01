@@ -1,7 +1,9 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Infrastructure.Data;
+using DrivingSchoolSystem.Infrastructure.Data.Models;
 using DrivingSchoolSystem.Views.Account;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Core.Services
@@ -18,48 +20,91 @@ namespace DrivingSchoolSystem.Core.Services
         public async Task<IEnumerable<AccountModel>> GetAllByDrivingSchoolIdAsync(int drivingSchoolId)
         {
             return await context.Users
+                .AsNoTracking()
+                .Include(u => u.UsersRoles)
+                .ThenInclude(ur => ur.Role)
                 .Where(u => u.DrivingSchoolId == drivingSchoolId)
                 .Select(u => new AccountModel()
                 {
                     Id = u.Id,
                     FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}",
+                    RoleName = ConvertRoleNameToBulgarianLang(u.UsersRoles.First().Role.Name),
                     PhoneNumber = u.PhoneNumber
                 })
                 .ToListAsync();
         }
 
-        public async Task<string> GetRoleNameByUserIdAsync(string userId)
+        public async Task<IEnumerable<RoleModel>> GetRolesAsync()
         {
-            var userRole = await context.UserRoles
-                            .Where(ur => ur.UserId == userId)
-                            .FirstAsync();
-
-            var roleName = await context.Roles
-                .Where(r => r.Id == userRole.RoleId)
-                .Select(r => r.Name)
-                .FirstAsync();
-
-            return ConverRoleNameToBulgaria(roleName);
-        }
-
-        public IEnumerable<RoleModel> GetRoles()
-        {
-            return context.Roles
+            return await context.Roles
+                .AsNoTracking()
                 .Where(r => r.Name != "Admin")
                 .Select(r => new RoleModel()
                 {
                     Id = r.Id,
-                    Name = ConverRoleNameToBulgaria(r.Name)
-                }).AsEnumerable();
+                    Name = ConvertRoleNameToBulgarianLang(r.Name)
+                }).ToListAsync();
         }
 
-        private static string ConverRoleNameToBulgaria(string roleName)
+        public async Task AddAccountAsync(AddModel model)
         {
-            if (roleName == "Student")
+            var user = new User()
+            {
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                NormalizedEmail = model.Email.ToUpper(),
+                DrivingSchoolId = model.DrivingSchoolId
+            };
+
+            await context.Users.AddAsync(user);
+
+            var userRole = new UserRole()
+            {
+                UserId = user.Id,
+                RoleId = model.RoleId
+            };
+
+            await context.UserRoles.AddAsync(userRole);
+
+            var role = await context.Roles.FindAsync(userRole.RoleId);
+
+            if (role == null)
+            {
+                throw new NullReferenceException("Role is null!");
+            }
+
+            if (role.NormalizedName == "STUDENT")
+            {
+                var student = new Student();
+
+                student.UserId = user.Id;
+
+                await context.Students.AddAsync(student);
+            }
+            else
+            {
+                var instructor = new Instructor();
+
+                instructor.UserId = user.Id;
+
+                await context.Instructors.AddAsync(instructor);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        private static string ConvertRoleNameToBulgarianLang(string roleName)
+        {
+            roleName = roleName.ToUpper();
+
+            if (roleName == "STUDENT")
             {
                 roleName = "Ученик";
             }
-            else if (roleName == "Instructor")
+            else if (roleName == "INSTRUCTOR")
             {
                 roleName = "Инструктор";
             }
@@ -70,5 +115,6 @@ namespace DrivingSchoolSystem.Core.Services
 
             return roleName;
         }
+
     }
 }

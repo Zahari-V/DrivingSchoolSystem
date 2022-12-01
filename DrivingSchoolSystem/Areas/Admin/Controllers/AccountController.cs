@@ -17,15 +17,6 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            //int userDrivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-            //var model = await accountService.GetAllByDrivingSchoolIdAsync(userDrivingSchoolId);
-
-            //foreach (var account in model)
-            //{
-            //    account.RoleName = await accountService.GetRoleNameByUserIdAsync(account.Id);
-            //}
-
             return View();
         }
 
@@ -35,37 +26,43 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             var model = await accountService.GetAllByDrivingSchoolIdAsync(userDrivingSchoolId);
 
-            foreach (var account in model)
-            {
-                account.RoleName = await accountService.GetRoleNameByUserIdAsync(account.Id);
-            }
-
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             var model = new AddModel()
             {
                 DrivingSchoolId = int.Parse(User.DrivingSchoolId()),
-                Roles = accountService.GetRoles()
+                Roles = await accountService.GetRolesAsync()
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Add(AddModel model)
+        public async Task<IActionResult> Add(AddModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.Roles = accountService.GetRoles();
+                model.Roles = await accountService.GetRolesAsync();
 
                 return View(model);
             }
 
-            return RedirectToAction("All");
+            try
+            {
+                await accountService.AddAccountAsync(model);
+
+                return RedirectToAction("All");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"{ex.Message}");
+
+                return View(model);
+            }
         }
     }
 }
