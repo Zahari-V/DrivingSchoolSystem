@@ -17,9 +17,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var drivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-            var model = await drivingSchoolService.GetDrivingSchoolInfoByIdAsync(drivingSchoolId);
+            var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
 
             return View(model);
         }
@@ -27,9 +25,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
-            var drivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-            var model = await drivingSchoolService.GetDrivingSchoolInfoByIdAsync(drivingSchoolId);
+            var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
 
             model.EducationCategories = await drivingSchoolService.MarkDrivingSchoolCategoriesAsync(model.EducationCategories);
 
@@ -47,7 +43,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             try
             {
-                await drivingSchoolService.EditProfileAsync(model);
+                await drivingSchoolService.EditInfoAsync(model);
 
                 return RedirectToAction("Profile");
 

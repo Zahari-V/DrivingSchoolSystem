@@ -1,9 +1,10 @@
-﻿using DrivingSchoolSystem.Views.Account;
+﻿using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Views.Account;
 using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.Account
 {
-    public class AddModel
+    public class AddAccountModel
     {
         [Required]
         [StringLength(30)]
@@ -31,5 +32,8 @@ namespace DrivingSchoolSystem.Core.Models.Account
         public string RoleId { get; set; } = null!;
 
         public IEnumerable<RoleModel> Roles { get; set; } = new List<RoleModel>();
+
+        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
+
     }
 }

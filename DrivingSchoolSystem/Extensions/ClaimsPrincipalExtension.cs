@@ -9,9 +9,9 @@ namespace DrivingSchoolSystem.Extensions
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public static string DrivingSchoolId(this ClaimsPrincipal user)
+        public static int DrivingSchoolId(this ClaimsPrincipal user)
         {
-            return user.FindFirstValue("DrivingSchoolId");
+            return int.Parse(user.FindFirstValue("DrivingSchoolId"));
         }
     }
 }

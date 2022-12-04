@@ -21,9 +21,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult All()
         {
-            int userDrivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-            var model = accountService.GetAllByDrivingSchoolId(userDrivingSchoolId);
+            var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId());
 
             return View(model);
         }
@@ -31,17 +29,18 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new AddModel()
+            var model = new AddAccountModel()
             {
-                DrivingSchoolId = int.Parse(User.DrivingSchoolId()),
-                Roles = await accountService.GetRolesAsync()
+                DrivingSchoolId = User.DrivingSchoolId(),
+                Roles = await accountService.GetRolesAsync(),
+                Categories = await accountService.GetCategoriesAsync()
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddModel model)
+        public async Task<IActionResult> Add(AddAccountModel model)
         {
             if (!ModelState.IsValid)
             {

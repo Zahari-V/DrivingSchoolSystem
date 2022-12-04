@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using System.Text;
 
@@ -70,7 +69,7 @@ namespace DrivingSchoolSystem.Controllers
 
                     Response.Cookies
                         .Append("userDrivingSchoolName"
-                        , await drivingSchoolService.GetDrivingSchoolNameByIdAsync(user.DrivingSchoolId), option);
+                        , await drivingSchoolService.GetNameByIdAsync(user.DrivingSchoolId), option);
 
                     return RedirectToAction("System", "Home");
                 }
@@ -93,7 +92,7 @@ namespace DrivingSchoolSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult ProvidedEmail()
+        public async Task<IActionResult> ProvidedEmail()
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
@@ -102,7 +101,7 @@ namespace DrivingSchoolSystem.Controllers
 
             var model = new ProvidedEmailModel()
             {
-                DrivingSchools = drivingSchoolService.GetAllDrivingSchools().ToList()
+                DrivingSchools = await drivingSchoolService.GetAll()
             };
 
             return View(model);
@@ -112,7 +111,7 @@ namespace DrivingSchoolSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> ProvidedEmail(ProvidedEmailModel model)
         {
-            model.DrivingSchools = drivingSchoolService.GetAllDrivingSchools().ToList();
+            model.DrivingSchools = await drivingSchoolService.GetAll();
 
             if (!ModelState.IsValid)
             {
@@ -210,7 +209,7 @@ namespace DrivingSchoolSystem.Controllers
 
             model.Email = user.Email;
             model.DrivingSchoolName = await drivingSchoolService
-                .GetDrivingSchoolNameByIdAsync(user.DrivingSchoolId);
+                .GetNameByIdAsync(user.DrivingSchoolId);
             model.IsDisplay = user.EmailConfirmed;  
 
             return View(model);

@@ -1,9 +1,11 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.Account;
+using DrivingSchoolSystem.Core.Models.Category;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using DrivingSchoolSystem.Views.Account;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DrivingSchoolSystem.Core.Services
 {
@@ -44,7 +46,7 @@ namespace DrivingSchoolSystem.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task AddAccountAsync(AddModel model)
+        public async Task AddAccountAsync(AddAccountModel model)
         {
             var user = new User()
             {
@@ -67,12 +69,9 @@ namespace DrivingSchoolSystem.Core.Services
 
             await context.UserRoles.AddAsync(userRole);
 
-            var role = await context.Roles.FindAsync(userRole.RoleId);
-
-            if (role == null)
-            {
-                throw new NullReferenceException("Role is null!");
-            }
+            var role = await context.Roles
+                .AsNoTracking()
+                .FirstAsync(r => r.Id == userRole.RoleId);
 
             if (role.NormalizedName == "STUDENT")
             {
@@ -82,11 +81,19 @@ namespace DrivingSchoolSystem.Core.Services
 
                 await context.Students.AddAsync(student);
             }
-            else
+            else if (role.NormalizedName == "INSTRUCTOR")
             {
                 var instructor = new Instructor();
 
                 instructor.UserId = user.Id;
+
+                var categories = model.Categories.Where(c => c.IsMarked).Select(c => new InstructorCategory()
+                {
+                    Instructor = instructor,
+                    CategoryId = c.Id
+                });
+
+                await context.InstructorsCategories.AddRangeAsync(categories);
 
                 await context.Instructors.AddAsync(instructor);
             }
@@ -112,6 +119,17 @@ namespace DrivingSchoolSystem.Core.Services
             }
 
             return roleName;
+        }
+
+        public async Task<List<CategoryModel>> GetCategoriesAsync()
+        {
+            return await context.Categories
+                .AsNoTracking()
+                .Select(c => new CategoryModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
         }
     }
 }

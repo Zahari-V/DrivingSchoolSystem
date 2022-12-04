@@ -1,4 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Models.Account;
+using DrivingSchoolSystem.Core.Models.Category;
 using DrivingSchoolSystem.Views.Account;
 
 namespace DrivingSchoolSystem.Core.Contracts
@@ -8,7 +9,9 @@ namespace DrivingSchoolSystem.Core.Contracts
         IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId);
 
         Task<IEnumerable<RoleModel>> GetRolesAsync();
+        
+        Task<List<CategoryModel>> GetCategoriesAsync();
 
-        Task AddAccountAsync(AddModel model);
+        Task AddAccountAsync(AddAccountModel model);
     }
 }

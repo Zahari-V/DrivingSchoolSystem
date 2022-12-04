@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Models.Course;
+﻿using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Course;
 
 namespace DrivingSchoolSystem.Core.Contracts
 {
@@ -7,5 +8,7 @@ namespace DrivingSchoolSystem.Core.Contracts
         IEnumerable<CourseModel> GetAllCourses(int drivingSchoolId);
 
         Task AddCourseAsync(AddCourseModel model);
+
+        Task<IEnumerable<CategoryModel>> GetCourseCategoriesAsync(int drivingSchoolId);
     }
 }

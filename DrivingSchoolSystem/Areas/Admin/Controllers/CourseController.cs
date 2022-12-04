@@ -9,22 +9,16 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
     public class CourseController : BaseController
     {
         private readonly ICourseService courseService;
-        private readonly IDrivingSchoolService drivingSchoolService;
 
-        public CourseController(
-            ICourseService _courseService,
-            IDrivingSchoolService _drivingSchoolService)
+        public CourseController(ICourseService _courseService)
         {
             courseService = _courseService;
-            drivingSchoolService = _drivingSchoolService;
         }
 
         [HttpGet]
         public IActionResult All()
         {
-            var drivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-            var model = courseService.GetAllCourses(drivingSchoolId);
+            var model = courseService.GetAllCourses(User.DrivingSchoolId());
 
             return View(model);
         }
@@ -32,12 +26,10 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var drivingSchoolId = int.Parse(User.DrivingSchoolId());
-
             var model = new AddCourseModel()
             {
                 AdminId = User.Id(),
-                Categories = await drivingSchoolService.GetDrivingSchoolCategories(drivingSchoolId)
+                Categories = await courseService.GetCourseCategoriesAsync(User.DrivingSchoolId())
             };
 
             return View(model);
@@ -48,9 +40,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var drivingSchoolId = int.Parse(User.DrivingSchoolId());
-
-                model.Categories = await drivingSchoolService.GetDrivingSchoolCategories(drivingSchoolId);
+                model.Categories = await courseService.GetCourseCategoriesAsync(User.DrivingSchoolId());
 
                 return View(model);
             }

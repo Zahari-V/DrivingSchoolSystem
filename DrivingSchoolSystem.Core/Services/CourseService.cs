@@ -1,4 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
+using DrivingSchoolSystem.Core.Models.Category;
 using DrivingSchoolSystem.Core.Models.Course;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
@@ -41,9 +42,25 @@ namespace DrivingSchoolSystem.Core.Services
                     AdminFullName = $"{c.Admin.FirstName} {c.Admin.MiddleName} {c.Admin.LastName}",
                     AdminPhone = c.Admin.PhoneNumber,
                     CreatedOn = c.CreatedOn,
-                    StartDate = c.StartDate,
+                    StartDate = $"{c.StartDate}",
                     CategoryName = c.Category.Name
                 });
+        }
+
+        public async Task<IEnumerable<CategoryModel>> GetCourseCategoriesAsync(int drivingSchoolId)
+        {
+            var drivingSchool = await context.DrivingSchools
+                .AsNoTracking()
+                .Include(ds => ds.EducationCategories)
+                .ThenInclude(ec => ec.Category)
+                .FirstAsync(ds => ds.Id == drivingSchoolId);
+
+            return drivingSchool.EducationCategories
+                .Select(ec => new CategoryModel()
+                {
+                    Id = ec.Category.Id,
+                    Name = ec.Category.Name
+                }).ToList();
         }
     }
 }

@@ -5,6 +5,11 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
     public class Course
     {
+        public Course()
+        {
+            StudentCards = new List<StudentCard>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -25,5 +30,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 
         [Required]
         public DateTime StartDate { get; set; }
+
+        public IEnumerable<StudentCard> StudentCards { get; set; }
     }
 }

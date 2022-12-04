@@ -15,6 +15,6 @@ namespace DrivingSchoolSystem.Core.Models.Course
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; } = null!;
     }
 }

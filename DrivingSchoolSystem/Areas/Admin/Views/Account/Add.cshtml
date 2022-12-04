@@ -1,5 +1,5 @@
 ﻿@using DrivingSchoolSystem.Core.Models.Account
-@model AddModel
+@model AddAccountModel
 
 @{
     ViewData["Title"] = "Добавяне на Акаунт";
@@ -47,16 +47,33 @@
                     <div class="d-flex justify-content-center fw-bold">
                         @foreach (var role in Model.Roles)
                         {
-                            <span class="ms-4 me-4">
-                                <input class="w-100" type="radio" asp-for="@Model.RoleId"
-                                   value="@role.Id" />
-                                <label asp-for="@Model.RoleId">@role.Name</label>
+                            @if (role.Name == "Инструктор")
+                            {
+                                <input type="radio" asp-for="@Model.RoleId" id="show" value="@role.Id" />
+                                <label for="show">@role.Name</label>
                                 <br />
-                            </span>
+                            }
+                            else
+                            {
+                                <input type="radio" asp-for="@Model.RoleId"
+                               value="@role.Id" id="hide">
+                                <label for="hide">@role.Name</label>
+                                <br />
+                            }
                         }
                     </div>
                     <span asp-validation-for="@Model.RoleId" class="text-danger"></span>
-                </div>
+                    <div class="collapse">
+                        <label asp-for="@Model.Categories"></label>
+                        @for (int i = 0; i < @Model.Categories.Count(); i++)
+                        {
+                            <input asp-for="@Model.Categories[i].IsMarked">
+                            <label asp-for="@Model.Categories[i].IsMarked">@Model.Categories[i].Name</label>
+                            <input type="hidden" asp-for="@Model.Categories[i].Id" />
+                            <input type="hidden" asp-for="@Model.Categories[i].Name" />
+                        }
+                        </div>
+                    </div>
                 <div class="text-center">
                     <button id="registerSubmit" type="submit" class="btn btn-primary">
                         Добави
@@ -69,4 +86,14 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#show").click(function () {
+                $(".collapse").collapse('show');
+            });
+            $("#hide").click(function () {
+                $(".collapse").collapse('hide');
+            });
+        });
+    </script>
 }

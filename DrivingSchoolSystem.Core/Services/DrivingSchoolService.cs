@@ -16,7 +16,7 @@ namespace DrivingSchoolSystem.Core.Services
             context = _context;
         }
 
-        public async Task EditProfileAsync(DrivingSchoolInfoModel model)
+        public async Task EditInfoAsync(DrivingSchoolInfoModel model)
         {
             var drivingSchool = await context.DrivingSchools
                 .Include(ds => ds.EducationCategories)
@@ -57,45 +57,25 @@ namespace DrivingSchoolSystem.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<DrivingSchoolModel> GetAllDrivingSchools()
+        public async Task<IEnumerable<DrivingSchoolModel>> GetAll()
         {
-            return context.DrivingSchools
+            return await context.DrivingSchools
                 .AsNoTracking()
                 .Select(ds => new DrivingSchoolModel
                 {
                     Id = ds.Id,
                     Name = ds.Name
                 })
-                .AsEnumerable();
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<CategoryModel>> GetDrivingSchoolCategories(int drivingSchoolId)
+        public async Task<DrivingSchoolInfoModel> GetInfoByIdAsync(int drivingSchoolId)
         {
             var drivingSchool = await context.DrivingSchools
                 .AsNoTracking()
                 .Include(ds => ds.EducationCategories)
                 .ThenInclude(ec => ec.Category)
                 .FirstAsync(ds => ds.Id == drivingSchoolId);
-
-            return drivingSchool.EducationCategories
-                .Select(ec => new CategoryModel()
-                {
-                    Id = ec.Category.Id,
-                    Name = ec.Category.Name
-                }).ToList();
-        }
-
-        public async Task<DrivingSchoolInfoModel> GetDrivingSchoolInfoByIdAsync(int drivingSchoolId)
-        {
-            var drivingSchool = await context.DrivingSchools
-                .Include(ds => ds.EducationCategories)
-                .ThenInclude(ec => ec.Category)
-                .FirstOrDefaultAsync(ds => ds.Id == drivingSchoolId);
-
-            if (drivingSchool == null)
-            {
-                throw new NullReferenceException("Грешка при намирането на Автошколата!");
-            }
 
             var model = new DrivingSchoolInfoModel()
             {
@@ -116,14 +96,11 @@ namespace DrivingSchoolSystem.Core.Services
             return model;
         }
 
-        public async Task<string> GetDrivingSchoolNameByIdAsync(int drivingSchoolId)
+        public async Task<string> GetNameByIdAsync(int drivingSchoolId)
         {
-            var drivingSchool = await context.DrivingSchools.FindAsync(drivingSchoolId);
-
-            if (drivingSchool == null)
-            {
-                throw new NullReferenceException($"Driving School with this id {drivingSchoolId} cannot be find.");
-            }
+            var drivingSchool = await context.DrivingSchools
+                .AsNoTracking()
+                .FirstAsync(ds => ds.Id == drivingSchoolId);
 
             return drivingSchool.Name;
         }
