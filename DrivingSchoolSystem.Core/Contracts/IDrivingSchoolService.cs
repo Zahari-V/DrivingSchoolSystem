@@ -1,5 +1,6 @@
 ﻿using DrivingSchoolSystem.Core.Models.Category;
 using DrivingSchoolSystem.Core.Models.DrivingSchool;
+using System.Reflection;
 
 namespace DrivingSchoolSystem.Core.Contracts
 {
@@ -15,5 +16,7 @@ namespace DrivingSchoolSystem.Core.Contracts
             MarkDrivingSchoolCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
 
         Task EditProfileAsync(DrivingSchoolInfoModel model);
+
+        Task<IEnumerable<CategoryModel>> GetDrivingSchoolCategories(int drivingSchoolId);
     }
 }

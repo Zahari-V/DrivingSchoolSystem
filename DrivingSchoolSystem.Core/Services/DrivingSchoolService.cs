@@ -69,6 +69,22 @@ namespace DrivingSchoolSystem.Core.Services
                 .AsEnumerable();
         }
 
+        public async Task<IEnumerable<CategoryModel>> GetDrivingSchoolCategories(int drivingSchoolId)
+        {
+            var drivingSchool = await context.DrivingSchools
+                .AsNoTracking()
+                .Include(ds => ds.EducationCategories)
+                .ThenInclude(ec => ec.Category)
+                .FirstAsync(ds => ds.Id == drivingSchoolId);
+
+            return drivingSchool.EducationCategories
+                .Select(ec => new CategoryModel()
+                {
+                    Id = ec.Category.Id,
+                    Name = ec.Category.Name
+                }).ToList();
+        }
+
         public async Task<DrivingSchoolInfoModel> GetDrivingSchoolInfoByIdAsync(int drivingSchoolId)
         {
             var drivingSchool = await context.DrivingSchools
