@@ -1,1 +1,40 @@
-﻿<h1>Admin Area Course Controller</h1>
+﻿@{
+    ViewData["Title"] = "Курсове";
+}
+
+<div class="align-self-stretch">
+    <h1>Администрация @ViewData["Title"]</h1>
+
+    <div class="container mt-4 mb-4 overflow-hidden">
+        <div class="row fs-2">
+            <div class="col nav-div bg-danger p-5 me-4">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Add">
+                    <p>Добави</p>
+                    <img src="/images/icons/add.png" alt="Add Icon" />
+                </a>
+            </div>
+            <div class="col nav-div bg-danger p-5 ms-4 me-4">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Edit">
+                    <p>Редактиране</p>
+                    <img src="/images/icons/edit.png" alt="Edit Icon" />
+                </a>
+            </div>
+            <div class="col nav-div bg-danger p-5 ms-4">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Delete">
+                    <p>Изтриване</p>
+                    <img src="/images/icons/delete.png" alt="Delete Icon" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4 mb-4 overflow-hidden">
+        <div class="row fs-2">
+            <div class="col nav-div bg-danger p-5">
+                <a asp-area="Admin" asp-controller="Course" asp-action="All">
+                    <p>Всички Курсове</p>
+                    <img src="/images/icons/info.png" alt="Info Icon" />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

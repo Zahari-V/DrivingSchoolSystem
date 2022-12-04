@@ -2,7 +2,6 @@
 using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace DrivingSchoolSystem.Areas.Admin.Controllers
 {
@@ -20,11 +19,11 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> All()
+        public IActionResult All()
         {
             int userDrivingSchoolId = int.Parse(User.DrivingSchoolId());
 
-            var model = await accountService.GetAllByDrivingSchoolIdAsync(userDrivingSchoolId);
+            var model = accountService.GetAllByDrivingSchoolId(userDrivingSchoolId);
 
             return View(model);
         }

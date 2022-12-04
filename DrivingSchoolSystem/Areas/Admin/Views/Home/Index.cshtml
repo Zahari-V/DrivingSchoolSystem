@@ -2,8 +2,8 @@
     ViewData["Title"] = "Администрация";
 }
 
-<div class="align-self-stretch mt-5">
-    <div class="">
+<div class="align-self-stretch h-100">
+    <div>
         <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
         <br />
         <h1>Администратор: @ViewBag.UserFullName</h1>
@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="col nav-div bg-danger p-5 ms-4">
-                <a asp-area="Admin" asp-controller="Course" asp-action="Index">
+                <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile">
                     <p>Автошкола</p>
                     <img src="/images/icons/driving-school.png" alt="Driving School Icon" />
                 </a>

@@ -4,30 +4,21 @@ using DrivingSchoolSystem.Extensions;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Areas.Admin.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly UserManager<User> userManager;
-        private readonly IDrivingSchoolService drivingSchoolService;
-
-        public HomeController(
-            UserManager<User> _userManager,
-            IDrivingSchoolService _drivingSchoolService)
+        public HomeController()
         {
-            userManager = _userManager;
-            drivingSchoolService = _drivingSchoolService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var user = await userManager.FindByIdAsync(User.Id());
+            ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
+            ViewBag.UserFullName = Request.Cookies["userFullName"];
 
-            ViewBag.DrivingSchoolName = await drivingSchoolService
-                .GetDrivingSchoolNameAsync(user.DrivingSchoolId);
-            ViewBag.UserFullName = $"{user.FirstName} {user.MiddleName} {user.LastName}";
-            
             return View();
         }
     }

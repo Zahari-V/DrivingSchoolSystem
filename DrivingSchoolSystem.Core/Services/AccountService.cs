@@ -3,7 +3,6 @@ using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using DrivingSchoolSystem.Views.Account;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Core.Services
@@ -17,21 +16,20 @@ namespace DrivingSchoolSystem.Core.Services
             context = _context;
         }
 
-        public async Task<IEnumerable<AccountModel>> GetAllByDrivingSchoolIdAsync(int drivingSchoolId)
+        public IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId)
         {
-            return await context.Users
+            return  context.Users
                 .AsNoTracking()
                 .Include(u => u.UsersRoles)
                 .ThenInclude(ur => ur.Role)
                 .Where(u => u.DrivingSchoolId == drivingSchoolId)
                 .Select(u => new AccountModel()
-                {
-                    Id = u.Id,
-                    FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}",
-                    RoleName = ConvertRoleNameToBulgarianLang(u.UsersRoles.First().Role.Name),
-                    PhoneNumber = u.PhoneNumber
-                })
-                .ToListAsync();
+                 {
+                     Id = u.Id,
+                     FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}",
+                     RoleName = ConvertRoleNameToBulgarianLang(u.UsersRoles.First().Role.Name),
+                     PhoneNumber = u.PhoneNumber
+                 });
         }
 
         public async Task<IEnumerable<RoleModel>> GetRolesAsync()
@@ -115,6 +113,5 @@ namespace DrivingSchoolSystem.Core.Services
 
             return roleName;
         }
-
     }
 }

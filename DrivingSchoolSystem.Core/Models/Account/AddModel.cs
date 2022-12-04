@@ -26,10 +26,9 @@ namespace DrivingSchoolSystem.Core.Models.Account
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
-        public string RoleId { get; set; } = null!;
-
-        [Required]
         public int DrivingSchoolId { get; set; }
+
+        public string RoleId { get; set; } = null!;
 
         public IEnumerable<RoleModel> Roles { get; set; } = new List<RoleModel>();
     }

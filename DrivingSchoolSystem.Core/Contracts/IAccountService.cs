@@ -5,7 +5,7 @@ namespace DrivingSchoolSystem.Core.Contracts
 {
     public interface IAccountService
     {
-        Task<IEnumerable<AccountModel>> GetAllByDrivingSchoolIdAsync(int drivingSchoolId);
+        IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId);
 
         Task<IEnumerable<RoleModel>> GetRolesAsync();
 

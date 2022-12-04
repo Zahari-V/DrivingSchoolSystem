@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using System.Text;
 
@@ -58,6 +59,19 @@ namespace DrivingSchoolSystem.Controllers
 
                 if (result.Succeeded)
                 {
+
+                    CookieOptions option = new CookieOptions()
+                    {
+                        HttpOnly = true
+                    };
+
+                    Response.Cookies
+                        .Append("userFullName", $"{user.FirstName} {user.MiddleName} {user.LastName}", option);
+
+                    Response.Cookies
+                        .Append("userDrivingSchoolName"
+                        , await drivingSchoolService.GetDrivingSchoolNameByIdAsync(user.DrivingSchoolId), option);
+
                     return RedirectToAction("System", "Home");
                 }
             }
@@ -70,6 +84,9 @@ namespace DrivingSchoolSystem.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+
+            Response.Cookies.Delete("userFullName");
+            Response.Cookies.Delete("userDrivingSchoolName");
 
             return RedirectToAction("Index", "Home");
         }
@@ -193,7 +210,7 @@ namespace DrivingSchoolSystem.Controllers
 
             model.Email = user.Email;
             model.DrivingSchoolName = await drivingSchoolService
-                .GetDrivingSchoolNameAsync(user.DrivingSchoolId);
+                .GetDrivingSchoolNameByIdAsync(user.DrivingSchoolId);
             model.IsDisplay = user.EmailConfirmed;  
 
             return View(model);

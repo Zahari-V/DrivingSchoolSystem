@@ -1,0 +1,37 @@
+﻿@using DrivingSchoolSystem.Core.Models.DrivingSchool
+@model DrivingSchoolInfoModel
+
+@{
+    ViewData["Title"] = "Автошкола Профил";
+}
+
+<div class="align-self-stretch">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+    <div>
+        <label asp-for="@Model.Name"></label>
+        <span>@Model.Name</span>
+    </div>
+    <div>
+        <label asp-for="@Model.Address"></label>
+        <span>@Model.Address</span>
+    </div>
+    <div>
+        <label asp-for="@Model.Town"></label>
+        <span>@Model.Town</span>
+    </div>
+    <div>
+        <label asp-for="@Model.PhoneContact"></label>
+        <span>@Model.PhoneContact</span>
+    </div>
+    <div>
+        <label asp-for="@Model.EducationCategories"></label>
+        @foreach (var category in Model.EducationCategories)
+        {
+            <span>@category.Name</span>
+        }
+    </div>
+    <a class="btn btn-danger" asp-area="Admin" asp-controller="DrivingSchool" asp-action="EditProfile">
+        Редактирай Профила
+    </a>
+</div>
