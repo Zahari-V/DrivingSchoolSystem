@@ -20,18 +20,20 @@ namespace DrivingSchoolSystem.Core.Services
 
         public IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId)
         {
-            return  context.Users
+            return context.Users
                 .AsNoTracking()
                 .Include(u => u.UsersRoles)
                 .ThenInclude(ur => ur.Role)
                 .Where(u => u.DrivingSchoolId == drivingSchoolId)
+                .OrderByDescending(a => a.UsersRoles.First().Role.NormalizedName == "ADMIN")
+                .ThenByDescending(a => a.UsersRoles.First().Role.NormalizedName == "INSTRUCTOR")
                 .Select(u => new AccountModel()
-                 {
-                     Id = u.Id,
-                     FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}",
-                     RoleName = ConvertRoleNameToBulgarianLang(u.UsersRoles.First().Role.Name),
-                     PhoneNumber = u.PhoneNumber
-                 });
+                {
+                    Id = u.Id,
+                    FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}",
+                    RoleName = ConvertRoleNameToBulgarianLang(u.UsersRoles.First().Role.Name),
+                    PhoneNumber = u.PhoneNumber
+                });
         }
 
         public async Task<IEnumerable<RoleModel>> GetRolesAsync()
@@ -48,6 +50,13 @@ namespace DrivingSchoolSystem.Core.Services
 
         public async Task AddAccountAsync(AddAccountModel model)
         {
+            if (context.Users
+                .Where(u => u.DrivingSchoolId == model.DrivingSchoolId)
+                .Any(u => u.NormalizedEmail == model.Email.ToUpper()))
+            {
+                throw new ArgumentException("Вече има потрабител с такъв имейл!!!");
+            }
+
             var user = new User()
             {
                 FirstName = model.FirstName,

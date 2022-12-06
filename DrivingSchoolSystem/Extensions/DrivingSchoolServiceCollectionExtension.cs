@@ -10,6 +10,7 @@ namespace DrivingSchoolSystem.Extensions
             services.AddScoped<IDrivingSchoolService, DrivingSchoolService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IStudentCardService, StudentCardService>();
 
             return services;
         }

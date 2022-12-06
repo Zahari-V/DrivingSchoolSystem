@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Добавяне на Акаунт";
+    ViewBag.GenerateId = 0;
 }
 
 <div class="w-100 mb-auto mt-auto">
@@ -47,19 +48,12 @@
                     <div class="d-flex justify-content-center fw-bold">
                         @foreach (var role in Model.Roles)
                         {
-                            @if (role.Name == "Инструктор")
-                            {
-                                <input type="radio" asp-for="@Model.RoleId" id="show" value="@role.Id" />
-                                <label for="show">@role.Name</label>
-                                <br />
-                            }
-                            else
-                            {
-                                <input type="radio" asp-for="@Model.RoleId"
-                               value="@role.Id" id="hide">
-                                <label for="hide">@role.Name</label>
-                                <br />
-                            }
+                            var functionalClass = role.Name == "Инструктор" ? "show" : "hide";
+                            <input class="@functionalClass" type="radio"
+                               asp-for="@Model.RoleId" id="@ViewBag.GenerateId" value="@role.Id" />
+                            <label class="@functionalClass" for="@ViewBag.GenerateId">@role.Name</label>
+                            <br />
+                            ViewBag.GenerateId += 1;
                         }
                     </div>
                     <span asp-validation-for="@Model.RoleId" class="text-danger"></span>
@@ -88,10 +82,10 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
-            $("#show").click(function () {
+            $(".show").click(function () {
                 $(".collapse").collapse('show');
             });
-            $("#hide").click(function () {
+            $(".hide").click(function () {
                 $(".collapse").collapse('hide');
             });
         });

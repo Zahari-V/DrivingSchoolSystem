@@ -59,6 +59,8 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", $"{ex.Message}");
 
+                model.Roles = await accountService.GetRolesAsync();
+
                 return View(model);
             }
         }

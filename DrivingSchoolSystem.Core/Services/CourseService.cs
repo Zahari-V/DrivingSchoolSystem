@@ -37,12 +37,13 @@ namespace DrivingSchoolSystem.Core.Services
                 .Include(c => c.Admin)
                 .Include(c => c.Category)
                 .Where(c => c.Admin.DrivingSchoolId == drivingSchoolId)
+                .OrderByDescending(c => c.Id)
                 .Select(c => new CourseModel()
                 {
                     AdminFullName = $"{c.Admin.FirstName} {c.Admin.MiddleName} {c.Admin.LastName}",
                     AdminPhone = c.Admin.PhoneNumber,
                     CreatedOn = c.CreatedOn,
-                    StartDate = $"{c.StartDate}",
+                    StartDate = c.StartDate.ToString("dd/MM/yyyy"),
                     CategoryName = c.Category.Name
                 });
         }

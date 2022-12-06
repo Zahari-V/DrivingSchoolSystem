@@ -231,6 +231,13 @@ namespace DrivingSchoolSystem.Controllers
                 return NotFound($"Не може да се намери потребител с този имейл '{model.Email}'.");
             }
 
+            if (userManager.Users.Any(u => u.NormalizedUserName == model.Username.ToUpper()))
+            {
+                ModelState.AddModelError("", "Вече има потрабител с такова потребителско име!");
+
+                return View(model);
+            }
+
             user.UserName = model.Username;
             user.NormalizedUserName = model.Username.ToUpper();
 
