@@ -3,25 +3,24 @@
 
 @{
     ViewData["Title"] = "Регистрация";
-    ViewBag.StatusMessage = Model.IsDisplay 
-        ? "Благодаря за потвържаването на имейла." : "Грешка при потвържаването на имейла.";
+    //ViewBag.StatusMessage = Model.IsDisplay 
+    //    ? "Благодаря за потвържаването на имейла." : "Грешка при потвържаването на имейла.";
 }
 
-@if (Model.IsDisplay)
-{
-    var statusMessageClass = Model.IsDisplay ? "success" : "danger";
+
+@*    var statusMessageClass = Model.IsDisplay ? "success" : "danger";
     <div class="w-100 mb-auto mt-auto">
         <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
             @ViewBag.StatusMessage
-        </div>
-
+        </div>*@
+    <div class="w-100 mb-auto mt-auto">
         <h1 class="text-center">@ViewData["Title"]</h1>
 
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <form asp-contrller="Account" asp-action="Register" id="registerForm" method="post">
                     <hr />
-                    <input type="hidden" asp-for="@Model.IsDisplay">
+                    <input type="hidden" asp-for="@Model.Code">
                     <div class="text-center mb-3">
                         <label>Автошкола: @Model.DrivingSchoolName</label>
                         <input type="hidden" asp-for="@Model.DrivingSchoolName">
@@ -55,7 +54,6 @@
             </div>
         </div>
     </div>
-}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

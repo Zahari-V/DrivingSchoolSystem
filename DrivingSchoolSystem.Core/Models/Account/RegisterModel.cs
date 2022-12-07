@@ -22,6 +22,7 @@ namespace DrivingSchoolSystem.Core.Models.Account
         [Required]
         public string DrivingSchoolName { get; set; } = null!;
 
-        public bool IsDisplay { get; set; }
+        [Required]
+        public string Code { get; set; } = null!;
     }
 }

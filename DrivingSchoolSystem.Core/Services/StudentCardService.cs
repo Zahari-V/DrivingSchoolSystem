@@ -1,7 +1,9 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Core.Models.Course;
+using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Infrastructure.Data;
+using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Core.Services
@@ -15,6 +17,19 @@ namespace DrivingSchoolSystem.Core.Services
             context = _context;
         }
 
+        public async Task AddStudentCardAsync(AddStudentCardModel model)
+        {
+            StudentCard studentCard = new StudentCard()
+            {
+                InstructorId = model.InstructorId,
+                StudentId = model.StudentId,
+                CourseId = model.CourseId
+            };
+
+            await context.StudentCards.AddAsync(studentCard);
+            await context.SaveChangesAsync();
+        }
+
         public IEnumerable<CollectionAccountModel> GetAccounts(int drivingSchoolId)
         {
             return context.Users
@@ -25,6 +40,11 @@ namespace DrivingSchoolSystem.Core.Services
                     Id = u.Id,
                     FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}"
                 });
+        }
+
+        public IEnumerable<StudentCardModel> GetAll()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<CollectionCourseModel> GetCourses(int drivingSchoolId)

@@ -26,18 +26,38 @@ namespace DrivingSchoolSystem.Controllers
         [Authorize(Roles = "Instructor")]
         public IActionResult Add()
         {
-            return View();
+            var model = new AddStudentCardModel()
+            {
+                Accounts = studentCardService.GetAccounts(User.DrivingSchoolId()),
+                Courses = studentCardService.GetCourses(User.DrivingSchoolId())
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = "Instructor")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add(AddStudentCardModel model)
         {
-            var model = new AddStudentCardModel()
+            if (!ModelState.IsValid)
             {
-                Accounts = studentCardService.GetAccountsAsync(User.DrivingSchoolId()),
-                Courses = studentCardService.GetCoursesAsync(User.DrivingSchoolId())
-            };
+                model.Accounts = studentCardService.GetAccounts(User.DrivingSchoolId());
+                model.Courses = studentCardService.GetCourses(User.DrivingSchoolId());
+
+                return View(model);
+            }
+
+            try
+            {
+                await studentCardService.AddStudentCardAsync(model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+
+                return View(model);
+            }
+
 
             return View();
         }

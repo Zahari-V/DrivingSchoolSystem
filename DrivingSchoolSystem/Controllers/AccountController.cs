@@ -121,6 +121,7 @@ namespace DrivingSchoolSystem.Controllers
             }
 
             var emailExistInDrivingSchool = await userManager.Users
+                .AsNoTracking()
                 .AnyAsync(u => u.DrivingSchoolId == model.DrivingSchoolId && u.Email == model.Email);
 
             if (emailExistInDrivingSchool)
@@ -133,8 +134,8 @@ namespace DrivingSchoolSystem.Controllers
                 }
 
                 return RedirectToAction
-                    ("RegisterConfirmation", "Account", 
-                    new { email = model.Email, userId = user.Id});
+                    ("Register", "Account", 
+                    new { userId = user.Id});
             }
 
             ModelState.AddModelError("", "Няма такъв имейл в тази автошкола!");
@@ -144,37 +145,9 @@ namespace DrivingSchoolSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> RegisterConfirmation(string email, string userId)
+        public async Task<IActionResult> Register(string userId)
         {
-            if (email == null || userId == null)
-            {
-                return RedirectToPage("/Index");
-            }
-
-            var user = await userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return NotFound($"Не може да се намери потребител с този имейл '{email}'.");
-            }
-
-            if (user.IsRegistered)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            ViewBag.EmailConfirmationUrl = Url.Action("Register", "Account", new { userId = userId, code = code });
-
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Register(string userId, string code)
-        {
-            if (userId == null || code == null)
+            if (userId == null)
             {
                 return RedirectToPage("/Index");
             }
@@ -191,26 +164,14 @@ namespace DrivingSchoolSystem.Controllers
                 return RedirectToAction("Login");
             }
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await userManager.ConfirmEmailAsync(user, code);
-
-            if (result.Succeeded)
-            {
-                user.EmailConfirmed = true;
-                var res = await userManager.UpdateAsync(user);
-
-                if (!res.Succeeded)
-                {
-                    throw new ArgumentException("Email not confirmed!!!");
-                }
-            }
-          
             var model = new RegisterModel();
 
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            model.Code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            
             model.Email = user.Email;
             model.DrivingSchoolName = await drivingSchoolService
                 .GetNameByIdAsync(user.DrivingSchoolId);
-            model.IsDisplay = user.EmailConfirmed;  
 
             return View(model);
         }
@@ -251,6 +212,16 @@ namespace DrivingSchoolSystem.Controllers
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", "Грешка при запазването на данните.");
+
+                return View(model);
+            }
+
+            var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
+            var resultEmailConfirm = await userManager.ConfirmEmailAsync(user, code);
+
+            if (!resultEmailConfirm.Succeeded)
+            {
+                ModelState.AddModelError("", "Имейла не е потвърден!");
 
                 return View(model);
             }

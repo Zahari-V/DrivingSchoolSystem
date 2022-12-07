@@ -1,0 +1,46 @@
+﻿@using DrivingSchoolSystem.Core.Models.StudentCard
+@model AddStudentCardModel
+
+@{
+    ViewData["Title"] = "Добавяне на Талон";
+}
+
+<div class="row">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+
+    <div class="col-md-4 offset-md-4">
+        <form asp-controller="StudentCard" asp-action="Add" method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="text-center mb-3">
+                <label asp-for="@Model.StudentId">Изберете Ученик</label>
+                <select asp-for="@Model.StudentId" class="form-control">
+                    @foreach (var account in @Model.Accounts)
+                    {
+                        <option value="@account.Id">@account.FullName</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.StudentId" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label asp-for="@Model.CourseId">Изберете Курс</label>
+                <select asp-for="@Model.CourseId" class="form-control">
+                    @foreach (var course in @Model.Courses)
+                    {
+                        <option value="@course.Id">@course.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.CourseId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="@Model.InstructorId"/>
+            <div class="text-center">
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Добави</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
