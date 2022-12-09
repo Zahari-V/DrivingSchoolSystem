@@ -5,19 +5,19 @@
     ViewData["Title"] = "Добавяне на Талон";
 }
 
-<div class="row">
+<div class="row align-items-center w-100">
     <h2 class="text-center">@ViewData["Title"]</h2>
 
     <div class="col-md-4 offset-md-4">
-        <form asp-controller="StudentCard" asp-action="Add" method="post">
+        <form asp-area="" asp-controller="StudentCard" asp-action="Add" method="post">
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.StudentId">Изберете Ученик</label>
                 <select asp-for="@Model.StudentId" class="form-control">
-                    @foreach (var account in @Model.Accounts)
+                    @foreach (var student in @Model.Students)
                     {
-                        <option value="@account.Id">@account.FullName</option>
+                        <option value="@student.Id">@student.FullName</option>
                     }
                 </select>
                 <span asp-validation-for="@Model.StudentId" class="text-danger"></span>
@@ -27,7 +27,7 @@
                 <select asp-for="@Model.CourseId" class="form-control">
                     @foreach (var course in @Model.Courses)
                     {
-                        <option value="@course.Id">@course.Name</option>
+                        <option value="@course.Id">@course.Name ------ @course.StartDate</option>
                     }
                 </select>
                 <span asp-validation-for="@Model.CourseId" class="text-danger"></span>

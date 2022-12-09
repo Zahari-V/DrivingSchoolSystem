@@ -14,5 +14,46 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+.table-title {
+    padding-bottom: 15px;
+    background: #435d7d;
+    color: #fff;
+    padding: 16px 30px;
+    margin: -20px -25px 10px;
+    border-radius: 3px 3px 0 0;
+}
+
+    .table-title h2 {
+        margin: 5px 0 0;
+    }
+
+    .table-title .btn-group {
+        float: right;
+    }
+
+    .table-title .btn {
+        padding: 10px;
+        color: #fff;
+        float: right;
+        font-size: 15px;
+        border: none;
+        min-width: 50px;
+        border-radius: 5px;
+        border: none;
+        outline: none !important;
+        margin-left: 10px;
+    }
+
+        .table-title .btn i {
+            float: left;
+            font-size: 25px;
+            margin-right: 5px;
+        }
+
+        .table-title .btn span {
+            float: left;
+            margin-top: 2px;
+        }

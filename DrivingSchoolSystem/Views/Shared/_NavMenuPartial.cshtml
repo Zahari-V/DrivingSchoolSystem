@@ -1,44 +1,87 @@
 ﻿
 <div class="fs-4 fw-bold custom-shadow border-bottom">
-    <a asp-controller="Home" asp-action="Index">
+    <a asp-area="" asp-controller="Home" asp-action="Index">
         Система за Автошколи
     </a>
 </div>
-@if (!User.Identity?.IsAuthenticated ?? false)
-{
-    <div class="fs-2 mb-auto">
-        <ul class="custom-shadow">
+<div class="fs-2 mb-auto">
+    <ul class="custom-shadow">
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index">
+                Начало
+            </a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="About">
+                За нас
+            </a>
+        </li>
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
             <li>
-                <a asp-controller="Home" asp-action="Index">
-                    Начало
+                <a asp-controller="StudentCard" asp-action="All">
+                    Талони
                 </a>
             </li>
             <li>
-                <a asp-controller="Home" asp-action="About">
-                    За нас
+                <a asp-controller="Schedule" asp-action="Index">
+                    График
                 </a>
             </li>
-        </ul>
-    </div>
-}
-else if(User.IsInRole("Admin")) {
-    <div class="fs-2 mb-auto">
-        <ul class="custom-shadow">
-            <li>
-                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
-                    Начало
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="dropdown">
+                <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle color-yellow">
+                    Администрация
                 </a>
+                <ul aria-labelledby="dropdownMenu1" class="dropdown-menu custom-color-background w-100 border-0 shadow">
+                    <li>
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                            <span class="icon icon-dashboard"></span>
+                            Начало
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Index">
+                            Акаунти
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="Index">
+                            Курсове
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Index">
+                            Автошкола
+                        </a>
+                    </li>
+                </ul>
+                @*<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <span class="icon icon-dashboard"></span>
+                        Начало
+                    </a>
+                    <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Index">
+                        Акаунти
+                    </a>
+                    <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="Index">
+                        Курсове
+                    </a>
+                    <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Index">
+                        Автошкола
+                    </a>
+                </div>*@
+@*            <li class="nav-item dropdown">
+                <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+                <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+                    <li><a href="#" class="dropdown-item">Some action </a></li>
+                    <li><a href="#" class="dropdown-item">Some other action</a></li>
+                </ul>
+            </li>*@
             </li>
-            <li>
-                <a asp-area="Admin" asp-controller="Account" asp-action="Index">
-                    Акаунти
-                </a>
-            </li>
-            <li>
-                <a asp-area="Admin" asp-controller="Course" asp-action="Index">
-                    Курсове
-                </a>
-            </li>
-        </ul>
-    </div>
-}
+        }
+    </ul>
+</div>

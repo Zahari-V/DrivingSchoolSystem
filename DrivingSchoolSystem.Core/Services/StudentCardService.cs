@@ -1,5 +1,4 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models.Account;
 using DrivingSchoolSystem.Core.Models.Course;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Infrastructure.Data;
@@ -30,21 +29,17 @@ namespace DrivingSchoolSystem.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<CollectionAccountModel> GetAccounts(int drivingSchoolId)
+        public IEnumerable<StudentModel> GetStudents(int drivingSchoolId)
         {
-            return context.Users
+            return context.Students
                 .AsNoTracking()
-                .Where(u => u.DrivingSchoolId == drivingSchoolId)
-                .Select(u => new CollectionAccountModel()
+                .Include(s => s.User)
+                .Where(s => s.User.DrivingSchoolId == drivingSchoolId)
+                .Select(s => new StudentModel()
                 {
-                    Id = u.Id,
-                    FullName = $"{u.FirstName} {u.MiddleName} {u.LastName}"
+                    Id = s.Id,
+                    FullName = $"{s.User.FirstName} {s.User.MiddleName} {s.User.LastName}"
                 });
-        }
-
-        public IEnumerable<StudentCardModel> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<CollectionCourseModel> GetCourses(int drivingSchoolId)
@@ -53,12 +48,43 @@ namespace DrivingSchoolSystem.Core.Services
               .AsNoTracking()
               .Include(c => c.Admin)
               .Include(c => c.Category)
-              .Where(c => c.Admin.DrivingSchoolId == drivingSchoolId)
+              .ThenInclude(cg => cg.DrivingSchoolsCategories)
+              .Where(c => c.Admin.DrivingSchoolId == drivingSchoolId && c.StartDate > DateTime.Now)
               .Select(c => new CollectionCourseModel()
               {
                   Id = c.Id,
-                  Name = c.Category.Name
+                  Name = c.Category.Name,
+                  StartDate = c.StartDate.ToString("dd/MM/yyyy"),
               });
+        }
+
+        public async Task<int> GetInstructorId(string userId)
+        {
+            var instructor = await context.Instructors
+                .AsNoTracking()
+                .FirstAsync(i => i.UserId == userId);
+
+            return instructor.Id;
+        }
+
+        public IEnumerable<StudentCardModel> GetAll(string userId)
+        {
+            return context.StudentCards
+                .AsNoTracking()
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Instructor)
+                .ThenInclude(i => i.User)
+                .Include(sc => sc.Course)
+                .ThenInclude(c => c.Category)
+                .Where(sc => sc.Student.UserId == userId 
+                || sc.Instructor.UserId == userId || sc.Course.AdminId == userId)
+                .Select(sc => new StudentCardModel()
+                {
+                    InstructorFullName = $"{sc.Instructor.User.FirstName} {sc.Instructor.User.FirstName} {sc.Instructor.User.FirstName}",
+                    DrivedHours = sc.DrivedHours,
+                    CategoryName = sc.Course.Category.Name,
+                    CategoryImageUrl = sc.Course.Category.ImageUrl
+                });
         }
     }
 }

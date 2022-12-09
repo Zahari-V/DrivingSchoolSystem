@@ -34,7 +34,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("System", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(new LoginModel());
@@ -71,7 +71,7 @@ namespace DrivingSchoolSystem.Controllers
                         .Append("userDrivingSchoolName"
                         , await drivingSchoolService.GetNameByIdAsync(user.DrivingSchoolId), option);
 
-                    return RedirectToAction("System", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -96,7 +96,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("System", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             var model = new ProvidedEmailModel()

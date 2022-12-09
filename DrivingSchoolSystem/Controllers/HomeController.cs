@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DrivingSchoolSystem.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchoolSystem.Controllers
 {
@@ -11,7 +12,11 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("System");
+                ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
+                ViewBag.UserFullName = Request.Cookies["userFullName"];
+                ViewBag.Role = User.BulgarianRoleName();
+
+                return View("HomePage");
             }
 
             return View();

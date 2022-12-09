@@ -5,7 +5,22 @@
 <div class="align-self-stretch">
     <h1>Администрация @ViewData["Title"]</h1>
 
-    <div class="container mt-4 mb-4 overflow-hidden">
+    <div class="container">
+        <nav class="menu">
+            <ul class="main-menu">
+                <li class="active"><i class="fa fa-home"></i>Всички</li>
+                <li>
+                    <i class="fa fa-briefcase"></i>Добави <i class="fa fa-caret-down"></i>
+                </li>
+                <li><i class="fa fa-user"></i>Редактирай</li>
+                <li><i class="fa fa-search"></i>Изтрий</li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+    @*<div class="container mt-4 mb-4 overflow-hidden">
         <div class="row fs-2">
             <div class="col nav-div bg-danger p-5 me-4">
                 <a asp-area="Admin" asp-controller="Account" asp-action="Add">
@@ -35,16 +50,6 @@
                     <img src="/images/icons/info.png" alt="Info Icon" />
                 </a>
             </div>
-        </div>
-    </div>
-
-
-   @* <div class="d-flex justify-content-center fs-4 mt-5">
-        <div class="bg-danger functional-menu rounded ms-3 p-2">
-            <a>
-                <img class="float-start functional-icon" src="/images/icons/delete.png" alt="Delete Icon" />
-                <span>Изтрий</span>
-            </a>
         </div>
     </div>*@
 </div>

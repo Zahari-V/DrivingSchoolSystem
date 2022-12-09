@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Начало";
+}
+
+<div class="align-self-stretch h-100">
+    <div>
+        <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
+        <br />
+        <h1>@ViewBag.Role: @ViewBag.UserFullName</h1>
+    </div>
+
+    <div class="container mt-5 overflow-hidden">
+        <div class="row fs-2">
+            <div class="col nav-div bg-success p-5 me-4">
+                <a asp-controller="StudentCard" asp-action="All">
+                    <p>Талони</p>
+                    <img src="/images/icons/report-card.png" alt="StudentCard Icon" />
+                </a>
+            </div>
+            <div class="col nav-div bg-success p-5 ms-4 me-4">
+                <a asp-controller="Schedule" asp-action="Index">
+                    <p>График</p>
+                    <img src="/images/icons/calendar.png"
+                         alt="Schedule Icon" />
+                </a>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col nav-div bg-success p-5 ms-4">
+                    <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <p>Администрация</p>
+                        <img src="/images/icons/administrator.png" alt="Administration Icon" />
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

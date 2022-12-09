@@ -19,17 +19,20 @@ namespace DrivingSchoolSystem.Controllers
 
         public IActionResult All()
         {
-            return View();
+            var model = studentCardService.GetAll(User.Id());
+
+            return View(model);
         }
 
         [HttpGet]
         [Authorize(Roles = "Instructor")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             var model = new AddStudentCardModel()
             {
-                Accounts = studentCardService.GetAccounts(User.DrivingSchoolId()),
-                Courses = studentCardService.GetCourses(User.DrivingSchoolId())
+                Students = studentCardService.GetStudents(User.DrivingSchoolId()),
+                Courses = studentCardService.GetCourses(User.DrivingSchoolId()),
+                InstructorId = await studentCardService.GetInstructorId(User.Id())
             };
 
             return View(model);
@@ -41,7 +44,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Accounts = studentCardService.GetAccounts(User.DrivingSchoolId());
+                model.Students = studentCardService.GetStudents(User.DrivingSchoolId());
                 model.Courses = studentCardService.GetCourses(User.DrivingSchoolId());
 
                 return View(model);
@@ -59,7 +62,7 @@ namespace DrivingSchoolSystem.Controllers
             }
 
 
-            return View();
+            return RedirectToAction("All");
         }
 
         public IActionResult Index()
