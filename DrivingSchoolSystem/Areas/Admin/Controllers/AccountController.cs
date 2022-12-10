@@ -14,11 +14,6 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             accountService = _accountService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult All()
         {
             var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId());
@@ -63,6 +58,16 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
                 return View(model);
             }
+        }
+
+        public IActionResult Edit(string userId)
+        {
+            return View();
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace DrivingSchoolSystem.Core.Contracts
 {
     public interface IStudentCardService
     {
-        IEnumerable<StudentCardModel> GetAll(string userId);
+        IEnumerable<StudentCardModel> GetAll(string userId, string role);
 
         Task AddStudentCardAsync(AddStudentCardModel model);
 

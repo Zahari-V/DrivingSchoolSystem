@@ -15,9 +15,14 @@ namespace DrivingSchoolSystem.Extensions
             return int.Parse(user.FindFirstValue("DrivingSchoolId"));
         }
 
+        public static string Role(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Role);
+        }
+
         public static string BulgarianRoleName(this ClaimsPrincipal user)
         {
-            var roleName = user.FindFirstValue(ClaimTypes.Role).ToUpper();
+            var roleName = user.Role().ToUpper();
 
             if (roleName == "STUDENT")
             {

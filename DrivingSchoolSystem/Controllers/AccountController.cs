@@ -201,6 +201,7 @@ namespace DrivingSchoolSystem.Controllers
 
             user.UserName = model.Username;
             user.NormalizedUserName = model.Username.ToUpper();
+            user.ImageUrl = "https://imgs.search.brave.com/G4V3oO6hyzU7zIFGh46tw2rNQQr1sCgN0b2sygyE3-Q/rs:fit:820:641:1/g:ce/aHR0cHM6Ly93d3cu/cG5na2l0LmNvbS9w/bmcvZGV0YWlsLzI4/MS0yODEyODIxX3Vz/ZXItYWNjb3VudC1t/YW5hZ2VtZW50LWxv/Z28tdXNlci1pY29u/LXBuZy5wbmc";
 
             var hasher = new PasswordHasher<User>();
             user.PasswordHash =

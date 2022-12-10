@@ -19,7 +19,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public string LastName { get; set; } = null!;
 
         [StringLength(400)]
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
         [Required]
         public bool IsRegistered { get; set; }

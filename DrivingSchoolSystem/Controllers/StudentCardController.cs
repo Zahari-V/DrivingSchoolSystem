@@ -1,7 +1,6 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Extensions;
-using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +16,10 @@ namespace DrivingSchoolSystem.Controllers
             studentCardService = _studentCardService;
         }
 
+        [HttpGet]
         public IActionResult All()
         {
-            var model = studentCardService.GetAll(User.Id());
+            var model = studentCardService.GetAll(User.Id(), User.Role());
 
             return View(model);
         }

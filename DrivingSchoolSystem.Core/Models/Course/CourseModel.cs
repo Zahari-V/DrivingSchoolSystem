@@ -6,6 +6,8 @@ namespace DrivingSchoolSystem.Core.Models.Course
 {
     public class CourseModel
     {
+        public int Id { get; set; }
+
         public string CategoryName { get; set; } = null!;
 
         public string AdminFullName { get; set; } = null!;

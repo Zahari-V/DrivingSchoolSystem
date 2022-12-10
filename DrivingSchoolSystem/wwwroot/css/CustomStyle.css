@@ -89,6 +89,10 @@ a:link, a:visited {
     width: 90%;
 }
 
+.w-80 {
+    width: 80%;
+}
+
 div.functional-menu a {
     text-decoration: none;
     color: #e9d300;
@@ -103,10 +107,12 @@ div.functional-menu a {
     font-size: 25px;
 }
 
-.dropdown a, .dropdown a:hover, .dropdown a:visited, a:after {
+.dropdown a, .dropdown a:hover, .dropdown a:visited {
     text-decoration: none;
     color: #e9d300;
     cursor: pointer;
 }
 
-
+.student-card-img {
+    height: 350px;
+}

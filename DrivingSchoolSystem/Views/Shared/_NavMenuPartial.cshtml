@@ -19,12 +19,12 @@
         @if (User.Identity?.IsAuthenticated ?? false)
         {
             <li>
-                <a asp-controller="StudentCard" asp-action="All">
+                <a asp-area="" asp-controller="StudentCard" asp-action="All">
                     Талони
                 </a>
             </li>
             <li>
-                <a asp-controller="Schedule" asp-action="Index">
+                <a>
                     График
                 </a>
             </li>
@@ -44,17 +44,17 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Index">
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="All">
                             Акаунти
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="Index">
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="All">
                             Курсове
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Index">
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile">
                             Автошкола
                         </a>
                     </li>

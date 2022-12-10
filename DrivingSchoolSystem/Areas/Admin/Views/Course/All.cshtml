@@ -5,17 +5,31 @@
     ViewData["Title"] = "Всички Курсове";
 }
 
-<div class="align-self-stretch mt-5 w-75">
-    <h1>Администрация - @ViewData["Title"]</h1>
+@section Links{
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+}
 
-    <table class="table table-danger text-center mt-3">
+<div class="align-self-start mt-5 w-80">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-sm-6">
+                <a asp-area="Admin" asp-controller="Course" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави курс</span></a>
+            </div>
+        </div>
+    </div>
+
+     <table class="table table-striped table-hover table-danger">
         <thead>
             <tr>
-                <th scope="col">Категория</th>
-                <th scope="col">Дата на започване</th>
-                <th scope="col">Админ</th>
-                <th scope="col">Телефон за връзка</th>
-                <th scope="col">Дата на създаване</th>
+                <th>Категория</th>
+                <th>Дата на започване</th>
+                <th>Админ</th>
+                <th>Телефон за връзка</th>
+                <th>Дата на създаване</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +41,51 @@
                     <td>@course.AdminFullName</td>
                     <td>@course.AdminPhone</td>
                     <td>@course.CreatedOn</td>
+                   <td>
+                    <a asp-area="Admin" asp-controller="Course" asp-action="Edit" 
+                    asp-route-id="@course.Id" class="edit">
+                        <i class="material-icons" title="Edit">&#xE254;</i>
+                    </a>
+                        <a href="#deleteEmployeeModal" onclick={SetDeleteCourseId('@course.Id')}
+                       data-toggle="modal">
+                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <hr>
 </div>
+
+<div id="deleteEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-area="Admin" asp-controller="Course" asp-action="Delete">
+                <div class="modal-header">
+                    <h4 class="modal-title">Изтриване на курс</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Сигурени ли сте че искате да изтриете курса?</p>
+                    <p class="text-warning"><small>Това действие не може да бъде отменено.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="deleteCourse"/>
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Отмени">
+                    <input type="submit" id="deleteBtn" class="btn btn-danger" value="Изтрии">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var deleteInput = document.getElementById("deleteCourse");
+
+        function SetDeleteCourseId(courseId) {
+            deleteInput.setAttribute('value', courseId);
+        }
+    </script>
+}

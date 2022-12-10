@@ -67,7 +67,7 @@ namespace DrivingSchoolSystem.Core.Services
             return instructor.Id;
         }
 
-        public IEnumerable<StudentCardModel> GetAll(string userId)
+        public IEnumerable<StudentCardModel> GetAll(string userId, string role)
         {
             return context.StudentCards
                 .AsNoTracking()
@@ -76,14 +76,15 @@ namespace DrivingSchoolSystem.Core.Services
                 .ThenInclude(i => i.User)
                 .Include(sc => sc.Course)
                 .ThenInclude(c => c.Category)
-                .Where(sc => sc.Student.UserId == userId 
+                .Where(sc => sc.Student.UserId == userId
                 || sc.Instructor.UserId == userId || sc.Course.AdminId == userId)
                 .Select(sc => new StudentCardModel()
                 {
-                    InstructorFullName = $"{sc.Instructor.User.FirstName} {sc.Instructor.User.FirstName} {sc.Instructor.User.FirstName}",
+                    StudentFullName = $"{sc.Student.User.FirstName} {sc.Student.User.MiddleName} {sc.Student.User.LastName}",
+                    InstructorFullName = $"{sc.Instructor.User.FirstName} {sc.Instructor.User.MiddleName} {sc.Instructor.User.LastName}",
                     DrivedHours = sc.DrivedHours,
                     CategoryName = sc.Course.Category.Name,
-                    CategoryImageUrl = sc.Course.Category.ImageUrl
+                    ImageUrl = role.ToUpper() == "STUDENT" ? sc.Course.Category.ImageUrl : sc.Instructor.User.ImageUrl
                 });
         }
     }

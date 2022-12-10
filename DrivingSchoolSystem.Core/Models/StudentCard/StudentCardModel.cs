@@ -1,11 +1,4 @@
-﻿using DrivingSchoolSystem.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.StudentCard
 {
@@ -13,12 +6,16 @@ namespace DrivingSchoolSystem.Core.Models.StudentCard
     {
         public string CategoryName { get; set; } = null!;
 
-        public string CategoryImageUrl { get; set; } = null!;
+        public string ImageUrl { get; set; } = null!;
 
-        [Display(Name = "Инструктор: ")]
+        [Display(Name = "Име: ")]
+        public string StudentFullName { get; set; } = null!;
+
+        [Display(Name = "Инструктор име: ")]
         public string InstructorFullName { get; set; } = null!;
 
         [Display(Name = "Брой изкарани часове: ")]
         public int DrivedHours { get; set; }
+
     }
 }

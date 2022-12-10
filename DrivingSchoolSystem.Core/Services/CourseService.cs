@@ -40,6 +40,7 @@ namespace DrivingSchoolSystem.Core.Services
                 .OrderByDescending(c => c.Id)
                 .Select(c => new CourseModel()
                 {
+                    Id = c.Id,
                     AdminFullName = $"{c.Admin.FirstName} {c.Admin.MiddleName} {c.Admin.LastName}",
                     AdminPhone = c.Admin.PhoneNumber,
                     CreatedOn = c.CreatedOn,
