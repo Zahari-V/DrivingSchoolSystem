@@ -1,5 +1,4 @@
-﻿@using DrivingSchoolSystem.Core.Models.DrivingSchool
-@model DrivingSchoolInfoModel
+﻿@model DrivingSchoolModel
 
 @{
     ViewData["Title"] = "Автошкола Профил";
@@ -25,11 +24,11 @@
         <span>@Model.PhoneContact</span>
     </div>
     <div>
-        <label asp-for="@Model.EducationCategories"></label>
+       @* <label asp-for="@Model.EducationCategories"></label>
         @foreach (var category in Model.EducationCategories)
         {
             <span>@category.Name</span>
-        }
+        }*@
     </div>
     <a class="btn btn-danger" asp-area="Admin" asp-controller="DrivingSchool" asp-action="EditProfile">
         Редактирай Профила

@@ -1,7 +1,7 @@
-﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models.Course;
+﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+using DrivingSchoolSystem.Core.Models.Admin.Course;
 using DrivingSchoolSystem.Extensions;
-using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchoolSystem.Areas.Admin.Controllers
@@ -18,29 +18,31 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult All()
         {
-            var model = courseService.GetAllCourses(User.DrivingSchoolId());
+            var model = courseService.GetAllCourses(User.DrivingSchoolId(), User.Role());
 
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
             var model = new AddCourseModel()
             {
-                AdminId = User.Id(),
-                Categories = await courseService.GetCourseCategoriesAsync(User.DrivingSchoolId())
+                ManagerId = await courseService.GetManagerIdAsync(User.Id()),
+                Categories = await courseService.GetEducationCategoriesAsync(User.DrivingSchoolId())
             };
 
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Add(AddCourseModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.Categories = await courseService.GetCourseCategoriesAsync(User.DrivingSchoolId());
+                model.Categories = await courseService.GetEducationCategoriesAsync(User.DrivingSchoolId());
 
                 return View(model);
             }
@@ -56,6 +58,57 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
                 ModelState.AddModelError("", ex.Message);
 
                 return View(model);
+            }
+        }
+
+        [Authorize(Roles = "Manager")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int courseId)
+        {
+            var model = await courseService.GetEditModelByIdAsync(courseId);
+            model.Categories = await courseService.GetEducationCategoriesAsync(User.DrivingSchoolId());
+            model.ManagerId = await courseService.GetManagerIdAsync(User.Id());
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Manager")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCourseModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await courseService.GetEducationCategoriesAsync(User.DrivingSchoolId());
+
+                return View(model);
+            }
+
+            try
+            {
+                await courseService.EditAsync(model);
+
+                return RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Грешка при запазването на данните!");
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int courseId)
+        {
+            try
+            {
+                await courseService.DeleteCourseAsync(courseId);
+
+                return RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                return NotFound("Нещо се обърка!!!");
             }
         }
 

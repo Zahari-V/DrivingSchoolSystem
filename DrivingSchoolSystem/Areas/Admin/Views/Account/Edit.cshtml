@@ -1,43 +1,34 @@
-﻿@using DrivingSchoolSystem.Core.Models.DrivingSchool
-@model DrivingSchoolInfoModel
-
-@{
+﻿@{
     ViewData["Title"] = "Редактиране - Акаунт Профил";
 }
 
 <div class="align-self-stretch">
-    <h1>@ViewData["Title"]</h1>
-    <hr />
-    <form method="post" asp-area="Admin" asp-controller="Account" asp-action="Edit">
-        <input type="hidden" asp-for="@Model.Id" />
-        <div>
-            <label asp-for="@Model.Name"></label>
-            <input asp-for="@Model.Name" />
+    <div>
+        <h6>@ViewData["Title"]</h6>
+        <hr>
+        <form>
+            <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" class="form-control" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="Kenneth Valdez">
+            <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change or remove it at any time.</small>
+            </div>
+            <div class="form-group">
+            <label for="bio">Your Bio</label>
+            <textarea class="form-control autosize" id="bio" placeholder="Write something about you" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 62px;">A front-end developer that focus more on user interface design, a web interface wizard, a connector of awesomeness.</textarea>
+            </div>
+            <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" class="form-control" id="url" placeholder="Enter your website address" value="http://benije.ke/pozzivkij">
+            </div>
+            <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" placeholder="Enter your location" value="Bay Area, San Francisco, CA">
+            </div>
+            <div class="form-group small text-muted">
+            All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
+            </div>
+            <button type="button" class="btn btn-primary">Update Profile</button>
+            <button type="reset" class="btn btn-light">Reset Changes</button>
+        </form>
         </div>
-        <div>
-            <label asp-for="@Model.Address"></label>
-            <input asp-for="@Model.Address" />
-        </div>
-        <div>
-            <label asp-for="@Model.Town"></label>
-            <input asp-for="@Model.Town" />
-        </div>
-        <div>
-            <label asp-for="@Model.PhoneContact"></label>
-            <input asp-for="@Model.PhoneContact" />
-        </div>
-        <div class="d-flex flex-column">
-            <label asp-for="@Model.EducationCategories"></label>
-            @for (int i = 0; i < @Model.EducationCategories.Count(); i++)
-            {
-                <input asp-for="@Model.EducationCategories[i].IsMarked">
-                <label asp-for="@Model.EducationCategories[i].IsMarked">@Model.EducationCategories[i].Name</label>
-                <input type="hidden" asp-for="@Model.EducationCategories[i].Id" />
-                <input type="hidden" asp-for="@Model.EducationCategories[i].Name" />
-            }
-        </div>
-        <button type="submit" class="btn btn-danger">
-            Запази Промените
-        </button>
-    </form>
 </div>

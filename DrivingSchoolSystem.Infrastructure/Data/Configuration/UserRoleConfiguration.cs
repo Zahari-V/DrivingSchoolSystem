@@ -1,30 +1,30 @@
 ﻿using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
 {
-    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
+    public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
-        public void Configure(EntityTypeBuilder<UserRole> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
             builder.HasData(CreateUsersRoles());
         }
 
-        private List<UserRole> CreateUsersRoles()
+        private List<IdentityUserRole<string>> CreateUsersRoles()
         {
-            var usersRoles = new List<UserRole>();
+            var usersRoles = new List<IdentityUserRole<string>>();
 
-            usersRoles.Add(new UserRole()
+            usersRoles.Add(new IdentityUserRole<string>()
             {
                 RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                UserId = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090"
-            });
-
-            usersRoles.Add(new UserRole()
-            {
-                RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                UserId = "65474606-d7e0-48a6-a6b3-3136c233dd4d"
+                UserId = "5b837013-946c-406e-8fce-9631c2844350"
             });
 
             return usersRoles;

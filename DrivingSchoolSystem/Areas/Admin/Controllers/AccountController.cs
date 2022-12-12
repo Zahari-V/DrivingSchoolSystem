@@ -1,6 +1,7 @@
-﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models.Account;
+﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+using DrivingSchoolSystem.Core.Models.Admin.Account;
 using DrivingSchoolSystem.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchoolSystem.Areas.Admin.Controllers
@@ -16,11 +17,12 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult All()
         {
-            var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId());
+            var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId(), User.Role());
 
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -34,6 +36,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Add(AddAccountModel model)
         {
@@ -60,7 +63,9 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Edit(string userId)
+        [Authorize(Roles = "Manager")]
+        [HttpGet]
+        public IActionResult Edit(string accountId)
         {
             return View();
         }

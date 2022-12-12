@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
@@ -6,7 +7,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
     {
         public DrivingSchool()
         {
-            Users = new List<User>();
+            Accounts = new List<Account>();
             EducationCategories = new List<DrivingSchoolCategory>();
         }
 
@@ -28,7 +29,10 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [StringLength(15)]
         public string? PhoneContact { get; set; }
 
-        public IEnumerable<User> Users { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
+
+        public IEnumerable<Account> Accounts { get; set; }
         
         public IEnumerable<DrivingSchoolCategory> EducationCategories { get; set; }
     }

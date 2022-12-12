@@ -1,4 +1,4 @@
-﻿using DrivingSchoolSystem.Core.Models.Course;
+﻿using DrivingSchoolSystem.Core.Models.Admin.Course;
 using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.StudentCard

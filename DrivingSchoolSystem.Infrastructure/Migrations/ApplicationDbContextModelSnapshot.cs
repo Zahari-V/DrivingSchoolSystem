@@ -22,6 +22,73 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DrivingSchoolId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsRegistered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DrivingSchoolId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -42,7 +109,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -109,26 +176,30 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AdminId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
-
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", b =>
@@ -143,6 +214,11 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -160,25 +236,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DrivingSchools", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "ул. „Железничарска“ 34",
-                            Name = "\"Автостарт - Великин\" ЕООД",
-                            PhoneContact = "0888129915",
-                            Town = "Видин"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "ул. „Въстаник“ 5",
-                            Name = "\"РОСЕН - 85\" ООД",
-                            PhoneContact = "0899833302",
-                            Town = "София"
-                        });
+                    b.ToTable("DrivingSchools");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
@@ -193,7 +251,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("DrivingSchoolsCategories", (string)null);
+                    b.ToTable("DrivingSchoolsCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
@@ -204,15 +262,14 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
 
-                    b.ToTable("Instructors", (string)null);
+                    b.ToTable("Instructors");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.InstructorCategory", b =>
@@ -227,10 +284,209 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("InstructorsCategories", (string)null);
+                    b.ToTable("InstructorsCategories");
                 });
 
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Role", b =>
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Manager", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Managers");
+                });
+
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateForDrive")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDone")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("StudentCardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentCardId");
+
+                    b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DrivedHours")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentCards");
+                });
+
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)")
+                        .HasDefaultValue("https://imgs.search.brave.com/G4V3oO6hyzU7zIFGh46tw2rNQQr1sCgN0b2sygyE3-Q/rs:fit:820:641:1/g:ce/aHR0cHM6Ly93d3cu/cG5na2l0LmNvbS9w/bmcvZGV0YWlsLzI4/MS0yODEyODIxX3Vz/ZXItYWNjb3VudC1t/YW5hZ2VtZW50LWxv/Z28tdXNlci1pY29u/LXBuZy5wbmc");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5b837013-946c-406e-8fce-9631c2844350",
+                            AccessFailedCount = 0,
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ConcurrencyStamp = "ea980200-c065-4473-8b62-f8c48a143771",
+                            Email = "admin@abv.bg",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ABV.BG",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKDjXPKds8NRMqLd0XgdAWEqbA++7KVXVMSTzwgwXeiQIK8sMhCOxQ0Kx5Ngb85BtA==",
+                            PhoneNumber = "0889324353",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0ccce128-a89d-4334-be8b-a1607edb9100",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -260,265 +516,30 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         new
                         {
                             Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "ce8ca732-cd81-4d88-bb14-ab7cc6685048",
+                            ConcurrencyStamp = "78508b03-0703-4f5f-9ed1-9267f32496ce",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "c65dc741-1118-4d90-b27c-c2643611662d",
+                            ConcurrencyStamp = "bb5064e1-446e-425d-bf85-3b1d0ec2ed89",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         },
                         new
                         {
                             Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "267228cb-ee4e-4a51-abf3-e7c2266b67a2",
+                            ConcurrencyStamp = "8ad3b721-3e09-4d76-ae8c-4f6ac440d675",
                             Name = "Student",
                             NormalizedName = "STUDENT"
-                        });
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateForDrive")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDone")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("StudentCardId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentCardId");
-
-                    b.ToTable("Schedules", (string)null);
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Students", (string)null);
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DrivedHours")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("InstructorId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("StudentCards", (string)null);
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DrivingSchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<bool>("IsRegistered")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DrivingSchoolId");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "15a4c9ce-aecb-4025-b8a3-3f33afe78950",
-                            DrivingSchoolId = 1,
-                            Email = "avtostart_Vidin@abv.bg",
-                            EmailConfirmed = false,
-                            FirstName = "Георги",
-                            IsRegistered = false,
-                            LastName = "Георгиев",
-                            LockoutEnabled = false,
-                            MiddleName = "Красимиров",
-                            NormalizedEmail = "AVTOSTART_VIDIN@ABV.BG",
-                            PhoneNumber = "0888326291",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "53d25e44-4787-4449-8d9d-944e43613a04",
-                            TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "00a4f2ab-0823-4cc6-839f-9fe56d73196f",
-                            DrivingSchoolId = 2,
-                            Email = "rosen85_Sofia@abv.bg",
-                            EmailConfirmed = false,
-                            FirstName = "Петър",
-                            IsRegistered = false,
-                            LastName = "Петров",
-                            LockoutEnabled = false,
-                            MiddleName = "Любенов",
-                            NormalizedEmail = "ROSEN85_SOFIA@ABV.BG",
-                            PhoneNumber = "0889312141",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "b7bd9a12-9880-4367-ae8b-28afce922d40",
-                            TwoFactorEnabled = false
-                        });
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.UserRole", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
-                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf"
-                        },
-                        new
-                        {
-                            UserId = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
-                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf"
+                            Id = "f33ee30d-f3c5-4243-b4b8-a7fa240c3707",
+                            ConcurrencyStamp = "e7b736f7-e95e-47da-8c7e-af3d90ecc5ed",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
                         });
                 });
 
@@ -596,6 +617,28 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "5b837013-946c-406e-8fce-9631c2844350",
+                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
@@ -617,23 +660,49 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Course", b =>
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Account", b =>
                 {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId")
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", "DrivingSchool")
+                        .WithMany("Accounts")
+                        .HasForeignKey("DrivingSchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "User")
+                        .WithOne("Account")
+                        .HasForeignKey("DrivingSchoolSystem.Infrastructure.Data.Models.Account", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("DrivingSchool");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Course", b =>
+                {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Admin");
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Manager", "Manager")
+                        .WithMany("Courses")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
@@ -657,13 +726,13 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
                 {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "User")
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.InstructorCategory", b =>
@@ -685,6 +754,17 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Navigation("Instructor");
                 });
 
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Manager", b =>
+                {
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Schedule", b =>
                 {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", "StudentCard")
@@ -698,19 +778,19 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
                 {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "User")
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", b =>
                 {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("StudentCards")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -734,39 +814,9 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
-                {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", "DrivingSchool")
-                        .WithMany("Users")
-                        .HasForeignKey("DrivingSchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DrivingSchool");
-                });
-
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.UserRole", b =>
-                {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Role", "Role")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", "User")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -791,6 +841,21 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.User", null)
@@ -807,11 +872,16 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Navigation("InstructorsCategories");
                 });
 
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Course", b =>
+                {
+                    b.Navigation("StudentCards");
+                });
+
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", b =>
                 {
-                    b.Navigation("EducationCategories");
+                    b.Navigation("Accounts");
 
-                    b.Navigation("Users");
+                    b.Navigation("EducationCategories");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
@@ -821,9 +891,9 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Navigation("StudentCards");
                 });
 
-            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Role", b =>
+            modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Manager", b =>
                 {
-                    b.Navigation("UsersRoles");
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
@@ -838,7 +908,8 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
                 {
-                    b.Navigation("UsersRoles");
+                    b.Navigation("Account")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

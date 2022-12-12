@@ -34,6 +34,9 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [Required]
         public int DrivedHours { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
         public IEnumerable<Schedule> Schedules { get; set; }
     }
 }

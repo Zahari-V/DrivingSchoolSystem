@@ -1,5 +1,4 @@
-﻿@using DrivingSchoolSystem.Core.Models.Course
-@model AddCourseModel
+﻿@model AddCourseModel
 
 @{
     ViewData["Title"] = "Добавяне на Курс";
@@ -14,7 +13,7 @@
             <form id="registerForm" asp-area="Admin" asp-controller="Course" asp-action="Add" method="post">
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="@Model.AdminId" />
+                <input type="hidden" asp-for="@Model.ManagerId" />
                 <div class="text-center mb-3">
                     <label asp-for="@Model.StartDate">Дата на започване</label>
                     <input type="date" class="form-control" aria-required="true" asp-for="@Model.StartDate" />

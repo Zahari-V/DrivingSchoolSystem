@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Потвърждаване на имейла";
+    var statusMessageClass = ViewBag.Succeeded ? "success" : "danger";
+}
+
+<div class="w-100 mb-auto mt-auto">
+    <h1>@ViewBag.Title</h1>
+
+    <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
+        @ViewBag.StatusMessage
+    </div>
+
+    <div class="container">
+        <div class="m-2 p-2">
+            <a class="btn btn-success" asp-area="" asp-controller="User" asp-action="Login">Вход</a>
+        </div>
+        <div class="m-2 p-2">
+            <a class="btn btn-danger" asp-area="" asp-controller="User" asp-action="Register">Регистрация</a>
+        </div>
+    </div>
+</div>

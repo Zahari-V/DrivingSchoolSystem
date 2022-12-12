@@ -1,5 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models.Course;
+using DrivingSchoolSystem.Core.Models.Admin.Course;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
@@ -33,12 +33,12 @@ namespace DrivingSchoolSystem.Core.Services
         {
             return context.Students
                 .AsNoTracking()
-                .Include(s => s.User)
-                .Where(s => s.User.DrivingSchoolId == drivingSchoolId)
+                .Include(s => s.Account)
+                .Where(s => s.Account.DrivingSchoolId == drivingSchoolId)
                 .Select(s => new StudentModel()
                 {
                     Id = s.Id,
-                    FullName = $"{s.User.FirstName} {s.User.MiddleName} {s.User.LastName}"
+                    FullName = $"{s.Account.FirstName} {s.Account.MiddleName} {s.Account.LastName}"
                 });
         }
 
@@ -46,10 +46,11 @@ namespace DrivingSchoolSystem.Core.Services
         {
             return context.Courses
               .AsNoTracking()
-              .Include(c => c.Admin)
+              .Include(c => c.Manager)
+              .ThenInclude(m => m.Account)
               .Include(c => c.Category)
               .ThenInclude(cg => cg.DrivingSchoolsCategories)
-              .Where(c => c.Admin.DrivingSchoolId == drivingSchoolId && c.StartDate > DateTime.Now)
+              .Where(c => c.Manager.Account.DrivingSchoolId == drivingSchoolId && c.StartDate > DateTime.Now)
               .Select(c => new CollectionCourseModel()
               {
                   Id = c.Id,
@@ -62,7 +63,8 @@ namespace DrivingSchoolSystem.Core.Services
         {
             var instructor = await context.Instructors
                 .AsNoTracking()
-                .FirstAsync(i => i.UserId == userId);
+                .Include(i => i.Account)
+                .FirstAsync(i => i.Account.UserId == userId);
 
             return instructor.Id;
         }
@@ -71,20 +73,23 @@ namespace DrivingSchoolSystem.Core.Services
         {
             return context.StudentCards
                 .AsNoTracking()
-                .Include(sc => sc.Student)
-                .Include(sc => sc.Instructor)
-                .ThenInclude(i => i.User)
-                .Include(sc => sc.Course)
-                .ThenInclude(c => c.Category)
-                .Where(sc => sc.Student.UserId == userId
-                || sc.Instructor.UserId == userId || sc.Course.AdminId == userId)
+                .Include(sc => sc.Student.Account)
+                //.ThenInclude(s => s.Account)
+                .Include(sc => sc.Instructor.Account)
+                //.ThenInclude(i => i.Account)
+                .Include(sc => sc.Course.Category)
+                .Include(sc => sc.Course.Manager.Account)
+                //.ThenInclude(c => c.Category)
+                //.ThenInclude(c => c.Category)
+                .Where(sc => sc.Student.Account.UserId == userId
+                || sc.Instructor.Account.UserId == userId || sc.Course.Manager.Account.UserId == userId)
                 .Select(sc => new StudentCardModel()
                 {
-                    StudentFullName = $"{sc.Student.User.FirstName} {sc.Student.User.MiddleName} {sc.Student.User.LastName}",
-                    InstructorFullName = $"{sc.Instructor.User.FirstName} {sc.Instructor.User.MiddleName} {sc.Instructor.User.LastName}",
-                    DrivedHours = sc.DrivedHours,
-                    CategoryName = sc.Course.Category.Name,
-                    ImageUrl = role.ToUpper() == "STUDENT" ? sc.Course.Category.ImageUrl : sc.Instructor.User.ImageUrl
+                    StudentFullName = $"{sc.Student.Account.FirstName} {sc.Student.Account.MiddleName} {sc.Student.Account.LastName}",
+                    //InstructorFullName = $"{sc.Instructor.User.FirstName} {sc.Instructor.User.MiddleName} {sc.Instructor.User.LastName}",
+                    //DrivedHours = sc.DrivedHours,
+                    //CategoryName = sc.Course.Category.Name,
+                    //ImageUrl = role.ToUpper() == "STUDENT" ? sc.Course.Category.ImageUrl : sc.Instructor.User.ImageUrl
                 });
         }
     }

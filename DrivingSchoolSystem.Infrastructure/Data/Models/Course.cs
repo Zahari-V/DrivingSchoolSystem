@@ -18,18 +18,21 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
-       
-        [Required]
-        public string AdminId { get; set; } = null!;
 
-        [ForeignKey(nameof(AdminId))]
-        public User Admin { get; set; } = null!;
+        [Required]
+        public int ManagerId { get; set; }
+
+        [ForeignKey(nameof(ManagerId))]
+        public Manager Manager { get; set; } = null!;
 
         [Required]
         public DateTime CreatedOn { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }
+
+        [Required]
+        public bool IsDeleted { get; set; }
 
         public IEnumerable<StudentCard> StudentCards { get; set; }
     }

@@ -1,6 +1,12 @@
 ﻿using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
 {
@@ -15,31 +21,21 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
         {
             var users = new List<User>();
 
-            User user = new User()
+            var hasher = new PasswordHasher<User>();
+
+            var user = new User()
             {
-                Id = "a98e90bc-1adc-4f87-bb4e-9e12a2d39090",
-                Email = "avtostart_Vidin@abv.bg",
-                NormalizedEmail = "avtostart_Vidin@abv.bg".ToUpper(),
-                FirstName = "Георги",
-                MiddleName = "Красимиров",
-                LastName = "Георгиев",
-                DrivingSchoolId = 1,
-                PhoneNumber = "0888326291"
+                Id = "5b837013-946c-406e-8fce-9631c2844350",
+                UserName = "Admin",
+                NormalizedUserName = "Admin".ToUpper(),
+                Email = "admin@abv.bg",
+                NormalizedEmail = "admin@abv.bg".ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumber = "0889324353"
             };
 
-            users.Add(user);
-
-            user = new User()
-            {
-                Id = "65474606-d7e0-48a6-a6b3-3136c233dd4d",
-                Email = "rosen85_Sofia@abv.bg",
-                NormalizedEmail = "rosen85_Sofia@abv.bg".ToUpper(),
-                FirstName = "Петър",
-                MiddleName = "Любенов",
-                LastName = "Петров",
-                DrivingSchoolId = 2,
-                PhoneNumber = "0889312141"
-            };
+            user.PasswordHash =
+            hasher.HashPassword(user, "user123");
 
             users.Add(user);
 

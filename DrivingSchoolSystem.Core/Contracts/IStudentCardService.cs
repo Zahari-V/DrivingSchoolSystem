@@ -1,4 +1,4 @@
-﻿using DrivingSchoolSystem.Core.Models.Course;
+﻿using DrivingSchoolSystem.Core.Models.Admin.Course;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 
 namespace DrivingSchoolSystem.Core.Contracts

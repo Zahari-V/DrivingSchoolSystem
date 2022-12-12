@@ -12,9 +12,12 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
-                ViewBag.UserFullName = Request.Cookies["userFullName"];
-                ViewBag.Role = User.BulgarianRoleName();
+                if (!User.IsInRole("Admin"))
+                {
+                    ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
+                    ViewBag.UserFullName = Request.Cookies["userFullName"];
+                    ViewBag.Role = User.BulgarianRoleName();
+                }
 
                 return View("HomePage");
             }
@@ -22,15 +25,15 @@ namespace DrivingSchoolSystem.Controllers
             return View();
         }
 
-        public IActionResult System()
-        {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
-            }
+        //public IActionResult System()
+        //{
+        //    if (User.IsInRole("Admin"))
+        //    {
+        //        return RedirectToAction("Index", "Home", new { area = "Admin" });
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public IActionResult About()
         {

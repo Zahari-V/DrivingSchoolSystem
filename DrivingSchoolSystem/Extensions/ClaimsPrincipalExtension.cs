@@ -12,7 +12,12 @@ namespace DrivingSchoolSystem.Extensions
 
         public static int DrivingSchoolId(this ClaimsPrincipal user)
         {
-            return int.Parse(user.FindFirstValue("DrivingSchoolId"));
+            if (!user.IsInRole("Admin"))
+            {
+                return int.Parse(user.FindFirstValue("DrivingSchoolId"));
+            }
+
+            return -1;
         }
 
         public static string Role(this ClaimsPrincipal user)
@@ -34,7 +39,7 @@ namespace DrivingSchoolSystem.Extensions
             }
             else
             {
-                roleName = "Администратор";
+                roleName = "Мениджър";
             }
 
             return roleName;

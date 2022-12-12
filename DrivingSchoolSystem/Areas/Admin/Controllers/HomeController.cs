@@ -16,9 +16,6 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
-            ViewBag.UserFullName = Request.Cookies["userFullName"];
-
             return View();
         }
     }

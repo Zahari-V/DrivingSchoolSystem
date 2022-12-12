@@ -1,5 +1,4 @@
-﻿@using DrivingSchoolSystem.Core.Models.Course
-@model IEnumerable<CourseModel>
+﻿@model IEnumerable<CourseModel>
 
 @{
     ViewData["Title"] = "Всички Курсове";
@@ -15,9 +14,12 @@
             <div class="col-sm-6">
                 <h1>@ViewData["Title"]</h1>
             </div>
-            <div class="col-sm-6">
-                <a asp-area="Admin" asp-controller="Course" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави курс</span></a>
-            </div>
+            @if (User.IsInRole("Manager"))
+            {
+                <div class="col-sm-6">
+                    <a asp-area="Admin" asp-controller="Course" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави курс</span></a>
+                </div>                
+            }
         </div>
     </div>
 
@@ -41,11 +43,14 @@
                     <td>@course.AdminFullName</td>
                     <td>@course.AdminPhone</td>
                     <td>@course.CreatedOn</td>
-                   <td>
-                    <a asp-area="Admin" asp-controller="Course" asp-action="Edit" 
-                    asp-route-id="@course.Id" class="edit">
-                        <i class="material-icons" title="Edit">&#xE254;</i>
-                    </a>
+                    <td>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <a asp-area="Admin" asp-controller="Course" asp-action="Edit" 
+                        asp-route-courseId="@course.Id" class="edit">
+                            <i class="material-icons" title="Edit">&#xE254;</i>
+                        </a>
+                    }
                         <a href="#deleteEmployeeModal" onclick={SetDeleteCourseId('@course.Id')}
                        data-toggle="modal">
                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -71,7 +76,7 @@
                     <p class="text-warning"><small>Това действие не може да бъде отменено.</small></p>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="deleteCourse"/>
+                    <input type="hidden" name="courseId" id="deleteCourse"/>
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Отмени">
                     <input type="submit" id="deleteBtn" class="btn btn-danger" value="Изтрии">
                 </div>

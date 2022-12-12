@@ -16,10 +16,10 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; } = null!;
+        public Guid AccountId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
+        [ForeignKey(nameof(AccountId))]
+        public Account Account { get; set; } = null!;
 
         public IEnumerable<InstructorCategory> InstructorsCategories { get; set; }
         

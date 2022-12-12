@@ -23,18 +23,13 @@
                     Талони
                 </a>
             </li>
-            <li>
-                <a>
-                    График
-                </a>
-            </li>
         }
 
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
         {
             <li class="dropdown">
                 <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle color-yellow">
-                    Администрация
+                   Администрация
                 </a>
                 <ul aria-labelledby="dropdownMenu1" class="dropdown-menu custom-color-background w-100 border-0 shadow">
                     <li>
@@ -53,34 +48,25 @@
                             Курсове
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile">
-                            Автошкола
-                        </a>
-                    </li>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li>
+                            <a class="dropdown-item" asp-area="Admin" 
+                            asp-controller="DrivingSchool" asp-action="Profile">
+                                Автошколa
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a class="dropdown-item" asp-area="Admin" 
+                            asp-controller="DrivingSchool" asp-action="All">
+                                Автошколи
+                            </a>
+                        </li>
+                    }
                 </ul>
-                @*<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">
-                        <span class="icon icon-dashboard"></span>
-                        Начало
-                    </a>
-                    <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Index">
-                        Акаунти
-                    </a>
-                    <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="Index">
-                        Курсове
-                    </a>
-                    <a class="dropdown-item" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Index">
-                        Автошкола
-                    </a>
-                </div>*@
-@*            <li class="nav-item dropdown">
-                <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-                    <li><a href="#" class="dropdown-item">Some action </a></li>
-                    <li><a href="#" class="dropdown-item">Some other action</a></li>
-                </ul>
-            </li>*@
             </li>
         }
     </ul>

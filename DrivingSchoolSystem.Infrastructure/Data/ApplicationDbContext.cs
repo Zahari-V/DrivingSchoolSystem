@@ -1,12 +1,11 @@
 ﻿using DrivingSchoolSystem.Infrastructure.Data.Configuration;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,25 +30,33 @@ namespace DrivingSchoolSystem.Infrastructure.Data
 
         public DbSet<DrivingSchoolCategory> DrivingSchoolsCategories { get; set; } = null!;
 
+        public DbSet<Account> Accounts { get; set; } = null!;
+
+        public DbSet<Manager> Managers { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<User>(u =>
             {
-                u.Property(u => u.UserName).HasMaxLength(25);
+                u.Property(u => u.UserName).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedUserName).HasMaxLength(25);
                 u.Property(u => u.Email).HasMaxLength(25).IsRequired();
                 u.Property(u => u.NormalizedEmail).HasMaxLength(25);
-                u.Property(u => u.PhoneNumber).HasMaxLength(15).IsRequired();
-                u.Property(u => u.IsRegistered).HasDefaultValue(false);
+                u.Property(u => u.PhoneNumber).HasMaxLength(12).IsRequired();
                 u.Property(u => u.ImageUrl).HasDefaultValue("https://imgs.search.brave.com/G4V3oO6hyzU7zIFGh46tw2rNQQr1sCgN0b2sygyE3-Q/rs:fit:820:641:1/g:ce/aHR0cHM6Ly93d3cu/cG5na2l0LmNvbS9w/bmcvZGV0YWlsLzI4/MS0yODEyODIxX3Vz/ZXItYWNjb3VudC1t/YW5hZ2VtZW50LWxv/Z28tdXNlci1pY29u/LXBuZy5wbmc");
             });
 
-            builder.Entity<UserRole>(ur =>
+            builder.Entity<DrivingSchool>()
+               .Property(ds => ds.IsDeleted)
+               .HasDefaultValue(false);
+
+            builder.Entity<Account>(a =>
             {
-                ur.HasOne(ur => ur.User).WithMany(u => u.UsersRoles).HasForeignKey(ur => ur.UserId);
-                ur.HasOne(ur => ur.Role).WithMany(u => u.UsersRoles).HasForeignKey(ur => ur.RoleId);
+                a.Property(a => a.IsDeleted).HasDefaultValue(false);
+                a.HasOne(a => a.DrivingSchool).WithMany(ds => ds.Accounts);
+                a.HasOne(a => a.User).WithOne(u => u.Account).OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<InstructorCategory>()
@@ -65,6 +72,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data
             builder.Entity<Course>(c =>
             {
                 c.Property(c => c.StartDate).HasColumnType("date");
+                c.Property(c => c.IsDeleted).HasDefaultValue(false);
             });
 
             builder.Entity<StudentCard>(sc =>
@@ -72,12 +80,12 @@ namespace DrivingSchoolSystem.Infrastructure.Data
                 sc.Property(sc => sc.DrivedHours).HasDefaultValue(0);
                 sc.HasOne(sc => sc.Instructor).WithMany(i => i.StudentCards).OnDelete(DeleteBehavior.Restrict);
                 sc.HasOne(sc => sc.Student).WithMany(s => s.StudentCards).OnDelete(DeleteBehavior.Restrict);
+                sc.Property(sc => sc.IsDeleted).HasDefaultValue(false);
             });
 
-            builder.ApplyConfiguration(new DrivingSchoolConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new UserRoleConfiguration());
         }
     }

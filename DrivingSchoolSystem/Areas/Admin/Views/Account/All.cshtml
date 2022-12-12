@@ -1,5 +1,4 @@
-﻿@using DrivingSchoolSystem.Core.Models.Account
-@model IEnumerable<AccountModel>
+﻿@model IEnumerable<AccountModel>
 
 @{
     ViewData["Title"] = "Всички Акаунти";
@@ -15,9 +14,12 @@
             <div class="col-sm-6">
                 <h1>@ViewData["Title"]</h1>
             </div>
-            <div class="col-sm-6">
-                <a asp-area="" asp-controller="StudentCard" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави акаунт</span></a>
-            </div>
+            @if (User.IsInRole("Manager"))
+            {
+                <div class="col-sm-6">
+                    <a asp-area="" asp-controller="StudentCard" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави акаунт</span></a>
+                </div>
+            }
         </div>
     </div>
 
@@ -38,10 +40,13 @@
                     <td>@account.PhoneNumber</td>
                     <td>@account.RoleName</td>
                    <td>
-                    <a asp-area="Admin" asp-controller="Account" asp-action="Edit" 
-                    asp-route-id="@account.Id" class="edit">
-                        <i class="material-icons" title="Edit">&#xE254;</i>
-                    </a>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <a asp-area="Admin" asp-controller="Account" asp-action="Edit" 
+                        asp-route-id="@account.Id" class="edit">
+                            <i class="material-icons" title="Edit">&#xE254;</i>
+                        </a>                            
+                    }
                         <a href="#deleteEmployeeModal" onclick={SetDeleteUserId('@account.Id')} 
                         data-toggle="modal">
                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
