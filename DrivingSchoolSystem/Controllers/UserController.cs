@@ -12,6 +12,9 @@ using System.Text;
 
 namespace DrivingSchoolSystem.Controllers
 {
+    /// <summary>\
+    /// Controller for the logic of Registration and Authentication 
+    /// </summary>
     [Authorize]
     public class UserController : Controller
     {
@@ -52,8 +55,8 @@ namespace DrivingSchoolSystem.Controllers
 
             var user = await userManager.Users
                 .AsNoTracking()
-                .Include(u => u.Account)
-                .ThenInclude(a => a.DrivingSchool)
+                .Include(u => u.Account) //This is needed about cookie.
+                .ThenInclude(a => a.DrivingSchool) //This is needed about cookie.
                 .FirstOrDefaultAsync(u => u.NormalizedUserName == model.Username.ToUpper());
 
             if (user != null)
@@ -70,9 +73,11 @@ namespace DrivingSchoolSystem.Controllers
                             HttpOnly = true
                         };
 
+                        //Appending cookie "userFullName" needed for some views.
                         Response.Cookies
                             .Append("userFullName", $"{user.Account.FirstName} {user.Account.MiddleName} {user.Account.LastName}", option);
 
+                        //Appending cookie "userDrivingSchoolName" needed for some views.
                         Response.Cookies
                             .Append("userDrivingSchoolName", user.Account.DrivingSchool.Name);
                     }
@@ -90,12 +95,15 @@ namespace DrivingSchoolSystem.Controllers
         {
             await signInManager.SignOutAsync();
 
+            //Deleting unnecessary cookies.
             Response.Cookies.Delete("userFullName");
             Response.Cookies.Delete("userDrivingSchoolName");
 
             return RedirectToAction("Index", "Home");
         }
 
+        //This action is provided to user.
+        //He must input email which he provided to driving school and selected right driving school.
         [AllowAnonymous]
         [HttpGet]
         public IActionResult ProvidedEmail()
@@ -113,6 +121,7 @@ namespace DrivingSchoolSystem.Controllers
             return View(model);
         }
 
+        //This action is responding about whether user has account in driving school.
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ProvidedEmail(ProvidedEmailModel model)
@@ -149,6 +158,8 @@ namespace DrivingSchoolSystem.Controllers
             return View(model);
         }
 
+        //This action is provided to user.
+        //He must input right personal data for authentication.
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Register(string accountId)
@@ -158,6 +169,7 @@ namespace DrivingSchoolSystem.Controllers
                 return RedirectToPage("/Index");
             }
 
+            //Account who is created for specified person
             var account = await userService.GetByIdAsync(Guid.Parse(accountId));
 
             if (account == null)
@@ -179,6 +191,8 @@ namespace DrivingSchoolSystem.Controllers
             return View(model);
         }
 
+        //This action is responding about whether user data are same as account data.
+        //If data are same user is registered successful.
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -188,6 +202,7 @@ namespace DrivingSchoolSystem.Controllers
                 return View(model);
             }
 
+            // Get account by id with tracking
             var account = await userService.GetByIdAsync(model.AccountId);
 
             if (account == null)
@@ -195,6 +210,7 @@ namespace DrivingSchoolSystem.Controllers
                 return NotFound($"Не може да се намери акаунт с този това ID '{model.AccountId}'.");
             }
 
+            // Checking if the data matches
             if (!await userService.IsValidData(model))
             {
                 ModelState.AddModelError("", "Няма акаунт с тези лични данни! Моля въведете правилни лични данни!");
@@ -207,16 +223,19 @@ namespace DrivingSchoolSystem.Controllers
                 Email = account.Email,
                 UserName = model.Username,
                 PhoneNumber = model.PhoneNumber,
-                Account = account
+                Account = account // Relating user with provided account
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
+                // Adding claim "DrivingSchoolId" to user.
+                // It is is used to access only the own driving school.
                 var claim = new Claim("DrivingSchoolId", $"{account.DrivingSchoolId}");
                 var claimResult = await userManager.AddClaimAsync(user, claim);
 
+                // Adding user to role which is specified from account.
                 var roleResult = await userManager.AddToRoleAsync(user, account.Role.Name);
 
                 if (!claimResult.Succeeded || !roleResult.Succeeded)
@@ -226,6 +245,7 @@ namespace DrivingSchoolSystem.Controllers
                     return View(model);
                 }
 
+                // Marking account as registered.
                 await userService.RegisterAccount(account.Id);
 
                 return RedirectToAction("RegisterConfirmation", new { userId = user.Id});
@@ -241,7 +261,9 @@ namespace DrivingSchoolSystem.Controllers
             
         }
 
+        //This action displaying demonstration for register confirmation.
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> RegisterConfirmation(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -260,7 +282,9 @@ namespace DrivingSchoolSystem.Controllers
             return View();
         }
 
+        //This action displaying demonstration for confirmed email.
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> EmailConfirmed(string userId, string code)
         {
             var user = await userManager.FindByIdAsync(userId);
