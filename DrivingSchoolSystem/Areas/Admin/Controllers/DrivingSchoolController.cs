@@ -27,9 +27,11 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             var model = new AddDrivingSchoolModel();
+
+            model.DrivingSchool.EducationCategories = await drivingSchoolService.GetCategoriesAsync();
 
             return View(model);
         }
@@ -40,7 +42,6 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-
                 return View(model);
             }
 
@@ -66,15 +67,15 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> EditProfile()
-        //{
-        //    var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
 
-        //    model.EducationCategories = await drivingSchoolService.MarkDrivingSchoolCategoriesAsync(model.EducationCategories);
+            model.EducationCategories = await drivingSchoolService.MarkDrivingSchoolCategoriesAsync(model.EducationCategories);
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
 
         [HttpPost]

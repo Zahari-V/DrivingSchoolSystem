@@ -18,5 +18,7 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
             MarkDrivingSchoolCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
 
         Task EditInfoAsync(DrivingSchoolModel model);
+
+        Task<List<CategoryModel>> GetCategoriesAsync();
     }
 }

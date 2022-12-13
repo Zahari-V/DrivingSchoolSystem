@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DrivingSchoolSystem.Core.Models.Category
+﻿namespace DrivingSchoolSystem.Core.Models.Category
 {
     public class CategoryModel
     {

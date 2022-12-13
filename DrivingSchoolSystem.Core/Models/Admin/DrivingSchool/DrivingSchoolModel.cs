@@ -22,6 +22,6 @@ namespace DrivingSchoolSystem.Core.Models.Admin.DrivingSchool
         [StringLength(15)]
         public string? PhoneContact { get; set; }
 
-        //public List<CategoryModel> EducationCategories { get; set; } = null!;
+        public List<CategoryModel> EducationCategories { get; set; } = new List<CategoryModel>();
     }
 }

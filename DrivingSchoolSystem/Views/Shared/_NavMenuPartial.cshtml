@@ -48,24 +48,22 @@
                             Курсове
                         </a>
                     </li>
-                    @if (User.IsInRole("Manager"))
-                    {
-                        <li>
+                    <li>
+                        @if (User.IsInRole("Manager"))
+                        {
                             <a class="dropdown-item" asp-area="Admin" 
                             asp-controller="DrivingSchool" asp-action="Profile">
                                 Автошколa
                             </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>
+                        }
+                        else
+                        {
                             <a class="dropdown-item" asp-area="Admin" 
                             asp-controller="DrivingSchool" asp-action="All">
                                 Автошколи
                             </a>
-                        </li>
-                    }
+                        }
+                    </li>
                 </ul>
             </li>
         }

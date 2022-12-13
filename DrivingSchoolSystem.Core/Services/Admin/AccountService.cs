@@ -23,13 +23,15 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             return context.Accounts
                 .AsNoTracking()
                 .Include(a => a.Role)
+                .Include(a => a.DrivingSchool)
                 .Where(a => isAdmin ? !a.IsDeleted : a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted)
                 .Select(a => new AccountModel()
                 {
                     Id = a.Id.ToString(),
                     FullName = $"{a.FirstName} {a.MiddleName} {a.LastName}",
                     RoleName = ConvertRoleNameToBulgarianLang(a.Role.Name),
-                    PhoneNumber = a.PhoneNumber
+                    PhoneNumber = a.PhoneNumber,
+                    DrivingSchoolName = isAdmin ? a.DrivingSchool.Name : null
                 });
         }
 

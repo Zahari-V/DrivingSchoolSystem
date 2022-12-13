@@ -27,6 +27,10 @@
         <thead>
             <tr>
                 <th>Име</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Автошкола</th>
+                }
                 <th>Телефон</th>
                 <th>Длъжност</th>
                 <th></th>
@@ -37,6 +41,10 @@
             {
                 <tr>
                     <td>@account.FullName</td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>@account.DrivingSchoolName</td>
+                    }
                     <td>@account.PhoneNumber</td>
                     <td>@account.RoleName</td>
                    <td>
@@ -47,9 +55,20 @@
                             <i class="material-icons" title="Edit">&#xE254;</i>
                         </a>                            
                     }
-                        <a href="#deleteEmployeeModal" onclick={SetDeleteUserId('@account.Id')} 
-                        data-toggle="modal">
-                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    @if (!User.IsInRole("Manager"))
+                    {
+                            <a href="#deleteEmployeeModal" onclick={SetDeleteUserId('@account.Id')}
+                    data-toggle="modal">
+                                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                            </a>
+                    }
+                    else @if (!(@account.RoleName == "Мениджър"))
+                    {
+                        <a href="#deleteEmployeeModal" onclick={SetDeleteUserId('@account.Id')}
+                data-toggle="modal">
+                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                        </a>
+                    }
                     </td>
                 </tr>
             }

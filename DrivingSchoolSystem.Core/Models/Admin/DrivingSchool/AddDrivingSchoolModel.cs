@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.Admin.DrivingSchool
 {
     public class AddDrivingSchoolModel
     {
+        public AddDrivingSchoolModel()
+        {
+            DrivingSchool = new DrivingSchoolModel();
+        }
+
         [Required]
         public DrivingSchoolModel DrivingSchool { get; set; } = null!;
 

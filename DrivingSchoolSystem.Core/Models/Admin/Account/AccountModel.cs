@@ -9,5 +9,7 @@
         public string RoleName { get; set; } = null!;
 
         public string PhoneNumber { get; set; } = null!;
+
+        public string? DrivingSchoolName { get; set; }
     }
 }

@@ -16,6 +16,13 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("Manager"))
+            {
+                ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
+                ViewBag.UserFullName = Request.Cookies["userFullName"];
+                ViewBag.Role = User.BulgarianRoleName();
+            }
+
             return View();
         }
     }

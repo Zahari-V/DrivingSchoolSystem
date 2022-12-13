@@ -18,6 +18,11 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
         public async Task AddAsync(AddDrivingSchoolModel model)
         {
+            if (await context.DrivingSchools.AnyAsync(ds => ds.Name == model.DrivingSchool.Name))
+            {
+                throw new ArgumentException("Already has driving school with this name!");
+            }
+
             var drivingSchool = new DrivingSchool()
             {
                 Name = model.DrivingSchool.Name,
@@ -27,6 +32,16 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             };
 
             await context.DrivingSchools.AddAsync(drivingSchool);
+
+            var drivingSchoolCategories = model.DrivingSchool.EducationCategories
+                .Where(ec => ec.IsMarked)
+                .Select(ec => new DrivingSchoolCategory()
+                {
+                    CategoryId = ec.Id,
+                    DrivingSchool = drivingSchool
+                });
+
+            await context.DrivingSchoolsCategories.AddRangeAsync(drivingSchoolCategories);
 
             var account = new Account()
             {
@@ -63,32 +78,32 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             drivingSchool.PhoneContact = model.PhoneContact;
             drivingSchool.Address = model.Address;
 
-            //foreach (var category in model.EducationCategories)
-            //{
-            //    var isEducationCategory = drivingSchool
-            //        .EducationCategories.Any(ec => ec.CategoryId == category.Id);
+            foreach (var category in model.EducationCategories)
+            {
+                var isEducationCategory = drivingSchool
+                    .EducationCategories.Any(ec => ec.CategoryId == category.Id);
 
-            //    if (category.IsMarked)
-            //    {
-            //        if (!isEducationCategory)
-            //        {
-            //            var drivingSchoolCategory = new DrivingSchoolCategory()
-            //            {
-            //                DrivingSchoolId = drivingSchool.Id,
-            //                CategoryId = category.Id
-            //            };
+                if (category.IsMarked)
+                {
+                    if (!isEducationCategory)
+                    {
+                        var drivingSchoolCategory = new DrivingSchoolCategory()
+                        {
+                            DrivingSchoolId = drivingSchool.Id,
+                            CategoryId = category.Id
+                        };
 
-            //            await context.DrivingSchoolsCategories.AddAsync(drivingSchoolCategory);
-            //        }
-            //    }
-            //    else if (isEducationCategory)
-            //    {
-            //        var educationCategory = drivingSchool.EducationCategories
-            //            .First(dsc => dsc.CategoryId == category.Id);
+                        await context.DrivingSchoolsCategories.AddAsync(drivingSchoolCategory);
+                    }
+                }
+                else if (isEducationCategory)
+                {
+                    var educationCategory = drivingSchool.EducationCategories
+                        .First(dsc => dsc.CategoryId == category.Id);
 
-            //        context.DrivingSchoolsCategories.Remove(educationCategory);
-            //    }
-            //}
+                    context.DrivingSchoolsCategories.Remove(educationCategory);
+                }
+            }
 
             await context.SaveChangesAsync();
         }
@@ -108,6 +123,19 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 });
         }
 
+        public async Task<List<CategoryModel>> GetCategoriesAsync()
+        {
+            return await context.Categories
+                .AsNoTracking()
+                .Select(ec => new CategoryModel()
+                {
+                    Id = ec.Id,
+                    Name = ec.Name,
+                    IsMarked = false
+                })
+                .ToListAsync();
+        }
+
         public async Task<DrivingSchoolModel> GetInfoByIdAsync(int drivingSchoolId)
         {
             var drivingSchool = await context.DrivingSchools
@@ -123,13 +151,13 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 Town = drivingSchool.Town,
                 Address = drivingSchool.Address,
                 PhoneContact = drivingSchool.PhoneContact,
-                //EducationCategories = drivingSchool.EducationCategories
-                //.Select(ec => new CategoryModel()
-                //{
-                //    Id = ec.Category.Id,
-                //    Name = ec.Category.Name
-                //    //ImageUrl = ec.Category.ImageUrl
-                //}).ToList()
+                EducationCategories = drivingSchool.EducationCategories
+                .Select(ec => new CategoryModel()
+                {
+                    Id = ec.Category.Id,
+                    Name = ec.Category.Name
+                    //ImageUrl = ec.Category.ImageUrl
+                }).ToList()
             };
 
             return model;

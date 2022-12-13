@@ -8,10 +8,10 @@
 
 ![DatabaseDiagramDrivingSchoolApp](https://user-images.githubusercontent.com/117441759/207171108-75a6d28e-c6be-43e3-88ac-459aa427178d.PNG)
 
-- ### Account Entity:
+- ### Account Entity
 Contains the business logic required for driving school accounts.
 
-- ### Roles:
+- ### Roles
 1.Admin: Administrator of application (App has only one administrator) => Username: "Admin", Password: "user123"
 
 2.Manager: Manager of driving school (Driving school has only one manager)

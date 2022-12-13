@@ -4,7 +4,16 @@
 
 <div class="align-self-stretch h-100">
     <div>
-        <h1>Администратор на приложението</h1>
+        @if (User.IsInRole("Manager"))
+        {
+            <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
+            <br />
+            <h1>@ViewBag.Role: @ViewBag.UserFullName</h1>
+        }
+        else
+        {
+            <h1>Администратор на приложението</h1>                
+        }
     </div>
 
     <div class="container mt-5 overflow-hidden">
@@ -23,10 +32,20 @@
                 </a>
             </div>
             <div class="col nav-div bg-danger p-5 ms-4">
-                <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="All">
-                    <p>Автошкола</p>
-                    <img src="/images/icons/driving-school.png" alt="Driving School Icon" />
-                </a>
+                @if (User.IsInRole("Manager"))
+                {
+                    <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile">
+                        <p>Автошкола</p>
+                        <img src="/images/icons/driving-school.png" alt="Driving School Icon" />
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="All">
+                        <p>Автошколи</p>
+                        <img src="/images/icons/driving-school.png" alt="Driving School Icon" />
+                    </a>
+                }
             </div>
         </div>
     </div>

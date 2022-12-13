@@ -5,17 +5,16 @@
     ViewBag.GenerateId = 0;
 }
 
-<div class="w-100 mb-auto mt-auto">
-
+<div class="mb-auto mt-auto w-80">
     <h1 class="text-center">@ViewData["Title"]</h1>
 
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <form id="registerForm" asp-area="Admin" asp-controller="DrivingSchool" 
-            asp-action="Add" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div>
+    <form id="registerForm" asp-area="Admin" asp-controller="DrivingSchool" 
+    asp-action="Add" method="post">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container w-100">
+            <div class="row justify-content-center">
+                <div class="col me-2">
                     <h2>Автошкола</h2>
                     <div class="text-center mb-3">
                         <label asp-for="@Model.DrivingSchool.Name">Име на автошколата</label>
@@ -37,8 +36,20 @@
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.PhoneContact" />
                         <span asp-validation-for="@Model.DrivingSchool.PhoneContact" class="text-danger"></span>
                     </div>
+                    <div class="d-flex flex-column">
+                        <label asp-for="@Model.DrivingSchool.EducationCategories"></label>
+                        @for (int i = 0; i < @Model.DrivingSchool.EducationCategories.Count(); i++)
+                        {
+                            <input asp-for="@Model.DrivingSchool.EducationCategories[i].IsMarked">
+                            <label asp-for="@Model.DrivingSchool.EducationCategories[i].IsMarked">
+                                @Model.DrivingSchool.EducationCategories[i].Name
+                            </label>
+                            <input type="hidden" asp-for="@Model.DrivingSchool.EducationCategories[i].Id" />
+                            <input type="hidden" asp-for="@Model.DrivingSchool.EducationCategories[i].Name" />
+                        }
+                    </div>
                 </div>
-                <div>
+                <div class="col-6 ms-2">
                     <h2>Мениджър на автошколата</h2>
                     <div class="text-center mb-3">
                     <label asp-for="@Model.Manager.Email">Имейл</label>
@@ -66,15 +77,15 @@
                         <span asp-validation-for="@Model.Manager.PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="text-center">
-                    <button id="registerSubmit" type="submit" class="btn btn-primary">
-                        Добави
-                    </button>
-                </div>
-                <hr/>
-            </form>
+            </div>
+            <div class="text-center">
+                <button id="registerSubmit" type="submit" class="btn btn-primary">
+                    Добави
+                </button>
+            </div>
         </div>
-    </div>
+        <hr/>
+    </form>
 </div>
 
 @section Scripts {
