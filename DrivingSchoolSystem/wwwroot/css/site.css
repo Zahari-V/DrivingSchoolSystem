@@ -99,6 +99,10 @@ table.table td a {
         border-radius: 10px;
     }
 
+    table.table td a.info {
+        color: #0058ff;
+    }
+
     table.table td a.edit {
         color: #ff1100;
     }

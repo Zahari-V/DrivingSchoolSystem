@@ -12,13 +12,15 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
 
         Task<string> GetNameByIdAsync(int drivingSchoolId);
 
-        Task<DrivingSchoolModel> GetInfoByIdAsync(int drivingSchoolId);
+        Task<DrivingSchoolModel> GetByIdAsync(int drivingSchoolId);
 
         Task<List<CategoryModel>>
-            MarkDrivingSchoolCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
+            MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
 
-        Task EditInfoAsync(DrivingSchoolModel model);
+        Task EditAsync(DrivingSchoolModel model);
 
         Task<List<CategoryModel>> GetCategoriesAsync();
+
+        Task DeleteAsync(int drivingSchoolId);
     }
 }

@@ -34,7 +34,8 @@
             <div class="col nav-div bg-danger p-5 ms-4">
                 @if (User.IsInRole("Manager"))
                 {
-                    <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile">
+                    <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Info" 
+                    asp-route-id="@User.DrivingSchoolId()">
                         <p>Автошкола</p>
                         <img src="/images/icons/driving-school.png" alt="Driving School Icon" />
                     </a>

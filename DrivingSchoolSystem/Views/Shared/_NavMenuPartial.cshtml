@@ -51,8 +51,8 @@
                     <li>
                         @if (User.IsInRole("Manager"))
                         {
-                            <a class="dropdown-item" asp-area="Admin" 
-                            asp-controller="DrivingSchool" asp-action="Profile">
+                            <a class="dropdown-item" asp-area="Admin"  asp-controller="DrivingSchool" 
+                            asp-action="Info" asp-route-id="@User.DrivingSchoolId()">
                                 Автошколa
                             </a>
                         }

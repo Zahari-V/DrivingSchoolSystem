@@ -48,6 +48,10 @@
                     <td>@account.PhoneNumber</td>
                     <td>@account.RoleName</td>
                    <td>
+                        <a asp-area="Admin" asp-controller="Account" asp-action="Info"
+                       asp-route-id="@account.Id" class="info">
+                            <i class="material-icons" title="Info">&#xf05a;</i>
+                        </a>
                     @if (User.IsInRole("Manager"))
                     {
                         <a asp-area="Admin" asp-controller="Account" asp-action="Edit" 

@@ -67,7 +67,20 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             await context.SaveChangesAsync();
         }
 
-        public async Task EditInfoAsync(DrivingSchoolModel model)
+        public async Task DeleteAsync(int drivingSchoolId)
+        {
+            var drivingSchool = await context.DrivingSchools.FindAsync(drivingSchoolId);
+
+            if (drivingSchool == null)
+            {
+                throw new NullReferenceException("Driving School cannot find!");
+            }
+
+            drivingSchool.IsDeleted = true;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(DrivingSchoolModel model)
         {
             var drivingSchool = await context.DrivingSchools
                 .Include(ds => ds.EducationCategories)
@@ -136,7 +149,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .ToListAsync();
         }
 
-        public async Task<DrivingSchoolModel> GetInfoByIdAsync(int drivingSchoolId)
+        public async Task<DrivingSchoolModel> GetByIdAsync(int drivingSchoolId)
         {
             var drivingSchool = await context.DrivingSchools
                 .AsNoTracking()
@@ -156,7 +169,6 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 {
                     Id = ec.Category.Id,
                     Name = ec.Category.Name
-                    //ImageUrl = ec.Category.ImageUrl
                 }).ToList()
             };
 
@@ -172,12 +184,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             return drivingSchool.Name;
         }
 
-        public Task<string> GetRoleManagerId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<CategoryModel>> MarkDrivingSchoolCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
+        public async Task<List<CategoryModel>> MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
         {
             var categories = await context.Categories
                .AsNoTracking()
@@ -185,7 +192,6 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                {
                    Id = c.Id,
                    Name = c.Name
-                   //ImageUrl = c.ImageUrl
                }).ToListAsync();
 
             foreach (var category in categories)

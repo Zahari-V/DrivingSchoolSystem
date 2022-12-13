@@ -1,6 +1,8 @@
 ﻿using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.DrivingSchool;
+using DrivingSchoolSystem.Core.Services.Admin;
 using DrivingSchoolSystem.Extensions;
+using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -60,26 +62,27 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Info(int id)
         {
-            var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
+            var model = await drivingSchoolService.GetByIdAsync(id);
 
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditProfile()
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = await drivingSchoolService.GetInfoByIdAsync(User.DrivingSchoolId());
+            var model = await drivingSchoolService.GetByIdAsync(id);
 
-            model.EducationCategories = await drivingSchoolService.MarkDrivingSchoolCategoriesAsync(model.EducationCategories);
+            model.EducationCategories = await drivingSchoolService
+                .MarkCategoriesAsync(model.EducationCategories);
 
             return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(DrivingSchoolModel model)
+        public async Task<IActionResult> Edit(DrivingSchoolModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -88,7 +91,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             try
             {
-                await drivingSchoolService.EditInfoAsync(model);
+                await drivingSchoolService.EditAsync(model);
 
                 return RedirectToAction("Profile");
 
@@ -98,6 +101,22 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
                 ModelState.AddModelError("", ex.Message);
 
                 return View(model);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await drivingSchoolService.DeleteAsync(id);
+
+                return RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                return NotFound("Нещо се обърка!!!");
             }
         }
 

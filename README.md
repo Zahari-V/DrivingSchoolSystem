@@ -25,3 +25,19 @@ Contains the business logic required for driving school accounts.
 - CRUD operations on Driving Schools, Accounts, Courses and Student Cards
 
 - Registration and Authentication logic are described with comments in [DrivingSchoolSystem/Controllers/UserController.cs](https://github.com/Zahari-V/DrivingSchoolSystem/blob/master/DrivingSchoolSystem/Controllers/UserController.cs)
+
+## Test Application
+
+1.Login with ADMIN profile.
+
+2.Create driving school in Admin/DrivingSchool/Add.
+
+3.Must register manager of driving school with data which provided in adding driving school.
+
+4.Login with manager which you registered.
+
+5.You can add Account(Instructor or Student) and register with this Account. Also you can add Courses.
+
+6.With the registered Accounts you can test functionality of application.
+
+# !!!Application is not finished.

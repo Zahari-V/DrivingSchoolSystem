@@ -41,7 +41,11 @@
                     <td>@drivingSchool.Town</td>
                     <td>@drivingSchool.Address</td>
                     <td>@drivingSchool.PhoneContact</td>
-                   <td>
+                    <td class="d-flex">
+                        <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Info"
+                        asp-route-id="@drivingSchool.Id" class="info">
+                            <i class="material-icons" title="Info">&#xf05a;</i>
+                        </a>
                         <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Edit"
                         asp-route-id="@drivingSchool.Id" class="edit">
                             <i class="material-icons" title="Edit">&#xE254;</i>
@@ -71,7 +75,7 @@
                     <p class="text-warning"><small>Това действие не може да бъде отменено.</small></p>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="deleteDrivingSchool"/>
+                    <input type="hidden" name="id" id="deleteDrivingSchool"/>
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Отмени">
                     <input type="submit" id="deleteBtn" class="btn btn-danger" value="Изтрии">
                 </div>
