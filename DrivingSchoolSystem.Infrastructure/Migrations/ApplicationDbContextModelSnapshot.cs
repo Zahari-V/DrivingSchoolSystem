@@ -86,7 +86,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Category", b =>
@@ -109,7 +109,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -199,7 +199,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", b =>
@@ -236,7 +236,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DrivingSchools");
+                    b.ToTable("DrivingSchools", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchoolCategory", b =>
@@ -251,7 +251,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("DrivingSchoolsCategories");
+                    b.ToTable("DrivingSchoolsCategories", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Instructor", b =>
@@ -269,7 +269,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Instructors");
+                    b.ToTable("Instructors", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.InstructorCategory", b =>
@@ -284,7 +284,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("InstructorsCategories");
+                    b.ToTable("InstructorsCategories", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Manager", b =>
@@ -302,7 +302,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Managers");
+                    b.ToTable("Managers", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Schedule", b =>
@@ -328,7 +328,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("StudentCardId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Student", b =>
@@ -346,7 +346,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.StudentCard", b =>
@@ -384,7 +384,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCards");
+                    b.ToTable("StudentCards", (string)null);
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
@@ -471,16 +471,16 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                             Id = "5b837013-946c-406e-8fce-9631c2844350",
                             AccessFailedCount = 0,
                             AccountId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            ConcurrencyStamp = "ea980200-c065-4473-8b62-f8c48a143771",
+                            ConcurrencyStamp = "819dd118-216a-4f36-834a-03bc364b2cff",
                             Email = "admin@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKDjXPKds8NRMqLd0XgdAWEqbA++7KVXVMSTzwgwXeiQIK8sMhCOxQ0Kx5Ngb85BtA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE4JftnacLw73oLVCKDGpbQC3t78tqmfYVS5z9qCsuE4oFnKamT4Klx2AUteCfthPQ==",
                             PhoneNumber = "0889324353",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ccce128-a89d-4334-be8b-a1607edb9100",
+                            SecurityStamp = "af275ac1-160c-4288-89a9-f0219a84ab57",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -516,28 +516,28 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         new
                         {
                             Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "78508b03-0703-4f5f-9ed1-9267f32496ce",
+                            ConcurrencyStamp = "7bbdb3cf-ab03-4e41-ae0a-77d8295fb3a5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "bb5064e1-446e-425d-bf85-3b1d0ec2ed89",
+                            ConcurrencyStamp = "d3833b6f-6c54-4312-accd-e255eb44f6bc",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         },
                         new
                         {
                             Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "8ad3b721-3e09-4d76-ae8c-4f6ac440d675",
+                            ConcurrencyStamp = "e1403a79-53ac-4547-afad-15d2a30bacfa",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "f33ee30d-f3c5-4243-b4b8-a7fa240c3707",
-                            ConcurrencyStamp = "e7b736f7-e95e-47da-8c7e-af3d90ecc5ed",
+                            ConcurrencyStamp = "f802042f-5de8-43c2-b61f-dcd91e85bc1d",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });

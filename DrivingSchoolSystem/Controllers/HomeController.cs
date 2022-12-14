@@ -28,20 +28,20 @@ namespace DrivingSchoolSystem.Controllers
 
         public IActionResult About() => View();
 
-        [Route("/AccessDenied")]
+        [Route("Error/AccessDenied")]
         public IActionResult AccessDenied() => View();
 
-        [Route("Error/404")]
-        public IActionResult Error404(string message = "Не е намерено")
+        [Route("Error/{code:int}")]
+        public IActionResult Error(int? code = null)
         {
-            ViewBag.Message = message;
-            return View("Error404");
-        }
-
-        [Route("error/{code:int}")]
-        public IActionResult Error(int code)
-        {
-            // handle different codes or just return the default error view
+            if (code.HasValue)
+            {
+                if (code == StatusCodes.Status404NotFound)
+                {
+                    return View("Error404");
+                }
+            }
+            
             return View(new ErrorViewModel());
         }
     }

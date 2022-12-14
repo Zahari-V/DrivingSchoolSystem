@@ -4,7 +4,54 @@
     ViewData["Title"] = "Редактиране - Автошкола Профил";
 }
 
-<div class="align-self-stretch">
+<div class="align-self-stretch w-80">
+    <div class="text-start mt-3 bg-danger p-3">
+        <form method="post" asp-area="Admin" asp-controller="DrivingSchool" asp-action="Edit">
+            <div class="bg-warning p-3">
+                <h1 class="text-center">@ViewData["Title"]</h1>
+                <hr/>
+                <input type="hidden" asp-for="@Model.Id" />
+                <div class="mb-3 fs-5 ">
+                    <label class="fw-bold" asp-for="@Model.Name">Име: </label>
+                    <input asp-for="@Model.Name" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.Town">Град: </label>
+                    <input asp-for="@Model.Town" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.Address">Адрес: </label>
+                    <input asp-for="@Model.Address" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.PhoneContact">Контакт: </label>
+                    <input asp-for="@Model.PhoneContact" />
+                </div>
+                <div class="mb-2 fs-5">
+                    <label class="fw-bold" asp-for="@Model.EducationCategories">Обучаващи категории: </label>
+                    @for (int i = 0; i < @Model.EducationCategories.Count(); i++)
+                    {
+                        <span class="d-block">
+                            <input asp-for="@Model.EducationCategories[i].IsMarked">
+                            <label asp-for="@Model.EducationCategories[i].IsMarked">
+                                @Model.EducationCategories[i].Name
+                            </label>
+                        </span>
+                        <input type="hidden" asp-for="@Model.EducationCategories[i].Id" />
+                        <input type="hidden" asp-for="@Model.EducationCategories[i].Name" />
+                    }
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">
+                        Запази Промените
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*<div class="align-self-stretch">
     <h1>@ViewData["Title"]</h1>
     <hr />
     <form method="post" asp-area="Admin" asp-controller="DrivingSchool" asp-action="EditProfile">
@@ -39,4 +86,4 @@
             Запази Промените
         </button>
     </form>
-</div>
+</div>*@

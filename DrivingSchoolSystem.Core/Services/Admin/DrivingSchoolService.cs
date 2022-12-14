@@ -69,7 +69,10 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
         public async Task DeleteAsync(int drivingSchoolId)
         {
-            var drivingSchool = await context.DrivingSchools.FindAsync(drivingSchoolId);
+            var drivingSchool = await context.DrivingSchools
+                                    .Include(ds => ds.Accounts)
+                                    .ThenInclude(a => a.Role)
+                                    .FirstOrDefaultAsync(ds => ds.Id == drivingSchoolId);
 
             if (drivingSchool == null)
             {
@@ -77,6 +80,30 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             }
 
             drivingSchool.IsDeleted = true;
+
+            foreach (var account in drivingSchool.Accounts)
+            {
+                account.IsDeleted = true;
+            }
+
+            var managerAccountId = drivingSchool.Accounts.First(a => a.Role.NormalizedName == "MANAGER").Id;
+
+            var manager = await context.Managers
+                .Include(m => m.Courses)
+                .ThenInclude(c => c.StudentCards)
+                .FirstAsync(m => 
+                    m.AccountId == managerAccountId);
+
+            foreach (var course in manager.Courses)
+            {
+                course.IsDeleted = true;
+
+                foreach (var studentCard in course.StudentCards)
+                {
+                    studentCard.IsDeleted = true;
+                }
+            }
+
             await context.SaveChangesAsync();
         }
 

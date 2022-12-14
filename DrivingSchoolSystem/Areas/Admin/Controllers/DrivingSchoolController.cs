@@ -64,6 +64,11 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Info(int id)
         {
+            if (User.IsInRole("Manager") && id != User.DrivingSchoolId())
+            {
+                return Redirect("/Error/AccessDenied");
+            }
+
             var model = await drivingSchoolService.GetByIdAsync(id);
 
             return View(model);
@@ -72,6 +77,11 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (User.IsInRole("Manager") && id != User.DrivingSchoolId())
+            {
+                return Redirect("/Error/AccessDenied");
+            }
+
             var model = await drivingSchoolService.GetByIdAsync(id);
 
             model.EducationCategories = await drivingSchoolService
@@ -89,11 +99,16 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
                 return View(model);
             }
 
+            if (User.IsInRole("Manager") && model.Id != User.DrivingSchoolId())
+            {
+                return Redirect("/Error/AccessDenied");
+            }
+
             try
             {
                 await drivingSchoolService.EditAsync(model);
 
-                return RedirectToAction("Profile");
+                return RedirectToAction("Info", new { id = model.Id});
 
             }
             catch (Exception ex)
@@ -116,7 +131,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                return Redirect($"/error/404");
+                return NotFound();
             }
         }
 

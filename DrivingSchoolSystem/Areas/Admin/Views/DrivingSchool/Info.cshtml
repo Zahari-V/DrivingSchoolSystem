@@ -8,6 +8,7 @@
     <div class="text-start mt-3 bg-danger p-3">
         <div class="bg-warning p-3">
             <h1 class="text-center">@ViewData["Title"]</h1>
+            <hr />
             <div class="mb-3 fs-5 ">
                 <label class="fw-bold" asp-for="@Model.Name">Име: </label>
                 <span class="ml-2">@Model.Name</span>
@@ -26,13 +27,20 @@
             </div>
             <div class="mb-2 fs-5">
                 <label class="fw-bold" asp-for="@Model.EducationCategories">Обучаващи категории: </label>
-                @foreach (var category in Model.EducationCategories)
+                @if (Model.EducationCategories.Count > 0)
                 {
-                    <span class="ml-2 d-block">@category.Name</span>                        
+                    foreach (var category in Model.EducationCategories)
+                    {
+                        <span class="ml-2 d-block">@category.Name</span>
+                    }
+                }
+                else
+                {
+                    <span class="ml-2 d-block">Автошколата няма обучаващи категории</span>
                 }
             </div>
             <div class="text-end">
-                <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Profile"
+                <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Edit"
                    asp-route-id="@Model.Id" class="btn btn-success">Редактирай</a>
                 <a href="#deleteEmployeeModal" onclick={SetDeleteDrivingSchoolId('@Model.Id')}
                    data-toggle="modal" class="btn btn-danger">Изтрии</a>
@@ -52,6 +60,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Сигурени ли сте че искате да изтриете автошколата?</p>
+                    <p>Всички акаунти, курсове, ученически талони на автошколата, също ще бъдат изтрити!!!</p>
                     <p class="text-warning"><small>Това действие не може да бъде отменено.</small></p>
                 </div>
                 <div class="modal-footer">
