@@ -1,4 +1,5 @@
 ﻿using DrivingSchoolSystem.Extensions;
+using DrivingSchoolSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchoolSystem.Controllers
@@ -25,19 +26,23 @@ namespace DrivingSchoolSystem.Controllers
             return View();
         }
 
-        //public IActionResult System()
-        //{
-        //    if (User.IsInRole("Admin"))
-        //    {
-        //        return RedirectToAction("Index", "Home", new { area = "Admin" });
-        //    }
+        public IActionResult About() => View();
 
-        //    return View();
-        //}
+        [Route("/AccessDenied")]
+        public IActionResult AccessDenied() => View();
 
-        public IActionResult About()
+        [Route("Error/404")]
+        public IActionResult Error404(string message = "Не е намерено")
         {
-            return View();
+            ViewBag.Message = message;
+            return View("Error404");
+        }
+
+        [Route("error/{code:int}")]
+        public IActionResult Error(int code)
+        {
+            // handle different codes or just return the default error view
+            return View(new ErrorViewModel());
         }
     }
 }

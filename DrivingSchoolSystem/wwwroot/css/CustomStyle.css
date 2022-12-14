@@ -116,3 +116,7 @@ div.functional-menu a {
 .student-card-img {
     height: 350px;
 }
+
+.ms-10 {
+    margin-left: 40px;
+}

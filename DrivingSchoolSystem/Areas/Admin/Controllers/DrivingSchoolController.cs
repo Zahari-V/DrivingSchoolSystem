@@ -116,7 +116,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                return NotFound("Нещо се обърка!!!");
+                return Redirect($"/error/404");
             }
         }
 
