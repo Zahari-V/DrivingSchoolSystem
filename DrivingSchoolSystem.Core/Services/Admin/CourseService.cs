@@ -16,7 +16,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             context = _context;
         }
 
-        public async Task AddCourseAsync(AddCourseModel model)
+        public async Task AddAsync(CourseServiceModel model)
         {
             var course = new Course()
             {
@@ -32,7 +32,9 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
         public async Task DeleteCourseAsync(int courseId)
         {
-            var course = await context.Courses.FindAsync(courseId);
+            var course = await context.Courses
+                .Include(c => c.StudentCards)
+                .FirstAsync(c => c.Id == courseId);
 
             if (course == null)
             {
@@ -40,16 +42,22 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             }
 
             course.IsDeleted = true;
+
+            foreach (var studentCard  in course.StudentCards)
+            {
+                studentCard.IsDeleted = true;
+            }
+
             await context.SaveChangesAsync();
         }
 
-        public async Task<EditCourseModel> GetEditModelByIdAsync(int courseId)
+        public async Task<CourseServiceModel> GetByIdAsync(int courseId)
         {
             var course = await context.Courses
                 .AsNoTracking()
                 .FirstAsync(c => c.Id == courseId);
 
-            return new EditCourseModel()
+            return new CourseServiceModel()
             {
                 Id = course.Id,
                 StartDate = course.StartDate,
@@ -57,23 +65,21 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             };
         }
 
-        public IEnumerable<CourseModel> GetAllCourses(int drivingSchoolId, string role)
+        public IEnumerable<CourseViewModel> GetAll(int drivingSchoolId, string role)
         {
             var isAdmin = role.ToUpper() == "ADMIN";
 
             return context.Courses
                 .AsNoTracking()
                 .Include(c => c.Manager)
-                .ThenInclude(m => m.Account)
+                .Include(c => c.Manager.Account.DrivingSchool)
                 .Include(c => c.Category)
                 .Where(c => isAdmin ? !c.IsDeleted :
-                c.Manager.Account.DrivingSchoolId == drivingSchoolId && !c.IsDeleted)
-                .OrderByDescending(c => c.Id)
-                .Select(c => new CourseModel()
+                c.Manager.Account.DrivingSchool.Id == drivingSchoolId && !c.IsDeleted)
+                .Select(c => new CourseViewModel()
                 {
                     Id = c.Id,
-                    AdminFullName = $"{c.Manager.Account.FirstName} {c.Manager.Account.MiddleName} {c.Manager.Account.LastName}",
-                    AdminPhone = c.Manager.Account.PhoneNumber,
+                    DrivingSchoolName = isAdmin ? c.Manager.Account.DrivingSchool.Name : null,
                     CreatedOn = c.CreatedOn,
                     StartDate = c.StartDate.ToString("dd/MM/yyyy"),
                     CategoryName = c.Category.Name
@@ -96,7 +102,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 }).ToList();
         }
 
-        public async Task EditAsync(EditCourseModel model)
+        public async Task EditAsync(CourseServiceModel model)
         {
             var course = await context.Courses.FindAsync(model.Id);
 

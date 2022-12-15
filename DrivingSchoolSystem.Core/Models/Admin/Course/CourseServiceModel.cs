@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.Admin.Course
 {
-    public class AddCourseModel
+    public class CourseServiceModel
     {
+        public int? Id { get; set; }
+
         [Required]
         public int ManagerId { get; set; }
 

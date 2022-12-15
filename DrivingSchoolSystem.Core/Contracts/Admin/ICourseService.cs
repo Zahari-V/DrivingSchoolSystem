@@ -5,17 +5,17 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
 {
     public interface ICourseService
     {
-        IEnumerable<CourseModel> GetAllCourses(int drivingSchoolId, string role);
+        IEnumerable<CourseViewModel> GetAll(int drivingSchoolId, string role);
 
-        Task AddCourseAsync(AddCourseModel model);
+        Task AddAsync(CourseServiceModel model);
 
         Task<IEnumerable<CategoryModel>> GetEducationCategoriesAsync(int drivingSchoolId);
 
         Task DeleteCourseAsync(int courseId);
 
-        Task<EditCourseModel> GetEditModelByIdAsync(int courseId);
+        Task<CourseServiceModel> GetByIdAsync(int courseId);
 
-        Task EditAsync(EditCourseModel model);
+        Task EditAsync(CourseServiceModel model);
 
         Task<int> GetManagerIdAsync(string userId);
     }

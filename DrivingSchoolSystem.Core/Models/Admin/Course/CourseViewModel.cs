@@ -2,16 +2,13 @@
 
 namespace DrivingSchoolSystem.Core.Models.Admin.Course
 {
-    public class CourseModel
+    public class CourseViewModel
     {
         public int Id { get; set; }
 
+        public string? DrivingSchoolName { get; set; }
+
         public string CategoryName { get; set; } = null!;
-
-        public string AdminFullName { get; set; } = null!;
-
-        [Required]
-        public string AdminPhone { get; set; } = null!;
 
         public DateTime CreatedOn { get; set; }
 
