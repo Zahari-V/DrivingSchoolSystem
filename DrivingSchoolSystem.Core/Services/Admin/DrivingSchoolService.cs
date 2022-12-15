@@ -202,15 +202,6 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             return model;
         }
 
-        public async Task<string> GetNameByIdAsync(int drivingSchoolId)
-        {
-            var drivingSchool = await context.DrivingSchools
-                .AsNoTracking()
-                .FirstAsync(ds => ds.Id == drivingSchoolId);
-
-            return drivingSchool.Name;
-        }
-
         public async Task<List<CategoryModel>> MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
         {
             var categories = await context.Categories

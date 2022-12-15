@@ -10,6 +10,7 @@
             <div class="bg-warning p-3">
                 <h1 class="text-center">@ViewData["Title"]</h1>
                 <hr/>
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Id" />
                 <div class="mb-3 fs-5 ">
                     <label class="fw-bold" asp-for="@Model.Name">Име: </label>
@@ -51,39 +52,6 @@
     </div>
 </div>
 
-@*<div class="align-self-stretch">
-    <h1>@ViewData["Title"]</h1>
-    <hr />
-    <form method="post" asp-area="Admin" asp-controller="DrivingSchool" asp-action="EditProfile">
-        <input type="hidden" asp-for="@Model.Id" />
-        <div>
-            <label asp-for="@Model.Name"></label>
-            <input asp-for="@Model.Name" />
-        </div>
-        <div>
-            <label asp-for="@Model.Address"></label>
-            <input asp-for="@Model.Address" />
-        </div>
-        <div>
-            <label asp-for="@Model.Town"></label>
-            <input asp-for="@Model.Town" />
-        </div>
-        <div>
-            <label asp-for="@Model.PhoneContact"></label>
-            <input asp-for="@Model.PhoneContact" />
-        </div>
-        <div class="d-flex flex-column">
-            <label asp-for="@Model.EducationCategories"></label>
-            @for (int i = 0; i < @Model.EducationCategories.Count(); i++)
-            {
-                <input asp-for="@Model.EducationCategories[i].IsMarked">
-                <label asp-for="@Model.EducationCategories[i].IsMarked">@Model.EducationCategories[i].Name</label>
-                <input type="hidden" asp-for="@Model.EducationCategories[i].Id" />
-                <input type="hidden" asp-for="@Model.EducationCategories[i].Name" />
-            }
-        </div>
-        <button type="submit" class="btn btn-danger">
-            Запази Промените
-        </button>
-    </form>
-</div>*@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

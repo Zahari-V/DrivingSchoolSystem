@@ -1,11 +1,8 @@
 ﻿using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.DrivingSchool;
-using DrivingSchoolSystem.Core.Services.Admin;
 using DrivingSchoolSystem.Extensions;
-using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DrivingSchoolSystem.Areas.Admin.Controllers
 {
@@ -69,9 +66,17 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
                 return Redirect("/Error/AccessDenied");
             }
 
-            var model = await drivingSchoolService.GetByIdAsync(id);
+            try
+            {
+                var model = await drivingSchoolService.GetByIdAsync(id);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            
         }
 
         [HttpGet]
@@ -82,14 +87,20 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
                 return Redirect("/Error/AccessDenied");
             }
 
-            var model = await drivingSchoolService.GetByIdAsync(id);
+            try
+            {
+                var model = await drivingSchoolService.GetByIdAsync(id);
 
-            model.EducationCategories = await drivingSchoolService
+                model.EducationCategories = await drivingSchoolService
                 .MarkCategoriesAsync(model.EducationCategories);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Edit(DrivingSchoolModel model)
@@ -98,22 +109,16 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             {
                 return View(model);
             }
-
-            if (User.IsInRole("Manager") && model.Id != User.DrivingSchoolId())
-            {
-                return Redirect("/Error/AccessDenied");
-            }
-
+            
             try
             {
                 await drivingSchoolService.EditAsync(model);
 
-                return RedirectToAction("Info", new { id = model.Id});
-
+                return RedirectToAction("Info", new { id = model.Id });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ModelState.AddModelError("", ex.Message);
+                ModelState.AddModelError("", "Грешка при запазването на данните.");
 
                 return View(model);
             }

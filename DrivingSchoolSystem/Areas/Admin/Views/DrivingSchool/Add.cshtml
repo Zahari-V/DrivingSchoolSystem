@@ -11,7 +11,7 @@
     <form id="registerForm" asp-area="Admin" asp-controller="DrivingSchool" 
     asp-action="Add" method="post">
         <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="container w-100">
             <div class="row justify-content-center">
                 <div class="col me-2">
@@ -19,22 +19,18 @@
                     <div class="text-center mb-3">
                         <label asp-for="@Model.DrivingSchool.Name">Име на автошколата</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Name" />
-                        <span asp-validation-for="@Model.DrivingSchool.Name" class="text-danger"></span>
                     </div>
                     <div class="text-center mb-3">
                         <label asp-for="@Model.DrivingSchool.Town">Град</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Town" />
-                        <span asp-validation-for="@Model.DrivingSchool.Town" class="text-danger"></span>
                     </div>
                     <div class="text-center mb-3">
                         <label asp-for="@Model.DrivingSchool.Address">Адрес</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Address" />
-                        <span asp-validation-for="@Model.DrivingSchool.Address" class="text-danger"></span>
                     </div>
                     <div class="text-center mb-3">
                         <label asp-for="@Model.DrivingSchool.PhoneContact">Телефон</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.PhoneContact" />
-                        <span asp-validation-for="@Model.DrivingSchool.PhoneContact" class="text-danger"></span>
                     </div>
                     <div class="d-flex flex-column">
                         <label asp-for="@Model.DrivingSchool.EducationCategories">Обучаващи категории:</label>
@@ -54,27 +50,22 @@
                     <div class="text-center mb-3">
                     <label asp-for="@Model.Manager.Email">Имейл</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.Email" />
-                        <span asp-validation-for="@Model.Manager.Email" class="text-danger"></span>
                     </div>
                 <div class="text-center mb-3">
                         <label asp-for="@Model.Manager.FirstName">Собствено име</label>
                         <input class="form-control " aria-required="true" asp-for="@Model.Manager.FirstName" />
-                        <span asp-validation-for="@Model.Manager.FirstName" class="text-danger"></span>
                     </div>
                 <div class="text-center mb-3">
                         <label asp-for="@Model.Manager.MiddleName">Бащино име</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.MiddleName" />
-                        <span asp-validation-for="@Model.Manager.MiddleName" class="text-danger"></span>
                     </div>
                 <div class="text-center mb-3">
                         <label asp-for="@Model.Manager.LastName">Фамилно име</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.LastName" />
-                        <span asp-validation-for="@Model.Manager.LastName" class="text-danger"></span>
                     </div>
                 <div class="text-center mb-3">
                         <label asp-for="@Model.Manager.PhoneNumber">Телефон</label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.PhoneNumber" />
-                        <span asp-validation-for="@Model.Manager.PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
             </div>

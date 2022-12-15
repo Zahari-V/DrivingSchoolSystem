@@ -10,9 +10,8 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
         
         Task AddAsync(AddDrivingSchoolModel model);
 
-        Task<string> GetNameByIdAsync(int drivingSchoolId);
-
         Task<DrivingSchoolModel> GetByIdAsync(int drivingSchoolId);
+
 
         Task<List<CategoryModel>>
             MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
