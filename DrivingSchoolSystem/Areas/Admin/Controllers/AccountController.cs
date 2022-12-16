@@ -49,13 +49,13 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             try
             {
-                await accountService.AddAccountAsync(model);
+                await accountService.AddAsync(model);
 
                 return RedirectToAction("All");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ModelState.AddModelError("", $"{ex.Message}");
+                ModelState.AddModelError("", "Грешка при запазването на данните.");
 
                 model.Roles = await accountService.GetRolesAsync();
 
@@ -63,11 +63,69 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
         [HttpGet]
-        public IActionResult Edit(string accountId)
+        public async Task<IActionResult> Info(Guid id)
         {
-            return View();
+            try
+            {
+                var model = await accountService.GetInfoByIdAsync(id, User.Role());
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            try
+            {
+                var model = await accountService.GetEditModelByIdAsync(id);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AccountEditServiceModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await accountService.EditAsync(model);
+
+                return RedirectToAction("Info", new { id = model.Id });
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await accountService.Delete(id);
+
+                return RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         public IActionResult Index()

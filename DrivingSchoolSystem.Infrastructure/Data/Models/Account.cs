@@ -25,7 +25,6 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [StringLength(25)]
         public string Email { get; set; } = null!;
 
-
         [Required]
         [StringLength(25)]
         public string NormalizedEmail { get; set; } = null!;

@@ -1,34 +1,65 @@
-﻿@{
-    ViewData["Title"] = "Редактиране - Акаунт Профил";
+﻿@model AccountEditServiceModel
+
+@{
+    ViewData["Title"] = "Акаунт редактиране";
 }
 
-<div class="align-self-stretch">
-    <div>
-        <h6>@ViewData["Title"]</h6>
-        <hr>
-        <form>
-            <div class="form-group">
-            <label for="fullName">Full Name</label>
-            <input type="text" class="form-control" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="Kenneth Valdez">
-            <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change or remove it at any time.</small>
+<div class="align-self-stretch w-80">
+    <div class="text-start mt-3 bg-danger p-3">
+         <form method="post" asp-area="Admin" asp-controller="Account" asp-action="Edit">
+            <div class="bg-warning p-3">
+                <h1 class="text-center">Редактиране на @Model.RoleName</h1>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Id"/>
+                <input type="hidden" asp-for="@Model.RoleName"/>
+                <div class="mb-3 fs-5 ">
+                    <label class="fw-bold" asp-for="@Model.Email"></label>
+                    <input class="ml-2" asp-for="@Model.Email" />
+                </div>
+                <div class="mb-3 fs-5 ">
+                    <label class="fw-bold" asp-for="@Model.FirstName"></label>
+                    <input class="ml-2" asp-for="@Model.FirstName" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.MiddleName"></label>
+                    <input class="ml-2" asp-for="@Model.MiddleName" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.LastName"></label>
+                    <input class="ml-2" asp-for="@Model.LastName" />
+                </div>
+                <div class="mb-3 fs-5">
+                    <label class="fw-bold" asp-for="@Model.PhoneNumber"></label>
+                    <input class="ml-2" asp-for="@Model.PhoneNumber" />
+                </div>
+                <div class="mb-3 fs-5">
+                    @if (Model.Categories.Count > 0)
+                    {
+                        <label class="fw-bold" asp-for="@Model.Categories"></label>
+                        @for (int i = 0; i < @Model.Categories.Count(); i++)
+                        {
+                            <span class="d-block">
+                                <input asp-for="@Model.Categories[i].IsMarked">
+                                <label asp-for="@Model.Categories[i].IsMarked">@Model.Categories[i].Name</label>
+                            </span>
+                            <input type="hidden" asp-for="@Model.Categories[i].Id" />
+                            <input type="hidden" asp-for="@Model.Categories[i].Name" />
+                        }
+                    }
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">
+                        Запази Промените
+                    </button>
+                </div>
             </div>
-            <div class="form-group">
-            <label for="bio">Your Bio</label>
-            <textarea class="form-control autosize" id="bio" placeholder="Write something about you" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 62px;">A front-end developer that focus more on user interface design, a web interface wizard, a connector of awesomeness.</textarea>
-            </div>
-            <div class="form-group">
-            <label for="url">URL</label>
-            <input type="text" class="form-control" id="url" placeholder="Enter your website address" value="http://benije.ke/pozzivkij">
-            </div>
-            <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" class="form-control" id="location" placeholder="Enter your location" value="Bay Area, San Francisco, CA">
-            </div>
-            <div class="form-group small text-muted">
-            All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
-            </div>
-            <button type="button" class="btn btn-primary">Update Profile</button>
-            <button type="reset" class="btn btn-light">Reset Changes</button>
         </form>
-        </div>
+    </div>
+
+    <hr />
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

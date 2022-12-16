@@ -1,8 +1,8 @@
 ﻿namespace DrivingSchoolSystem.Core.Models.Admin.Account
 {
-    public class AccountModel
+    public class AccountViewModel
     {
-        public string Id { get; set; } = null!;
+        public Guid Id { get; set; }
 
         public string FullName { get; set; } = null!;
 

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace DrivingSchoolSystem.Controllers
 {
-    /// <summary>\
+    /// <summary>
     /// Controller for the logic of Registration and Authentication 
     /// </summary>
     [Authorize]
@@ -57,7 +57,8 @@ namespace DrivingSchoolSystem.Controllers
                 .AsNoTracking()
                 .Include(u => u.Account) //This is needed about cookie.
                 .ThenInclude(a => a.DrivingSchool) //This is needed about cookie.
-                .FirstOrDefaultAsync(u => u.NormalizedUserName == model.Username.ToUpper());
+                .FirstOrDefaultAsync(u => 
+                u.NormalizedUserName == model.Username.ToUpper() && !u.Account.IsDeleted);
 
             if (user != null)
             {

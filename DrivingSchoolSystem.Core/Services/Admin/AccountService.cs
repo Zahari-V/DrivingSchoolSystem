@@ -16,7 +16,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             context = _context;
         }
 
-        public IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role)
+        public IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role)
         {
             var isAdmin = role.ToUpper() == "ADMIN";
 
@@ -24,10 +24,11 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .AsNoTracking()
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
-                .Where(a => isAdmin ? !a.IsDeleted : a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted)
-                .Select(a => new AccountModel()
+                .Where(a => isAdmin ? !a.IsDeleted : 
+                a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted && a.Role.NormalizedName != "MANAGER")
+                .Select(a => new AccountViewModel()
                 {
-                    Id = a.Id.ToString(),
+                    Id = a.Id,
                     FullName = $"{a.FirstName} {a.MiddleName} {a.LastName}",
                     RoleName = ConvertRoleNameToBulgarianLang(a.Role.Name),
                     PhoneNumber = a.PhoneNumber,
@@ -39,7 +40,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
         {
             return await context.Roles
                 .AsNoTracking()
-                .Where(r => r.NormalizedName != "MANAGER" || r.NormalizedName != "ADMIN")
+                .Where(r => r.NormalizedName != "MANAGER" && r.NormalizedName != "ADMIN")
                 .Select(r => new RoleModel()
                 {
                     Id = r.Id,
@@ -47,7 +48,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 }).ToListAsync();
         }
 
-        public async Task AddAccountAsync(AddAccountModel model)
+        public async Task AddAsync(AddAccountModel model)
         {
             if (context.Accounts
                 .Where(a => a.DrivingSchoolId == model.DrivingSchoolId)
@@ -93,15 +94,157 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
                 instructor.AccountId = account.Id;
 
-                var categories = model.Categories.Where(c => c.IsMarked).Select(c => new InstructorCategory()
-                {
-                    Instructor = instructor,
-                    CategoryId = c.Id
-                });
+                var categories = model.Categories
+                    .Where(c => c.IsMarked)
+                    .Select(c => new InstructorCategory()
+                    {
+                        Instructor = instructor,
+                        CategoryId = c.Id
+                    });
 
                 await context.InstructorsCategories.AddRangeAsync(categories);
 
                 await context.Instructors.AddAsync(instructor);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<CategoryModel>> GetCategoriesAsync()
+        {
+            return await context.Categories
+                .AsNoTracking()
+                .Select(c => new CategoryModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
+        }
+
+        public async Task<AccountInfoViewModel> GetInfoByIdAsync(Guid accountId, string role)
+        {
+            bool isAdmin = role.ToUpper() == "ADMIN" ? true : false;
+
+            var account = await context.Accounts
+                .AsNoTracking()
+                .Include(a => a.Role)
+                .Include(a => a.DrivingSchool)
+                .FirstAsync(a => a.Id == accountId);
+
+            return new AccountInfoViewModel()
+            {
+                Id = account.Id,
+                FirstName = account.FirstName,
+                MiddleName = account.MiddleName,
+                LastName = account.LastName,
+                PhoneNumber = account.PhoneNumber,
+                Email = account.Email,
+                Registered = account.IsRegistered ? "Да" : "Не",
+                RoleName = ConvertRoleNameToBulgarianLang(account.Role.Name),
+                DrivingSchoolName = isAdmin ? account.DrivingSchool.Name : null
+            };
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var account = await context.Accounts.FindAsync(id);
+
+            if (account == null)
+            {
+                throw new NullReferenceException("Account cannot find!");
+            }
+
+            account.IsDeleted = true;
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<AccountEditServiceModel> GetEditModelByIdAsync(Guid accountId)
+        {
+            var account = await context.Accounts
+                .AsNoTracking()
+                .Include(a => a.Role)
+                .FirstAsync(a => a.Id == accountId);
+
+            var model = new AccountEditServiceModel()
+            {
+                Id = account.Id,
+                FirstName = account.FirstName,
+                MiddleName = account.MiddleName,
+                LastName = account.LastName,
+                PhoneNumber = account.PhoneNumber,
+                Email = account.Email,
+                RoleName = ConvertRoleNameToBulgarianLang(account.Role.Name)
+            };
+
+            if (account.Role.NormalizedName == "INSTRUCTOR")
+            {
+                var instructor = await context.Instructors
+                .Include(i => i.InstructorsCategories)
+                .ThenInclude(ic => ic.Category)
+                .FirstAsync(i => i.AccountId == account.Id);
+
+                model.Categories = await context.Categories
+                .Select(c => new CategoryModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    
+                })
+                .ToListAsync();
+
+                foreach (var category in model.Categories)
+                {
+                    category.IsMarked = instructor.InstructorsCategories
+                                            .Any(ic => ic.CategoryId == category.Id);
+                }
+            }
+
+            return model;
+        }
+
+        public async Task EditAsync(AccountEditServiceModel model)
+        {
+            var account = await context.Accounts
+                .Include(a => a.Role)
+                .FirstAsync(a => a.Id == model.Id);
+
+            if (account == null)
+            {
+                throw new NullReferenceException("Account cannot find!");
+            }
+
+            account.FirstName = model.FirstName;
+            account.MiddleName = model.MiddleName;
+            account.LastName = model.LastName;
+            account.Email = model.Email;
+            account.PhoneNumber = model.PhoneNumber;
+
+            if (account.Role.NormalizedName == "INSTRUCTOR")
+            {
+                var instructor = await context.Instructors
+                    .Include(i => i.InstructorsCategories)
+                    .FirstOrDefaultAsync(i => i.AccountId == account.Id);
+
+                if (instructor == null)
+                {
+                    throw new NullReferenceException("Instructor cannot find!");
+                }
+
+                foreach (var category in model.Categories)
+                {
+                    if (category.IsMarked)
+                    {
+                        if (!instructor.InstructorsCategories.Any(ic => ic.CategoryId == category.Id))
+                        {
+                            await context.InstructorsCategories.AddAsync(new InstructorCategory()
+                            {
+                                CategoryId = category.Id,
+                                Instructor = instructor
+                            });
+                        }
+                    }
+                }
             }
 
             await context.SaveChangesAsync();
@@ -125,17 +268,6 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             }
 
             return roleName;
-        }
-
-        public async Task<List<CategoryModel>> GetCategoriesAsync()
-        {
-            return await context.Categories
-                .AsNoTracking()
-                .Select(c => new CategoryModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToListAsync();
         }
     }
 }

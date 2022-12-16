@@ -71,7 +71,6 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
             return context.Courses
                 .AsNoTracking()
-                .Include(c => c.Manager)
                 .Include(c => c.Manager.Account.DrivingSchool)
                 .Include(c => c.Category)
                 .Where(c => isAdmin ? !c.IsDeleted :

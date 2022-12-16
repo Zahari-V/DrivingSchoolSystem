@@ -5,12 +5,20 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
 {
     public interface IAccountService
     {
-        IEnumerable<AccountModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role);
+        IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role);
 
         Task<IEnumerable<RoleModel>> GetRolesAsync();
 
         Task<List<CategoryModel>> GetCategoriesAsync();
 
-        Task AddAccountAsync(AddAccountModel model);
+        Task AddAsync(AddAccountModel model);
+
+        Task<AccountInfoViewModel> GetInfoByIdAsync(Guid accountId, string role);
+
+        Task Delete(Guid id);
+
+        Task<AccountEditServiceModel> GetEditModelByIdAsync(Guid accountId);
+        
+        Task EditAsync(AccountEditServiceModel model);
     }
 }
