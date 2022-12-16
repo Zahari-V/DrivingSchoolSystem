@@ -4,16 +4,12 @@
 
 <div class="align-self-stretch h-100">
     <div>
-        @if (User.IsInRole("Manager"))
+        @if (!User.IsInRole("Admin"))
         {
             <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
             <br />
-            <h1>@ViewBag.Role: @ViewBag.UserFullName</h1>
         }
-        else
-        {
-            <h1>Администратор на приложението</h1>                
-        }
+        <h1>@ViewBag.Role: @ViewBag.UserFullName</h1>
     </div>
 
     <div class="container mt-5 overflow-hidden">

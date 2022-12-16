@@ -4,7 +4,48 @@
     ViewData["Title"] = "Редактиране на курс";
 }
 
-<div class="align-self-start w-80">
+
+<div class="align-self-start">
+    <div class="text-start mt-3 bg-danger p-3">
+        <form id="registerForm" asp-area="Admin" asp-controller="Course" asp-action="Edit" method="post">
+            <div class="bg-warning text-center p-3">
+                <h1 class="text-center">@ViewData["Title"]</h1>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.ManagerId" />
+                <div class="mb-3 fs-6 d-flex flex-column">
+                    <label class="fw-bold fs-5 mb-3" asp-for="@Model.StartDate">Дата на започване</label>
+                    <input type="date" class="form-control ms-auto me-auto w-25" asp-for="@Model.StartDate" />
+                </div>
+                <div class="mb-5 fs-6">
+                    <label class="fw-bold fs-5 mb-3" asp-for="@Model.Categories">Категория</label>
+                    <br />
+                    <div class="d-flex justify-content-center">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <span class="ms-4 me-4">
+                                <input class="w-100" type="radio" asp-for="@Model.CategoryId"
+                                    value="@category.Id" />
+                                <label asp-for="@Model.CategoryId">@category.Name</label>
+                                <br />
+                            </span>
+                        }
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button id="registerSubmit" type="submit" class="fs-5 btn btn-danger">
+                        Запази промените
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr />
+</div>
+@*
+<div class="align-self-start">
     <h1 class="text-center">@ViewData["Title"]</h1>
 
     <div class="row">
@@ -41,4 +82,4 @@
             </form>
         </div>
     </div>
-</div>
+</div>*@

@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
 {
@@ -31,7 +26,8 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Configuration
                 Email = "admin@abv.bg",
                 NormalizedEmail = "admin@abv.bg".ToUpper(),
                 EmailConfirmed = true,
-                PhoneNumber = "0889324353"
+                PhoneNumber = "0889324353",
+                AccountId = Guid.Parse("db4b5796-75a6-4c96-9c1b-98ee8dbee27d")
             };
 
             user.PasswordHash =

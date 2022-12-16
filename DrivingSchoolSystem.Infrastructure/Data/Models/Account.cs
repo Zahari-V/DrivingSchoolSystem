@@ -6,8 +6,13 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
     public class Account
     {
+        public Account()
+        {
+            Id = Guid.NewGuid();
+        }
+
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -40,20 +45,16 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public IdentityRole Role { get; set; } = null!;
 
         [Required]
-        public bool IsRegistered { get; set; }
-
-        [Required]
         public bool IsDeleted { get; set; }
 
-        [Required]
-        public int DrivingSchoolId { get; set; }
+        public int? DrivingSchoolId { get; set; }
 
         [ForeignKey(nameof(DrivingSchoolId))]
-        public DrivingSchool DrivingSchool { get; set; } = null!;
+        public DrivingSchool? DrivingSchool { get; set; }
 
         public string? UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
     }
 }

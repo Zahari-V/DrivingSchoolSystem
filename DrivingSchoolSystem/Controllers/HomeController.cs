@@ -16,9 +16,9 @@ namespace DrivingSchoolSystem.Controllers
                 if (!User.IsInRole("Admin"))
                 {
                     ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
-                    ViewBag.UserFullName = Request.Cookies["userFullName"];
-                    ViewBag.Role = User.BulgarianRoleName();
                 }
+                ViewBag.UserFullName = Request.Cookies["userFullName"];
+                ViewBag.Role = User.BulgarianRoleName();
 
                 return View("HomePage");
             }

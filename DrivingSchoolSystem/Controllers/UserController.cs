@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 
@@ -53,52 +54,58 @@ namespace DrivingSchoolSystem.Controllers
                 return View(model);
             }
 
-            var user = await userManager.Users
-                .AsNoTracking()
-                .Include(u => u.Account) //This is needed about cookie.
-                .ThenInclude(a => a.DrivingSchool) //This is needed about cookie.
-                .FirstOrDefaultAsync(u => 
-                u.NormalizedUserName == model.Username.ToUpper() && !u.Account.IsDeleted);
+            User user = null;
 
-            if (user != null)
+            try
             {
-                var result = await signInManager
-                .PasswordSignInAsync(user, model.Password, false, false);
+                user = await userService.GetUserByUsernameAsync(model.Username);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Невалидни данни!");
 
-                if (result.Succeeded)
-                {
-                    if (!await userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        CookieOptions option = new CookieOptions()
-                        {
-                            HttpOnly = true
-                        };
-
-                        //Appending cookie "userFullName" needed for some views.
-                        Response.Cookies
-                            .Append("userFullName", $"{user.Account.FirstName} {user.Account.MiddleName} {user.Account.LastName}", option);
-
-                        //Appending cookie "userDrivingSchoolName" needed for some views.
-                        Response.Cookies
-                            .Append("userDrivingSchoolName", user.Account.DrivingSchool.Name);
-                    }
-
-                    return RedirectToAction("Index", "Home");
-                }
+                return View(model);
             }
 
-            ModelState.AddModelError("", "Invalid Login!");
+            var result = await signInManager
+                .PasswordSignInAsync(user, model.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                CookieOptions option = new CookieOptions()
+                {
+                    HttpOnly = true
+                };
+
+                //Appending cookie "userFullName" needed for some views.
+                Response.Cookies
+                    .Append("userFullName", $"{user.Account?.FirstName} {user.Account?.MiddleName} {user.Account?.LastName}", option);
+
+                //Appending cookie "userDrivingSchoolName" needed for some views.
+                if (!await userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    Response.Cookies
+                        .Append("userDrivingSchoolName", user.Account.DrivingSchool.Name);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError("", "Невалидни данни!");
 
             return View(model);
         }
 
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
-
             //Deleting unnecessary cookies.
             Response.Cookies.Delete("userFullName");
-            Response.Cookies.Delete("userDrivingSchoolName");
+            if (!User.IsInRole("Admin"))
+            {
+                Response.Cookies.Delete("userDrivingSchoolName");
+            }
+
+            await signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
@@ -136,12 +143,12 @@ namespace DrivingSchoolSystem.Controllers
                 return View(model);
             }
 
-            var account = await userService.GetAsync(model.DrivingSchoolId, model.Email);
+            var account = await userService.GetByProvidedEmailAsync(model.Email, model.DrivingSchoolId);
 
             if (account != null)
             {
 
-                if (account.IsRegistered)
+                if (account.UserId != null)
                 {
                     return RedirectToAction("Login");
                 }
@@ -175,10 +182,10 @@ namespace DrivingSchoolSystem.Controllers
 
             if (account == null)
             {
-                return NotFound($"Не може да се намери акаунт с ID '{accountId}'.");
+                return NotFound();
             }
 
-            if (account.IsRegistered)
+            if (account.UserId != null)
             {
                 return RedirectToAction("Login");
             }
@@ -246,9 +253,6 @@ namespace DrivingSchoolSystem.Controllers
                     return View(model);
                 }
 
-                // Marking account as registered.
-                await userService.RegisterAccount(account.Id);
-
                 return RedirectToAction("RegisterConfirmation", new { userId = user.Id});
             }
 
@@ -258,8 +262,6 @@ namespace DrivingSchoolSystem.Controllers
             }
 
             return View(model);
-
-            
         }
 
         //This action displaying demonstration for register confirmation.

@@ -54,10 +54,13 @@
                        asp-route-id="@account.Id" class="info">
                                 <i class="material-icons" title="Info">&#xf05a;</i>
                             </a>
-                            <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
-                asp-route-id="@account.Id" class="edit">
-                            <i class="material-icons" title="Edit">&#xE254;</i>
-                            </a>
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
+                       asp-route-id="@account.Id" class="edit">
+                                    <i class="material-icons" title="Edit">&#xE254;</i>
+                                </a>
+                            }
                             <a href="#deleteAccountModal" onclick={SetDeleteAccountId('@account.Id')}
                     data-toggle="modal">
                                 <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
@@ -88,6 +91,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Сигурени ли сте че искате да изтриете акаунта?</p>
+                    <p>Всички ученически талони свързани с акаунта, също ще бъдат изтрити!!!</p>
                     <p class="text-warning"><small>Това действие не може да бъде отменено.</small></p>
                 </div>
                 <div class="modal-footer">

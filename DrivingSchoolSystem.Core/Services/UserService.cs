@@ -2,6 +2,7 @@
 using DrivingSchoolSystem.Core.Models.User;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchoolSystem.Core.Services
@@ -15,15 +16,15 @@ namespace DrivingSchoolSystem.Core.Services
             context = _context;
         }
 
-        public async Task<Account> GetByIdAsync(Guid guid)
+        public async Task<Account> GetByIdAsync(Guid accountId)
         {
             return await context.Accounts
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
-                .FirstOrDefaultAsync(a => a.Id == guid && !a.IsDeleted);
+                .FirstOrDefaultAsync(a => a.Id == accountId && !a.IsDeleted);
         }
 
-        public async Task<Account> GetAsync(int drivingSchoolId, string email)
+        public async Task<Account> GetByProvidedEmailAsync(string email, int drivingSchoolId)
         {
             return await context.Accounts
                 .AsNoTracking()
@@ -55,13 +56,21 @@ namespace DrivingSchoolSystem.Core.Services
             account.PhoneNumber == model.PhoneNumber;
         }
 
-        public async Task RegisterAccount(Guid accountId)
+        public async Task<User> GetUserByUsernameAsync(string username)
         {
-            var account = await context.Accounts.FirstAsync(a => a.Id == accountId);
+            var account = await context.Accounts
+                .AsNoTracking()
+                .Include(a => a.User)
+                .Include(a => a.DrivingSchool) //This is needed about cookie.
+                .FirstOrDefaultAsync(a => a.User != null ?
+                a.User.NormalizedUserName == username.ToUpper() && !a.IsDeleted : false);
 
-            account.IsRegistered = true;
+            if (account == null)
+            {
+                throw new NullReferenceException("Account cannot find!");
+            }
 
-            await context.SaveChangesAsync();
+            return account.User;
         }
     }
 }

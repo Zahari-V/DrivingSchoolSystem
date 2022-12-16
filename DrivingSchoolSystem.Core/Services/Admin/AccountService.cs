@@ -4,6 +4,7 @@ using DrivingSchoolSystem.Core.Models.Category;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DrivingSchoolSystem.Core.Services.Admin
 {
@@ -16,16 +17,16 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             context = _context;
         }
 
-        public IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role)
+        public IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId)
         {
-            var isAdmin = role.ToUpper() == "ADMIN";
+            var isAdmin = drivingSchoolId == -1;
 
             return context.Accounts
                 .AsNoTracking()
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
-                .Where(a => isAdmin ? !a.IsDeleted : 
-                a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted && a.Role.NormalizedName != "MANAGER")
+                .Where(a => 
+                (isAdmin ? !a.IsDeleted :  a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted) && a.Role.NormalizedName != "MANAGER")
                 .Select(a => new AccountViewModel()
                 {
                     Id = a.Id,
@@ -129,7 +130,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .AsNoTracking()
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
-                .FirstAsync(a => a.Id == accountId);
+                .FirstAsync(a => a.Id == accountId && a.Role.NormalizedName != "MANAGER");
 
             return new AccountInfoViewModel()
             {
@@ -139,7 +140,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 LastName = account.LastName,
                 PhoneNumber = account.PhoneNumber,
                 Email = account.Email,
-                Registered = account.IsRegistered ? "Да" : "Не",
+                Registered = account.UserId != null ? "Да" : "Не",
                 RoleName = ConvertRoleNameToBulgarianLang(account.Role.Name),
                 DrivingSchoolName = isAdmin ? account.DrivingSchool.Name : null
             };
@@ -147,7 +148,9 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
         public async Task Delete(Guid id)
         {
-            var account = await context.Accounts.FindAsync(id);
+            var account = await context.Accounts
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Id == id && a.Role.NormalizedName != "MANAGER");
 
             if (account == null)
             {
@@ -156,15 +159,34 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
             account.IsDeleted = true;
 
+            if (account.Role.NormalizedName == "STUDENT")
+            {
+                foreach (var studentCard in context.StudentCards
+                    .Include(sc => sc.Student.Account)
+                    .Where(sc => sc.Student.AccountId == account.Id))
+                {
+                    studentCard.IsDeleted = true;
+                }
+            }
+            else if (account.Role.NormalizedName == "INSTRUCTOR")
+            {
+                foreach (var studentCard in context.StudentCards
+                   .Include(sc => sc.Instructor.Account)
+                   .Where(sc => sc.Instructor.AccountId == account.Id))
+                {
+                    studentCard.IsDeleted = true;
+                }
+            }
+
             await context.SaveChangesAsync();
         }
-
+        
         public async Task<AccountEditServiceModel> GetEditModelByIdAsync(Guid accountId)
         {
             var account = await context.Accounts
                 .AsNoTracking()
                 .Include(a => a.Role)
-                .FirstAsync(a => a.Id == accountId);
+                .FirstAsync(a => a.Id == accountId && a.Role.NormalizedName != "MANAGER");
 
             var model = new AccountEditServiceModel()
             {
@@ -207,7 +229,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
         {
             var account = await context.Accounts
                 .Include(a => a.Role)
-                .FirstAsync(a => a.Id == model.Id);
+                .FirstAsync(a => a.Id == model.Id && a.Role.NormalizedName != "MANAGER");
 
             if (account == null)
             {

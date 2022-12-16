@@ -5,7 +5,7 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
 {
     public interface IAccountService
     {
-        IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId, string role);
+        IEnumerable<AccountViewModel> GetAllByDrivingSchoolId(int drivingSchoolId);
 
         Task<IEnumerable<RoleModel>> GetRolesAsync();
 

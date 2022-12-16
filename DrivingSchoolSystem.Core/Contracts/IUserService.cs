@@ -7,12 +7,12 @@ namespace DrivingSchoolSystem.Core.Contracts
     {
         IEnumerable<UserDrivingSchoolModel> GetDrivingSchools();
         
-        Task<Account> GetAsync(int drivingSchoolId, string email);
+        Task<Account> GetByProvidedEmailAsync(string email, int drivingSchoolId);
         
         Task<Account> GetByIdAsync(Guid accountId);
 
         Task<bool> IsValidData(RegisterModel model);
-        
-        Task RegisterAccount(Guid accountId);
+
+        Task<User> GetUserByUsernameAsync(string username);
     }
 }

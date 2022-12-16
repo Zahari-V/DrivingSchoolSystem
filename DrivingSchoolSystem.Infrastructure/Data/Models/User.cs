@@ -9,6 +9,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         [StringLength(400)]
         public string ImageUrl { get; set; } = null!;
 
+        [Required]
         public Guid AccountId { get; set; }
 
         [ForeignKey(nameof(AccountId))]

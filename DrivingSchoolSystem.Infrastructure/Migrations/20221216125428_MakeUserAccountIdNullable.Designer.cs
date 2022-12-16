@@ -4,6 +4,7 @@ using DrivingSchoolSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrivingSchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221216125428_MakeUserAccountIdNullable")]
+    partial class MakeUserAccountIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("DrivingSchoolId")
+                    b.Property<int>("DrivingSchoolId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -45,6 +47,9 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<bool>("IsRegistered")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -84,21 +89,6 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("db4b5796-75a6-4c96-9c1b-98ee8dbee27d"),
-                            Email = "admin@abv.bg",
-                            FirstName = "Петър",
-                            IsDeleted = false,
-                            LastName = "Тодоров",
-                            MiddleName = "Петров",
-                            NormalizedEmail = "ADMIN@ABV.BG",
-                            PhoneNumber = "0889324353",
-                            RoleId = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            UserId = "5b837013-946c-406e-8fce-9631c2844350"
-                        });
                 });
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.Category", b =>
@@ -407,7 +397,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("AccountId")
+                    b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -482,17 +472,16 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         {
                             Id = "5b837013-946c-406e-8fce-9631c2844350",
                             AccessFailedCount = 0,
-                            AccountId = new Guid("db4b5796-75a6-4c96-9c1b-98ee8dbee27d"),
-                            ConcurrencyStamp = "0939e4a6-956d-4aec-89ab-c20db77048be",
+                            ConcurrencyStamp = "6daeccc7-2641-44d7-b1b2-79449379a5bf",
                             Email = "admin@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIp0QZhz5wGQ18TdwDFcOcHAywWUG8pHGWrJUGi88pyvNliTPZNPSG6v6S7LvxcGdw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKv/HLHm7WoyfmUCAAjgE6Xu7Hao2o5vJTSzRqYH2oOjoyXAa7xUHXbe96gwk4hwiw==",
                             PhoneNumber = "0889324353",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a55b3092-01d8-4763-99a9-5f29a90db32f",
+                            SecurityStamp = "3300e825-c661-4e3c-bebb-00331169012b",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -528,28 +517,28 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                         new
                         {
                             Id = "b4656095-c561-4bfa-a5ad-08f7678af1bf",
-                            ConcurrencyStamp = "c0755835-e07c-4e1c-9382-bd82b88b312f",
+                            ConcurrencyStamp = "1080bc79-e937-4bde-9335-5bd049e5a663",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "42196e3c-e72a-4778-994f-36c85380e060",
-                            ConcurrencyStamp = "27201999-5d7f-4233-94b5-535a9c72ba7d",
+                            ConcurrencyStamp = "661afd00-e7eb-427b-bbd2-2682c55056cd",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         },
                         new
                         {
                             Id = "9b325984-c63f-4dec-a00b-eeaab3d34035",
-                            ConcurrencyStamp = "33dacbb0-abbc-4ff0-9b6b-cb0bc4a9adfd",
+                            ConcurrencyStamp = "ff677625-db93-435f-a5e8-d98e31925e97",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "f33ee30d-f3c5-4243-b4b8-a7fa240c3707",
-                            ConcurrencyStamp = "24b8e386-3499-4168-9cc0-e9aeeb7a4e51",
+                            ConcurrencyStamp = "35c2efd3-ad23-4776-bfe7-666804dc7d2e",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });
@@ -676,7 +665,9 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
                 {
                     b.HasOne("DrivingSchoolSystem.Infrastructure.Data.Models.DrivingSchool", "DrivingSchool")
                         .WithMany("Accounts")
-                        .HasForeignKey("DrivingSchoolId");
+                        .HasForeignKey("DrivingSchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
                         .WithMany()
@@ -918,8 +909,7 @@ namespace DrivingSchoolSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("DrivingSchoolSystem.Infrastructure.Data.Models.User", b =>
                 {
-                    b.Navigation("Account")
-                        .IsRequired();
+                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,7 +17,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult All()
         {
-            var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId(), User.Role());
+            var model = accountService.GetAllByDrivingSchoolId(User.DrivingSchoolId());
 
             return View(model);
         }
@@ -79,6 +79,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(Guid id)
         {
             try
@@ -94,6 +95,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(AccountEditServiceModel model)
         {
             if (!ModelState.IsValid)

@@ -52,11 +52,12 @@ namespace DrivingSchoolSystem.Infrastructure.Data
             {
                 ds.Property(ds => ds.IsDeleted).HasDefaultValue(false);
             });
-               
 
             builder.Entity<Account>(a =>
             {
                 a.Property(a => a.IsDeleted).HasDefaultValue(false);
+                a.Property(a => a.UserId).HasDefaultValue(null);
+                a.Property(a => a.DrivingSchoolId).HasDefaultValue(null);
                 a.HasOne(a => a.DrivingSchool).WithMany(ds => ds.Accounts);
                 a.HasOne(a => a.User).WithOne(u => u.Account).OnDelete(DeleteBehavior.Restrict);
             });
@@ -87,6 +88,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data
 
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new AccountConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new UserRoleConfiguration());
         }

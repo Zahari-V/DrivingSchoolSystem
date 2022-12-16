@@ -37,9 +37,13 @@ namespace DrivingSchoolSystem.Extensions
             {
                 roleName = "Инструктор";
             }
-            else
+            else if (roleName == "MANAGER")
             {
                 roleName = "Мениджър";
+            }
+            else
+            {
+                roleName = "Администратор";
             }
 
             return roleName;

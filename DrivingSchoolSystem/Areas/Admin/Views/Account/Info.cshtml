@@ -45,8 +45,11 @@
                 </div>
             }
             <div class="text-end">
-                <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
-                   asp-route-id="@Model.Id" class="btn btn-success">Редактирай</a>
+                @if (User.IsInRole("Manager"))
+                {
+                    <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
+                       asp-route-id="@Model.Id" class="btn btn-success">Редактирай</a>
+                }
                 <a href="#deleteAccountModal" onclick={SetDeleteAccountId('@Model.Id')}
                    data-toggle="modal" class="btn btn-danger">Изтрии</a>
             </div>
