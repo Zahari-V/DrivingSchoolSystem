@@ -1,4 +1,6 @@
-﻿using DrivingSchoolSystem.Infrastructure.Data.Configuration;
+﻿using DrivingSchoolSystem.Infrastructure.Data;
+using DrivingSchoolSystem.Infrastructure.Data.Configuration;
+using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,12 +42,12 @@ namespace DrivingSchoolSystem.Infrastructure.Data
 
             builder.Entity<User>(u =>
             {
-                u.Property(u => u.UserName).HasMaxLength(25).IsRequired();
-                u.Property(u => u.NormalizedUserName).HasMaxLength(25);
-                u.Property(u => u.Email).HasMaxLength(25).IsRequired();
-                u.Property(u => u.NormalizedEmail).HasMaxLength(25);
-                u.Property(u => u.PhoneNumber).HasMaxLength(12).IsRequired();
-                u.Property(u => u.ImageUrl).HasDefaultValue("https://imgs.search.brave.com/G4V3oO6hyzU7zIFGh46tw2rNQQr1sCgN0b2sygyE3-Q/rs:fit:820:641:1/g:ce/aHR0cHM6Ly93d3cu/cG5na2l0LmNvbS9w/bmcvZGV0YWlsLzI4/MS0yODEyODIxX3Vz/ZXItYWNjb3VudC1t/YW5hZ2VtZW50LWxv/Z28tdXNlci1pY29u/LXBuZy5wbmc");
+                u.Property(u => u.UserName).HasMaxLength(UserConstant.UsernameMaxLength).IsRequired();
+                u.Property(u => u.NormalizedUserName).HasMaxLength(UserConstant.UsernameMaxLength);
+                u.Property(u => u.Email).HasMaxLength(UserConstant.EmailMaxLength).IsRequired();
+                u.Property(u => u.NormalizedEmail).HasMaxLength(UserConstant.EmailMaxLength);
+                u.Property(u => u.PhoneNumber).HasMaxLength(UserConstant.PhoneNumberMaxLength).IsRequired();
+                u.Property(u => u.ImageUrl).HasDefaultValue(UserConstant.ImageUrlDefaultValue);
             });
 
             builder.Entity<DrivingSchool>(ds =>

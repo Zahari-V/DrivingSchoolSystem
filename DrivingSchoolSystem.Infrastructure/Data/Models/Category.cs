@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
+using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
@@ -14,11 +15,11 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(CategoryConstant.NameMaxLength)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(400)]
+        [StringLength(CategoryConstant.ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
         public IEnumerable<InstructorCategory> InstructorsCategories { get; set; }

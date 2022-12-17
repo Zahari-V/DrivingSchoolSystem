@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,27 +16,27 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(AccountConstant.FirstNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [StringLength(30)]
+        [StringLength(AccountConstant.MiddleNameMaxLength)]
         public string MiddleName { get; set; } = null!;
 
         [Required]
-        [StringLength(30)]
+        [StringLength(AccountConstant.LastNameMaxLength)]
         public string LastName { get; set; } = null!;
 
         [Required]
-        [StringLength(25)]
+        [StringLength(AccountConstant.EmailMaxLength)]
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(25)]
+        [StringLength(AccountConstant.EmailMaxLength)]
         public string NormalizedEmail { get; set; } = null!;
 
         [Required]
-        [StringLength(12)]
+        [StringLength(AccountConstant.PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]

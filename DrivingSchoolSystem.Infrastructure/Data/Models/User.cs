@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,7 +7,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
 {
     public class User : IdentityUser
     {
-        [StringLength(400)]
+        [StringLength(UserConstant.ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]

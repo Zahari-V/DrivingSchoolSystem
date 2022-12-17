@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrivingSchoolSystem.Infrastructure.Data.Models
@@ -15,18 +16,18 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(DrivingSchoolConstant.NameMaxLength)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(25)]
+        [StringLength(DrivingSchoolConstant.TownMaxLength)]
         public string Town { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DrivingSchoolConstant.AddressMaxLength)]
         public string Address { get; set; } = null!;
 
-        [StringLength(15)]
+        [StringLength(DrivingSchoolConstant.PhoneContactMaxLength)]
         public string? PhoneContact { get; set; }
 
         [Required]
