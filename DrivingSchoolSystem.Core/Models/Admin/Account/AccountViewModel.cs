@@ -1,4 +1,6 @@
-﻿namespace DrivingSchoolSystem.Core.Models.Admin.Account
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DrivingSchoolSystem.Core.Models.Admin.Account
 {
     public class AccountViewModel
     {

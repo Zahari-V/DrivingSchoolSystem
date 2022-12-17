@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <h1>@ViewData["Title"]</h1>
             </div>
-            @if (User.IsInRole("Manager"))
+            @if (User.IsInRole(RoleConstant.Manager))
             {
                 <div class="col-sm-6">
                     <a asp-area="Admin" asp-controller="Course" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави курс</span></a>
@@ -28,7 +28,7 @@
         <table class="table table-striped table-hover table-danger">
             <thead>
                 <tr>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole(RoleConstant.Admin))
                     {
                         <td>Автошкола</td>
                     }
@@ -42,7 +42,7 @@
                 @foreach (var course in Model)
                 {
                     <tr>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole(RoleConstant.Admin))
                         {
                             <td>@course.DrivingSchoolName</td>
                         }
@@ -50,7 +50,7 @@
                         <td>@course.StartDate</td>
                         <td>@course.CreatedOn</td>
                         <td>
-                            @if (User.IsInRole("Manager"))
+                            @if (User.IsInRole(RoleConstant.Manager))
                             {
                                 <a asp-area="Admin" asp-controller="Course" asp-action="Edit"
                        asp-route-courseId="@course.Id" class="edit">

@@ -2,9 +2,9 @@
 
 namespace DrivingSchoolSystem.Core.Models.Admin.DrivingSchool
 {
-    public class AddDrivingSchoolModel
+    public class DrivingSchoolAddServiceModel
     {
-        public AddDrivingSchoolModel()
+        public DrivingSchoolAddServiceModel()
         {
             DrivingSchool = new DrivingSchoolModel();
         }

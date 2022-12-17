@@ -1,6 +1,6 @@
-﻿namespace DrivingSchoolSystem.Core.Models.Admin.Course
+﻿namespace DrivingSchoolSystem.Core.Models.StudentCard
 {
-    public class CollectionCourseModel
+    public class CourseModel
     {
         public int Id { get; set; }
 

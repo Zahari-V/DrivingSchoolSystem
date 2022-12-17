@@ -1,4 +1,4 @@
-﻿@model AddDrivingSchoolModel
+﻿@model DrivingSchoolAddServiceModel
 
 @{
     ViewData["Title"] = "Добавяне на автошкола";
@@ -17,23 +17,23 @@
                 <div class="col me-2">
                     <h2>Автошкола</h2>
                     <div class="text-center mb-3">
-                        <label asp-for="@Model.DrivingSchool.Name">Име на автошколата</label>
+                        <label asp-for="@Model.DrivingSchool.Name"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Name" />
                     </div>
                     <div class="text-center mb-3">
-                        <label asp-for="@Model.DrivingSchool.Town">Град</label>
+                        <label asp-for="@Model.DrivingSchool.Town"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Town" />
                     </div>
                     <div class="text-center mb-3">
-                        <label asp-for="@Model.DrivingSchool.Address">Адрес</label>
+                        <label asp-for="@Model.DrivingSchool.Address"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.Address" />
                     </div>
                     <div class="text-center mb-3">
-                        <label asp-for="@Model.DrivingSchool.PhoneContact">Телефон</label>
+                        <label asp-for="@Model.DrivingSchool.PhoneContact"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.DrivingSchool.PhoneContact" />
                     </div>
                     <div class="d-flex flex-column">
-                        <label asp-for="@Model.DrivingSchool.EducationCategories">Обучаващи категории:</label>
+                        <label asp-for="@Model.DrivingSchool.EducationCategories"></label>
                         @for (int i = 0; i < @Model.DrivingSchool.EducationCategories.Count(); i++)
                         {
                             <input asp-for="@Model.DrivingSchool.EducationCategories[i].IsMarked">
@@ -48,23 +48,23 @@
                 <div class="col-6 ms-2">
                     <h2>Мениджър на автошколата</h2>
                     <div class="text-center mb-3">
-                    <label asp-for="@Model.Manager.Email">Имейл</label>
+                    <label asp-for="@Model.Manager.Email"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.Email" />
                     </div>
                 <div class="text-center mb-3">
-                        <label asp-for="@Model.Manager.FirstName">Собствено име</label>
+                        <label asp-for="@Model.Manager.FirstName"></label>
                         <input class="form-control " aria-required="true" asp-for="@Model.Manager.FirstName" />
                     </div>
                 <div class="text-center mb-3">
-                        <label asp-for="@Model.Manager.MiddleName">Бащино име</label>
+                        <label asp-for="@Model.Manager.MiddleName"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.MiddleName" />
                     </div>
                 <div class="text-center mb-3">
-                        <label asp-for="@Model.Manager.LastName">Фамилно име</label>
+                        <label asp-for="@Model.Manager.LastName"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.LastName" />
                     </div>
                 <div class="text-center mb-3">
-                        <label asp-for="@Model.Manager.PhoneNumber">Телефон</label>
+                        <label asp-for="@Model.Manager.PhoneNumber"></label>
                         <input class="form-control" aria-required="true" asp-for="@Model.Manager.PhoneNumber" />
                     </div>
                 </div>

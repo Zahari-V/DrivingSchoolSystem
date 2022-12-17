@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.User;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -100,7 +101,8 @@ namespace DrivingSchoolSystem.Controllers
         {
             //Deleting unnecessary cookies.
             Response.Cookies.Delete("userFullName");
-            if (!User.IsInRole("Admin"))
+            
+            if (!User.IsInRole(RoleConstant.Admin))
             {
                 Response.Cookies.Delete("userDrivingSchoolName");
             }

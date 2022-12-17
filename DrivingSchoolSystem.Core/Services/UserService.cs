@@ -32,12 +32,12 @@ namespace DrivingSchoolSystem.Core.Services
                 a.NormalizedEmail == email.ToUpper());
         }
 
-        public IEnumerable<UserDrivingSchoolModel> GetDrivingSchools()
+        public IEnumerable<DrivingSchoolModel> GetDrivingSchools()
         {
             return context.DrivingSchools
                 .AsNoTracking()
                 .Where(ds => !ds.IsDeleted)
-                .Select(ds => new UserDrivingSchoolModel()
+                .Select(ds => new DrivingSchoolModel()
                 {
                     Id = ds.Id,
                     Name = ds.Name

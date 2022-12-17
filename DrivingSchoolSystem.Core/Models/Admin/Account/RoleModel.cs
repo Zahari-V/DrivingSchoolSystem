@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace DrivingSchoolSystem.Core.Models.Admin.Account
+﻿namespace DrivingSchoolSystem.Core.Models.Admin.Account
 {
     public class RoleModel
     {

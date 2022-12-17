@@ -1,6 +1,7 @@
-﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.Course;
-using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Common;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -67,7 +68,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
         public IEnumerable<CourseViewModel> GetAll(int drivingSchoolId, string role)
         {
-            var isAdmin = role.ToUpper() == "ADMIN";
+            var isAdmin = role.ToUpper() == RoleConstant.NormalizedAdmin;
 
             return context.Courses
                 .AsNoTracking()

@@ -1,74 +1,85 @@
-﻿@model AddAccountModel
+﻿@model AccountAddServiceModel
 
 @{
     ViewData["Title"] = "Добавяне на Акаунт";
     ViewBag.GenerateId = 0;
 }
 
-<div class="w-100 mb-auto mt-auto">
+<div class="align-self-stretch w-100">
 
     <h1 class="text-center">@ViewData["Title"]</h1>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <form id="registerForm" asp-area="Admin" asp-controller="Account" asp-action="Add" method="post">
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-area="Admin" asp-controller="Account" asp-action="Add" method="post">
+        <div class="row">
+            <div class="col float-start">
                 <input type="hidden" asp-for="@Model.DrivingSchoolId" />
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.Email">Имейл</label>
-                    <input class="form-control " autocomplete="username" aria-required="true" 
-                        asp-for="@Model.Email" />
+                    <label asp-for="@Model.Email"></label>
+                    <input class="form-control" aria-required="true" asp-for="@Model.Email" />
                 </div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.FirstName">Собствено име</label>
-                    <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.FirstName" />
+                    <label asp-for="@Model.FirstName"></label>
+                    <input class="form-control" aria-required="true" asp-for="@Model.FirstName" />
                 </div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.MiddleName">Бащино име</label>
-                    <input class="form-control" autocomplete="new-password" aria-required="true" asp-for="@Model.MiddleName" />
+                    <label asp-for="@Model.MiddleName"></label>
+                    <input class="form-control" aria-required="true" asp-for="@Model.MiddleName" />
                 </div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.LastName">Фамилно име</label>
-                    <input class="form-control" autocomplete="new-password" aria-required="true" asp-for="@Model.LastName" />
+                    <label asp-for="@Model.LastName"></label>
+                    <input class="form-control" aria-required="true" asp-for="@Model.LastName" />
                 </div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.PhoneNumber">Телефон</label>
-                    <input class="form-control" autocomplete="new-password" aria-required="true" asp-for="@Model.PhoneNumber" />
+                    <label asp-for="@Model.PhoneNumber"></label>
+                    <input class="form-control" aria-required="true" asp-for="@Model.PhoneNumber" />
                 </div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.RoleId">Длъжност</label>
+                    <label asp-for="@Model.RoleId"></label>
                     <br />
                     <div class="d-flex justify-content-center fw-bold">
                         @foreach (var role in Model.Roles)
                         {
                             var functionalClass = role.Name == "Инструктор" ? "show" : "hide";
-                            <input class="@functionalClass" type="radio"
-                               asp-for="@Model.RoleId" id="@ViewBag.GenerateId" value="@role.Id" />
-                            <label class="@functionalClass" for="@ViewBag.GenerateId">@role.Name</label>
-                            <br />
+                            
+                            <span class="d-flex flex-column m-3">
+                                <label class="@functionalClass" for="@ViewBag.GenerateId">@role.Name</label>
+                                <input class="@functionalClass mt-1" type="radio"
+                                    asp-for="@Model.RoleId" id="@ViewBag.GenerateId" value="@role.Id" />
+                                <br />
+                            </span>
+                            
                             ViewBag.GenerateId += 1;
                         }
                     </div>
-                    <div class="collapse">
-                        <label asp-for="@Model.Categories"></label>
+                </div>
+            </div>
+            <div class="col float-end">
+                <div class="collapse">
+                    <label class="fw-bold" asp-for="@Model.Categories"></label>
+                    <div class="d-flex flex-column">
                         @for (int i = 0; i < @Model.Categories.Count(); i++)
                         {
-                            <input asp-for="@Model.Categories[i].IsMarked">
-                            <label asp-for="@Model.Categories[i].IsMarked">@Model.Categories[i].Name</label>
+                            <span class="d-block m-2 float-start">
+                                <input asp-for="@Model.Categories[i].IsMarked">
+                                <label asp-for="@Model.Categories[i].IsMarked">@Model.Categories[i].Name</label>
+                            </span>
                             <input type="hidden" asp-for="@Model.Categories[i].Id" />
                             <input type="hidden" asp-for="@Model.Categories[i].Name" />
                         }
-                        </div>
                     </div>
-                <div class="text-center">
-                    <button id="registerSubmit" type="submit" class="btn btn-primary">
-                        Добави
-                    </button>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+        <div class="text-center">
+            <button id="registerSubmit" type="submit" class="btn btn-primary mb-3">
+                Добави
+            </button>
+        </div>
+    </form>
+    
+    <hr />
 </div>
 
 @section Scripts {

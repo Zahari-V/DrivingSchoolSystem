@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Extensions;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Extensions;
 using DrivingSchoolSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                if (!User.IsInRole("Admin"))
+                if (!User.IsInRole(RoleConstant.Admin))
                 {
                     ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
                 }

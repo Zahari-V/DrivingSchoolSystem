@@ -4,7 +4,7 @@
 
 <div class="align-self-stretch h-100">
     <div>
-        @if (!User.IsInRole("Admin"))
+        @if (!User.IsInRole(RoleConstant.Admin))
         {
             <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
             <br />
@@ -28,7 +28,7 @@
                 </a>
             </div>
             <div class="col nav-div bg-danger p-5 ms-4">
-                @if (User.IsInRole("Manager"))
+                @if (User.IsInRole(RoleConstant.Manager))
                 {
                     <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Info" 
                     asp-route-id="@User.DrivingSchoolId()">

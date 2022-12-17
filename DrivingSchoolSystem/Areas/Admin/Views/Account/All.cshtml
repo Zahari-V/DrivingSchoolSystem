@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <h1>@ViewData["Title"]</h1>
             </div>
-            @if (User.IsInRole("Manager"))
+            @if (User.IsInRole(RoleConstant.Manager))
             {
                 <div class="col-sm-6">
                     <a asp-area="Admin" asp-controller="Account" asp-action="Add" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Добави акаунт</span></a>
@@ -29,7 +29,7 @@
             <thead>
                 <tr>
                     <th>Име</th>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole(RoleConstant.Admin))
                     {
                         <th>Автошкола</th>
                     }
@@ -43,7 +43,7 @@
                 {
                     <tr>
                         <td>@account.FullName</td>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole(RoleConstant.Admin))
                         {
                             <td>@account.DrivingSchoolName</td>
                         }
@@ -54,7 +54,7 @@
                        asp-route-id="@account.Id" class="info">
                                 <i class="material-icons" title="Info">&#xf05a;</i>
                             </a>
-                            @if (User.IsInRole("Manager"))
+                            @if (User.IsInRole(RoleConstant.Manager))
                             {
                                 <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
                        asp-route-id="@account.Id" class="edit">

@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.DrivingSchool;
 using DrivingSchoolSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConstant.Admin)]
         public IActionResult All()
         {
             var model = drivingSchoolService.GetAll();
@@ -25,10 +26,10 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConstant.Admin)]
         public async Task<IActionResult> Add()
         {
-            var model = new AddDrivingSchoolModel();
+            var model = new DrivingSchoolAddServiceModel();
 
             model.DrivingSchool.EducationCategories = await drivingSchoolService.GetCategoriesAsync();
 
@@ -36,8 +37,8 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Add(AddDrivingSchoolModel model)
+        [Authorize(Roles = RoleConstant.Admin)]
+        public async Task<IActionResult> Add(DrivingSchoolAddServiceModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Info(int id)
         {
-            if (User.IsInRole("Manager") && id != User.DrivingSchoolId())
+            if (User.IsInRole(RoleConstant.Manager) && id != User.DrivingSchoolId())
             {
                 return Redirect("/Error/AccessDenied");
             }
@@ -82,7 +83,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User.IsInRole("Manager") && id != User.DrivingSchoolId())
+            if (User.IsInRole(RoleConstant.Manager) && id != User.DrivingSchoolId())
             {
                 return Redirect("/Error/AccessDenied");
             }
@@ -125,7 +126,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConstant.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -142,7 +143,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All");
         }
     }
 }

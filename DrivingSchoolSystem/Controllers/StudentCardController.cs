@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace DrivingSchoolSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Instructor")]
+        [Authorize(Roles = RoleConstant.Instructor)]
         public async Task<IActionResult> Add()
         {
             var model = new AddStudentCardModel()
@@ -39,7 +40,7 @@ namespace DrivingSchoolSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Instructor")]
+        [Authorize(Roles = RoleConstant.Instructor)]
         public async Task<IActionResult> Add(AddStudentCardModel model)
         {
             if (!ModelState.IsValid)
@@ -67,7 +68,7 @@ namespace DrivingSchoolSystem.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All"); ;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Services;
 using DrivingSchoolSystem.Extensions;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
@@ -16,7 +17,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            if (!User.IsInRole("Admin"))
+            if (!User.IsInRole(RoleConstant.Admin))
             {
                 ViewBag.DrivingSchoolName = Request.Cookies["userDrivingSchoolName"];
             }

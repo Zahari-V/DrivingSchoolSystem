@@ -1,37 +1,33 @@
-﻿using DrivingSchoolSystem.Core.Models.Category;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DrivingSchoolSystem.Core.Models.Admin.Account
+namespace DrivingSchoolSystem.Core.Models.Common
 {
-    public class AddAccountModel
+    public abstract class AccountServiceModel
     {
         [Required]
         [StringLength(30)]
+        [Display(Name = "Собствено име: ")]
         public string FirstName { get; set; } = null!;
 
         [Required]
         [StringLength(30)]
+        [Display(Name = "Бащино име: ")]
         public string MiddleName { get; set; } = null!;
 
         [Required]
         [StringLength(30)]
+        [Display(Name = "Фамилно име: ")]
         public string LastName { get; set; } = null!;
 
         [Required]
         [StringLength(25)]
         [DataType(DataType.EmailAddress)]
+        [Display(Name = "Имейл: ")]
         public string Email { get; set; } = null!;
 
+        [StringLength(12)]
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Телефон: ")]
         public string PhoneNumber { get; set; } = null!;
-
-        [Required]
-        public int DrivingSchoolId { get; set; }
-
-        public string RoleId { get; set; } = null!;
-
-        public IEnumerable<RoleModel> Roles { get; set; } = new List<RoleModel>();
-
-        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
     }
 }

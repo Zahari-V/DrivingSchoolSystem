@@ -1,5 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
-using DrivingSchoolSystem.Core.Models.Admin.Course;
+using DrivingSchoolSystem.Core.Models.Common;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
@@ -42,7 +42,7 @@ namespace DrivingSchoolSystem.Core.Services
                 });
         }
 
-        public IEnumerable<CollectionCourseModel> GetCourses(int drivingSchoolId)
+        public IEnumerable<CourseModel> GetCourses(int drivingSchoolId)
         {
             return context.Courses
               .AsNoTracking()
@@ -51,7 +51,7 @@ namespace DrivingSchoolSystem.Core.Services
               .Include(c => c.Category)
               .ThenInclude(cg => cg.DrivingSchoolsCategories)
               .Where(c => c.Manager.Account.DrivingSchoolId == drivingSchoolId && c.StartDate > DateTime.Now)
-              .Select(c => new CollectionCourseModel()
+              .Select(c => new CourseModel()
               {
                   Id = c.Id,
                   Name = c.Category.Name,

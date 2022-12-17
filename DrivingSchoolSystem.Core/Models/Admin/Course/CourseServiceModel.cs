@@ -1,4 +1,4 @@
-﻿using DrivingSchoolSystem.Core.Models.Category;
+﻿using DrivingSchoolSystem.Core.Models.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.Admin.Course

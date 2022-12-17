@@ -1,5 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Models.Admin.Account;
-using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Common;
 
 namespace DrivingSchoolSystem.Core.Contracts.Admin
 {
@@ -11,7 +11,7 @@ namespace DrivingSchoolSystem.Core.Contracts.Admin
 
         Task<List<CategoryModel>> GetCategoriesAsync();
 
-        Task AddAsync(AddAccountModel model);
+        Task AddAsync(AccountAddServiceModel model);
 
         Task<AccountInfoViewModel> GetInfoByIdAsync(Guid accountId, string role);
 

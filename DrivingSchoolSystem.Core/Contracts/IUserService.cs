@@ -5,7 +5,7 @@ namespace DrivingSchoolSystem.Core.Contracts
 {
     public interface IUserService
     {
-        IEnumerable<UserDrivingSchoolModel> GetDrivingSchools();
+        IEnumerable<DrivingSchoolModel> GetDrivingSchools();
         
         Task<Account> GetByProvidedEmailAsync(string email, int drivingSchoolId);
         

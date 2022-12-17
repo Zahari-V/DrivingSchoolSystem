@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.Account;
 using DrivingSchoolSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -22,11 +23,11 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new AddAccountModel()
+            var model = new AccountAddServiceModel()
             {
                 DrivingSchoolId = User.DrivingSchoolId(),
                 Roles = await accountService.GetRolesAsync(),
@@ -36,9 +37,9 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpPost]
-        public async Task<IActionResult> Add(AddAccountModel model)
+        public async Task<IActionResult> Add(AccountAddServiceModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +80,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         public async Task<IActionResult> Edit(Guid id)
         {
             try
@@ -95,7 +96,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         public async Task<IActionResult> Edit(AccountEditServiceModel model)
         {
             if (!ModelState.IsValid)
@@ -132,7 +133,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All");
         }
     }
 }

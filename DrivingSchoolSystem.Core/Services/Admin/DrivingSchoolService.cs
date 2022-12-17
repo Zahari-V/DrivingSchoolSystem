@@ -1,6 +1,7 @@
-﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.DrivingSchool;
-using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Common;
 using DrivingSchoolSystem.Infrastructure.Data;
 using DrivingSchoolSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             context = _context;
         }
 
-        public async Task AddAsync(AddDrivingSchoolModel model)
+        public async Task AddAsync(DrivingSchoolAddServiceModel model)
         {
             if (await context.DrivingSchools.AnyAsync(ds => ds.Name == model.DrivingSchool.Name))
             {
@@ -51,7 +52,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 Email = model.Manager.Email,
                 NormalizedEmail = model.Manager.Email.ToUpper(),
                 PhoneNumber = model.Manager.PhoneNumber,
-                RoleId = context.Roles.First(r => r.NormalizedName == "MANAGER").Id,
+                RoleId = context.Roles.First(r => r.NormalizedName == RoleConstant.NormalizedManager).Id,
                 DrivingSchool = drivingSchool
             };
 
@@ -86,7 +87,8 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 account.IsDeleted = true;
             }
 
-            var managerAccountId = drivingSchool.Accounts.First(a => a.Role.NormalizedName == "MANAGER").Id;
+            var managerAccountId = drivingSchool.Accounts
+                .First(a => a.Role.NormalizedName == RoleConstant.NormalizedManager).Id;
 
             var manager = await context.Managers
                 .Include(m => m.Courses)

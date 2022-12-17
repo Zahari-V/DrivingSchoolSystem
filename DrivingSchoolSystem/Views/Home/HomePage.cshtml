@@ -4,7 +4,7 @@
 
 <div class="align-self-stretch">
     <div>
-        @if (!User.IsInRole("Admin"))
+        @if (!User.IsInRole(RoleConstant.Admin))
         {
             <h1>Автошкола: @ViewBag.DrivingSchoolName</h1>
             <br />
@@ -20,7 +20,7 @@
                     <img src="/images/icons/report-card.png" alt="StudentCard Icon" />
                 </a>
             </div>
-            @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+            @if (User.IsInRole(RoleConstant.Manager) || User.IsInRole(RoleConstant.Admin))
             {
                 <div class="col nav-div bg-success p-5 ms-4">
                     <a asp-area="Admin" asp-controller="Home" asp-action="Index">

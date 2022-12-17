@@ -1,5 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Models.Admin.Course;
-using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Common;
 
 namespace DrivingSchoolSystem.Core.Contracts.Admin
 {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DrivingSchoolSystem.Core.Models.Admin.Course
+﻿namespace DrivingSchoolSystem.Core.Models.Admin.Course
 {
     public class CourseViewModel
     {

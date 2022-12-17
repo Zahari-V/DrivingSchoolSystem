@@ -1,22 +1,22 @@
 ﻿using DrivingSchoolSystem.Core.Models.Admin.DrivingSchool;
-using DrivingSchoolSystem.Core.Models.Category;
+using DrivingSchoolSystem.Core.Models.Common;
 using DrivingSchoolSystem.Core.Models.User;
 
 namespace DrivingSchoolSystem.Core.Contracts.Admin
 {
     public interface IDrivingSchoolService
     {
-        IEnumerable<DrivingSchoolModel> GetAll();
+        IEnumerable<Models.Admin.DrivingSchool.DrivingSchoolModel> GetAll();
         
-        Task AddAsync(AddDrivingSchoolModel model);
+        Task AddAsync(DrivingSchoolAddServiceModel model);
 
-        Task<DrivingSchoolModel> GetByIdAsync(int drivingSchoolId);
+        Task<Models.Admin.DrivingSchool.DrivingSchoolModel> GetByIdAsync(int drivingSchoolId);
 
 
         Task<List<CategoryModel>>
             MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories);
 
-        Task EditAsync(DrivingSchoolModel model);
+        Task EditAsync(Models.Admin.DrivingSchool.DrivingSchoolModel model);
 
         Task<List<CategoryModel>> GetCategoriesAsync();
 

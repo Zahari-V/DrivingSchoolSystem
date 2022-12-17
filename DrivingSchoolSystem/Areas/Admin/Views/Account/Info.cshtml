@@ -37,7 +37,7 @@
                 <label class="fw-bold" asp-for="@Model.Registered"></label>
                 <span class="ml-2">@Model.Registered</span>
             </div>
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole(RoleConstant.Admin))
             {
                 <div class="mb-2 fs-5">
                     <label class="fw-bold" asp-for="@Model.DrivingSchoolName"></label>
@@ -45,7 +45,7 @@
                 </div>
             }
             <div class="text-end">
-                @if (User.IsInRole("Manager"))
+                @if (User.IsInRole(RoleConstant.Manager))
                 {
                     <a asp-area="Admin" asp-controller="Account" asp-action="Edit"
                        asp-route-id="@Model.Id" class="btn btn-success">Редактирай</a>

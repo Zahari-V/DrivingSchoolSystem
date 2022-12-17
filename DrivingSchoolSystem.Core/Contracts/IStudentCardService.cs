@@ -1,4 +1,4 @@
-﻿using DrivingSchoolSystem.Core.Models.Admin.Course;
+﻿using DrivingSchoolSystem.Core.Models.Common;
 using DrivingSchoolSystem.Core.Models.StudentCard;
 
 namespace DrivingSchoolSystem.Core.Contracts
@@ -11,7 +11,7 @@ namespace DrivingSchoolSystem.Core.Contracts
 
         IEnumerable<StudentModel> GetStudents(int drivingSchoolId);
 
-        IEnumerable<CollectionCourseModel> GetCourses(int drivingSchoolId);
+        IEnumerable<CourseModel> GetCourses(int drivingSchoolId);
 
         Task<int> GetInstructorId(string userId);
     }

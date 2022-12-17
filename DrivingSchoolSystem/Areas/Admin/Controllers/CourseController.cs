@@ -1,4 +1,5 @@
-﻿using DrivingSchoolSystem.Core.Contracts.Admin;
+﻿using DrivingSchoolSystem.Core.Constants;
+using DrivingSchoolSystem.Core.Contracts.Admin;
 using DrivingSchoolSystem.Core.Models.Admin.Course;
 using DrivingSchoolSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -36,7 +37,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpPost]
         public async Task<IActionResult> Add(CourseServiceModel model)
         {
@@ -61,7 +62,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpGet]
         public async Task<IActionResult> Edit(int courseId)
         {
@@ -79,7 +80,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = RoleConstant.Manager)]
         [HttpPost]
         public async Task<IActionResult> Edit(CourseServiceModel model)
         {
@@ -121,7 +122,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All"); ;
         }
     }
 }

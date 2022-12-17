@@ -1,6 +1,6 @@
 ﻿namespace DrivingSchoolSystem.Core.Models.User
 {
-    public class UserDrivingSchoolModel
+    public class DrivingSchoolModel
     {
         public int Id { get; set; }
 
