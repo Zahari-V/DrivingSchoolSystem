@@ -29,7 +29,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         [Authorize(Roles = RoleConstant.Admin)]
         public async Task<IActionResult> Add()
         {
-            var model = new DrivingSchoolAddServiceModel();
+            var model = new DrivingSchoolServiceModel();
 
             model.DrivingSchool.EducationCategories = await drivingSchoolService.GetCategoriesAsync();
 
@@ -38,7 +38,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
         [HttpPost]
         [Authorize(Roles = RoleConstant.Admin)]
-        public async Task<IActionResult> Add(DrivingSchoolAddServiceModel model)
+        public async Task<IActionResult> Add(DrivingSchoolServiceModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             try
             {
-                var model = await drivingSchoolService.GetByIdAsync(id);
+                var model = await drivingSchoolService.GetInfoByIdAsync(id, User.Role());
 
                 return View(model);
             }
@@ -90,10 +90,10 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
 
             try
             {
-                var model = await drivingSchoolService.GetByIdAsync(id);
+                var model = await drivingSchoolService.GetInfoByIdAsync(id, User.Role());
 
-                model.EducationCategories = await drivingSchoolService
-                .MarkCategoriesAsync(model.EducationCategories);
+                model.DrivingSchool.EducationCategories = await drivingSchoolService
+                .MarkCategoriesAsync(model.DrivingSchool.EducationCategories);
 
                 return View(model);
             }
@@ -104,7 +104,7 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(DrivingSchoolModel model)
+        public async Task<IActionResult> Edit(DrivingSchoolServiceModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -113,9 +113,9 @@ namespace DrivingSchoolSystem.Areas.Admin.Controllers
             
             try
             {
-                await drivingSchoolService.EditAsync(model);
+                await drivingSchoolService.EditAsync(model, User.Role());
 
-                return RedirectToAction("Info", new { id = model.Id });
+                return RedirectToAction("Info", new { id = model.DrivingSchool.Id });
             }
             catch (Exception)
             {

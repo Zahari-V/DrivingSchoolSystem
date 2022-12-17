@@ -2,9 +2,9 @@
 
 namespace DrivingSchoolSystem.Core.Models.Admin.DrivingSchool
 {
-    public class DrivingSchoolAddServiceModel
+    public class DrivingSchoolServiceModel
     {
-        public DrivingSchoolAddServiceModel()
+        public DrivingSchoolServiceModel()
         {
             DrivingSchool = new DrivingSchoolModel();
         }
@@ -12,7 +12,6 @@ namespace DrivingSchoolSystem.Core.Models.Admin.DrivingSchool
         [Required]
         public DrivingSchoolModel DrivingSchool { get; set; } = null!;
 
-        [Required]
-        public ManagerModel Manager { get; set; } = null!;
+        public ManagerModel? Manager { get; set; }
     }
 }

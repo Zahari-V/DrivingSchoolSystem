@@ -17,7 +17,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             context = _context;
         }
 
-        public async Task AddAsync(DrivingSchoolAddServiceModel model)
+        public async Task AddAsync(DrivingSchoolServiceModel model)
         {
             if (await context.DrivingSchools.AnyAsync(ds => ds.Name == model.DrivingSchool.Name))
             {
@@ -43,6 +43,11 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 });
 
             await context.DrivingSchoolsCategories.AddRangeAsync(drivingSchoolCategories);
+
+            if (model.Manager == null)
+            {
+                throw new NullReferenceException("Manager is null!");
+            }
 
             var account = new Account()
             {
@@ -109,18 +114,18 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             await context.SaveChangesAsync();
         }
 
-        public async Task EditAsync(DrivingSchoolModel model)
+        public async Task EditAsync(DrivingSchoolServiceModel model, string role)
         {
             var drivingSchool = await context.DrivingSchools
                 .Include(ds => ds.EducationCategories)
-                .FirstAsync(ds => ds.Id == model.Id);
+                .FirstAsync(ds => ds.Id == model.DrivingSchool.Id && !ds.IsDeleted);
 
-            drivingSchool.Name = model.Name;
-            drivingSchool.Town = model.Town;
-            drivingSchool.PhoneContact = model.PhoneContact;
-            drivingSchool.Address = model.Address;
+            drivingSchool.Name = model.DrivingSchool.Name;
+            drivingSchool.Town = model.DrivingSchool.Town;
+            drivingSchool.PhoneContact = model.DrivingSchool.PhoneContact;
+            drivingSchool.Address = model.DrivingSchool.Address;
 
-            foreach (var category in model.EducationCategories)
+            foreach (var category in model.DrivingSchool.EducationCategories)
             {
                 var isEducationCategory = drivingSchool
                     .EducationCategories.Any(ec => ec.CategoryId == category.Id);
@@ -145,6 +150,26 @@ namespace DrivingSchoolSystem.Core.Services.Admin
 
                     context.DrivingSchoolsCategories.Remove(educationCategory);
                 }
+            }
+
+            var isAdmin = role == RoleConstant.Admin;
+
+            if (isAdmin)
+            {
+                var manager = await context.Accounts
+                           .FirstAsync(a => a.Role.NormalizedName == RoleConstant.NormalizedManager &&
+                           a.DrivingSchoolId == model.DrivingSchool.Id && !a.IsDeleted);
+
+                if (model.Manager == null)
+                {
+                    throw new NullReferenceException("Manager is null!");
+                }
+
+                manager.Email = model.Manager.Email;
+                manager.FirstName = model.Manager.FirstName;
+                manager.MiddleName = model.Manager.MiddleName;
+                manager.LastName = model.Manager.LastName;
+                manager.PhoneNumber = model.Manager.PhoneNumber;
             }
 
             await context.SaveChangesAsync();
@@ -178,28 +203,51 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .ToListAsync();
         }
 
-        public async Task<DrivingSchoolModel> GetByIdAsync(int drivingSchoolId)
+        public async Task<DrivingSchoolServiceModel> GetInfoByIdAsync(int drivingSchoolId, string role)
         {
+            var isAdmin = role == RoleConstant.Admin;
+
             var drivingSchool = await context.DrivingSchools
                 .AsNoTracking()
                 .Include(ds => ds.EducationCategories)
                 .ThenInclude(ec => ec.Category)
                 .FirstAsync(ds => ds.Id == drivingSchoolId);
 
-            var model = new DrivingSchoolModel()
+           
+            var model = new DrivingSchoolServiceModel()
             {
-                Id = drivingSchool.Id,
-                Name = drivingSchool.Name,
-                Town = drivingSchool.Town,
-                Address = drivingSchool.Address,
-                PhoneContact = drivingSchool.PhoneContact,
-                EducationCategories = drivingSchool.EducationCategories
-                .Select(ec => new CategoryModel()
+                DrivingSchool = new DrivingSchoolModel()
                 {
-                    Id = ec.Category.Id,
-                    Name = ec.Category.Name
-                }).ToList()
+                    Id = drivingSchool.Id,
+                    Name = drivingSchool.Name,
+                    Town = drivingSchool.Town,
+                    Address = drivingSchool.Address,
+                    PhoneContact = drivingSchool.PhoneContact,
+                    EducationCategories = drivingSchool.EducationCategories
+                    .Select(ec => new CategoryModel()
+                    {
+                        Id = ec.Category.Id,
+                        Name = ec.Category.Name
+                    }).ToList()
+                }
             };
+
+            if (isAdmin)
+            {
+                var manager = await context.Accounts
+                           .AsNoTracking()
+                           .FirstAsync(a => a.Role.NormalizedName == RoleConstant.NormalizedManager &&
+                           a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted);
+
+                model.Manager = new ManagerModel()
+                {
+                    Email = manager.Email,
+                    FirstName = manager.FirstName,
+                    MiddleName = manager.MiddleName,
+                    LastName = manager.LastName,
+                    PhoneNumber = manager.PhoneNumber
+                };
+            }
 
             return model;
         }

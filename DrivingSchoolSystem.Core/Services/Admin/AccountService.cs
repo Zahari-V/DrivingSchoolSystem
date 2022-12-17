@@ -26,7 +26,8 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
                 .Where(a => 
-                (isAdmin ? !a.IsDeleted :  a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted) && a.Role.NormalizedName != RoleConstant.NormalizedManager)
+                (isAdmin ? !a.IsDeleted :  a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted) && a.Role.NormalizedName != RoleConstant.NormalizedManager &&
+                a.Role.NormalizedName != RoleConstant.NormalizedAdmin)
                 .Select(a => new AccountViewModel()
                 {
                     Id = a.Id,
@@ -132,7 +133,8 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                 .Include(a => a.Role)
                 .Include(a => a.DrivingSchool)
                 .FirstAsync(a => a.Id == accountId &&
-                a.Role.NormalizedName != RoleConstant.NormalizedManager);
+                a.Role.NormalizedName != RoleConstant.NormalizedManager && 
+                a.Role.NormalizedName != RoleConstant.NormalizedAdmin);
 
             return new AccountInfoViewModel()
             {
@@ -153,7 +155,8 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             var account = await context.Accounts
                 .Include(a => a.Role)
                 .FirstOrDefaultAsync(a => a.Id == id && 
-                a.Role.NormalizedName != RoleConstant.NormalizedManager);
+                a.Role.NormalizedName != RoleConstant.NormalizedManager &&
+                 a.Role.NormalizedName != RoleConstant.NormalizedAdmin);
 
             if (account == null)
             {
@@ -189,7 +192,9 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             var account = await context.Accounts
                 .AsNoTracking()
                 .Include(a => a.Role)
-                .FirstAsync(a => a.Id == accountId && a.Role.NormalizedName != RoleConstant.NormalizedManager);
+                .FirstAsync(a => a.Id == accountId && 
+                a.Role.NormalizedName != RoleConstant.NormalizedManager &&
+                 a.Role.NormalizedName != RoleConstant.NormalizedAdmin);
 
             var model = new AccountEditServiceModel()
             {
@@ -232,7 +237,9 @@ namespace DrivingSchoolSystem.Core.Services.Admin
         {
             var account = await context.Accounts
                 .Include(a => a.Role)
-                .FirstAsync(a => a.Id == model.Id && a.Role.NormalizedName != RoleConstant.NormalizedManager);
+                .FirstAsync(a => a.Id == model.Id && 
+                a.Role.NormalizedName != RoleConstant.NormalizedManager &&
+                 a.Role.NormalizedName != RoleConstant.NormalizedAdmin);
 
             if (account == null)
             {
@@ -283,7 +290,7 @@ namespace DrivingSchoolSystem.Core.Services.Admin
             {
                 roleName = "Ученик";
             }
-            else
+            else if(roleName == RoleConstant.NormalizedInstructor)
             {
                 roleName = "Инструктор";
             }

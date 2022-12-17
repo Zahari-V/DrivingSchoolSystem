@@ -1,4 +1,4 @@
-﻿@model DrivingSchoolModel
+﻿@model DrivingSchoolServiceModel
 
 @{
     ViewData["Title"] = "Автошкола информация";
@@ -9,40 +9,71 @@
         <div class="bg-warning p-3">
             <h1 class="text-center">Информация за автошколата</h1>
             <hr />
-            <div class="mb-3 fs-5 ">
-                <label class="fw-bold" asp-for="@Model.Name"></label>
-                <span class="ml-2">@Model.Name</span>
-            </div>
-            <div class="mb-3 fs-5">
-                <label class="fw-bold" asp-for="@Model.Town"></label>
-                <span class="ml-2">@Model.Town</span>
-            </div>
-            <div class="mb-3 fs-5">
-                <label class="fw-bold" asp-for="@Model.Address"></label>
-                <span class="ml-2">@Model.Address</span>
-            </div>
-            <div class="mb-3 fs-5">
-                <label class="fw-bold" asp-for="@Model.PhoneContact"></label>
-                <span class="ml-2">@Model.PhoneContact</span>
-            </div>
-            <div class="mb-2 fs-5">
-                <label class="fw-bold" asp-for="@Model.EducationCategories"></label>
-                @if (Model.EducationCategories.Count > 0)
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3 fs-5">
+                        <h2>Автошколата</h2>
+                        <label class="fw-bold" asp-for="@Model.DrivingSchool.Name"></label>
+                        <span class="ml-2">@Model.DrivingSchool.Name</span>
+                    </div>
+                    <div class="mb-3 fs-5">
+                        <label class="fw-bold" asp-for="@Model.DrivingSchool.Town"></label>
+                        <span class="ml-2">@Model.DrivingSchool.Town</span>
+                    </div>
+                    <div class="mb-3 fs-5">
+                        <label class="fw-bold" asp-for="@Model.DrivingSchool.Address"></label>
+                        <span class="ml-2">@Model.DrivingSchool.Address</span>
+                    </div>
+                    <div class="mb-3 fs-5">
+                        <label class="fw-bold" asp-for="@Model.DrivingSchool.PhoneContact"></label>
+                        <span class="ml-2">@Model.DrivingSchool.PhoneContact</span>
+                    </div>
+                    <div class="mb-2 fs-5">
+                        <label class="fw-bold" asp-for="@Model.DrivingSchool.EducationCategories"></label>
+                        @if (Model.DrivingSchool.EducationCategories.Count > 0)
+                        {
+                            foreach (var category in Model.DrivingSchool.EducationCategories)
+                            {
+                                <span class="ml-2 d-block">@category.Name</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="ml-2 d-block">Автошколата няма обучаващи категории</span>
+                        }
+                    </div>
+                </div>
+                @if (User.IsInRole(RoleConstant.Admin))
                 {
-                    foreach (var category in Model.EducationCategories)
-                    {
-                        <span class="ml-2 d-block">@category.Name</span>
-                    }
-                }
-                else
-                {
-                    <span class="ml-2 d-block">Автошколата няма обучаващи категории</span>
+                    <div class="col">
+                        <h2>Мениджър</h2>
+                        <div class="text-center mb-3">
+                            <label asp-for="@Model.Manager.Email"></label>
+                            <span>@Model.Manager.Email</span>
+                        </div>
+                        <div class="text-center mb-3">
+                            <label asp-for="@Model.Manager.FirstName"></label>
+                            <span>@Model.Manager.FirstName</span>
+                        </div>
+                        <div class="text-center mb-3">
+                            <label asp-for="@Model.Manager.MiddleName"></label>
+                            <span>@Model.Manager.MiddleName</span>
+                        </div>
+                        <div class="text-center mb-3">
+                            <label asp-for="@Model.Manager.LastName"></label>
+                            <span>@Model.Manager.LastName</span>
+                        </div>
+                        <div class="text-center mb-3">
+                            <label asp-for="@Model.Manager.PhoneNumber"></label>
+                            <span>@Model.Manager.PhoneNumber</span>
+                        </div>
+                    </div>
                 }
             </div>
             <div class="text-end">
                 <a asp-area="Admin" asp-controller="DrivingSchool" asp-action="Edit"
-                   asp-route-id="@Model.Id" class="btn btn-success">Редактирай</a>
-                <a href="#deleteEmployeeModal" onclick={SetDeleteDrivingSchoolId('@Model.Id')}
+                   asp-route-id="@Model.DrivingSchool.Id" class="btn btn-success">Редактирай</a>
+                <a href="#deleteEmployeeModal" onclick={SetDeleteDrivingSchoolId('@Model.DrivingSchool.Id')}
                    data-toggle="modal" class="btn btn-danger">Изтрии</a>
             </div>
         </div>
