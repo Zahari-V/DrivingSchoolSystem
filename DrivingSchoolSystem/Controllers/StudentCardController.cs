@@ -18,9 +18,9 @@ namespace DrivingSchoolSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var model = studentCardService.GetAll(User.Id(), User.Role());
+            var model = await studentCardService.GetAll(User.Id(), User.Role());
 
             return View(model);
         }
@@ -29,35 +29,27 @@ namespace DrivingSchoolSystem.Controllers
         [Authorize(Roles = RoleConstant.Instructor)]
         public async Task<IActionResult> Add()
         {
-            var model = new AddStudentCardModel()
-            {
-                Students = studentCardService.GetStudents(User.DrivingSchoolId()),
-                Courses = studentCardService.GetCourses(User.DrivingSchoolId()),
-                InstructorId = await studentCardService.GetInstructorId(User.Id())
-            };
+            var model = await studentCardService.GetAddModelAsync(User.Id());
 
             return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = RoleConstant.Instructor)]
-        public async Task<IActionResult> Add(AddStudentCardModel model)
+        public async Task<IActionResult> Add(StudentCardAddServiceModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.Students = studentCardService.GetStudents(User.DrivingSchoolId());
-                model.Courses = studentCardService.GetCourses(User.DrivingSchoolId());
-
                 return View(model);
             }
 
             try
             {
-                await studentCardService.AddStudentCardAsync(model);
+                await studentCardService.AddAsync(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ModelState.AddModelError("", ex.Message);
+                ModelState.AddModelError("", "Грешка при запазването на данните!");
 
                 return View(model);
             }
@@ -68,7 +60,7 @@ namespace DrivingSchoolSystem.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("All"); ;
+            return RedirectToAction("All");
         }
     }
 }

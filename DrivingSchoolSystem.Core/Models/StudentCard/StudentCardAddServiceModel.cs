@@ -2,7 +2,7 @@
 
 namespace DrivingSchoolSystem.Core.Models.StudentCard
 {
-    public class AddStudentCardModel
+    public class StudentCardAddServiceModel
     {
 
         [Required]
@@ -14,10 +14,8 @@ namespace DrivingSchoolSystem.Core.Models.StudentCard
         [Required]
         public int CourseId { get; set; }
 
-        public IEnumerable<CourseModel> Courses { get; set; }
-           = new List<CourseModel>();
+        public List<CourseModel> Courses { get; set; } = new List<CourseModel>();
 
-        public IEnumerable<StudentModel> Students { get; set; } 
-            = new List<StudentModel>();
+        public List<StudentModel> Students { get; set; } = new List<StudentModel>();
     }
 }

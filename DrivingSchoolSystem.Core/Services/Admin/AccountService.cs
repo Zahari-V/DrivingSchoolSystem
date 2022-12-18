@@ -276,6 +276,10 @@ namespace DrivingSchoolSystem.Core.Services.Admin
                             });
                         }
                     }
+                    else if(instructor.InstructorsCategories.Any(ic => ic.CategoryId == category.Id))
+                    {
+                        context.InstructorsCategories.Remove(instructor.InstructorsCategories.First(ic => ic.CategoryId == category.Id));
+                    }
                 }
             }
 
