@@ -2,21 +2,31 @@
     ViewData["Title"] = "Начална страница";
 }
 
-<div class="row align-items-center">
-    <div class="col fs-3 fw-bold">
-        <div>
-            <p>Влез и следи записаните курсове в твоята Автошкола</p>
-        </div>
-        <a class="btn btn-success w-25 pt-3 pb-3 mt-3 mb-3" asp-controller="User" asp-action="Login">Влез</a>
+<section class="home-section">
+        <h1 id="main-text">Време е да станете шофьор!</h1>
+    <div class="login-container">
+      <div class="d-flex flex-column">
+        <span>Влез и следи записаните курсове в твоята Автошкола</span>
+        <span>
+          <a
+            class="btn btn-success w-25 pt-3 pb-3 mt-3 mb-3"
+            asp-controller="User"
+            asp-action="Login"
+          >
+            Влез
+          </a>
+        </span>
+         </div>
+          <div>
+            <span>
+              Регистрирай се и получи достъп до записаните курсове в твоята
+              Автошкола
+            </span>
+            <span>
+              <a class="btn btn-danger" asp-controller="User" asp-action="ProvidedEmail"
+                >Регистрирай се
+                </a>
+            </span>
+          </div>
     </div>
-    <div class="col">
-        <img src="/images/LearnDrive.jpg" alt="Home Page Image" class="custom-image" />
-    </div>
-    <div class="col fs-3 fw-bold">
-        <div>
-            <p>Регистрирай се и получи достъп до записаните курсове в твоята Автошкола</p>
-        </div>
-        <a class="btn btn-danger w-50 pt-3 pb-3 mt-3 mb-3" asp-controller="User"
-            asp-action="ProvidedEmail">Регистрирай се</a>
-    </div>
-</div>
+    </section>

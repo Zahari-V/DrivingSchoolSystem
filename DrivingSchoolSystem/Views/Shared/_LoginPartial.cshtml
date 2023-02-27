@@ -3,17 +3,14 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-<div class="fs-3">
+<div class="login-partial-container">
 @if (!SignInManager.IsSignedIn(User))
 {
-        <a class="btn btn-success  d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="User"
-    asp-action="Login">Влез</a>
-        <a class="btn btn-danger d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="User"
-    asp-action="ProvidedEmail">Регистрирай се</a>
+    <a class="btn btn-success" asp-controller="User" asp-action="Login">Влез</a>
+     <a class="btn btn-danger" asp-controller="User" asp-action="ProvidedEmail">Регистрирай се</a>
 }
 else
 {
-    <a class="btn btn-primary d-flex pt-3 pb-3 mt-3 mb-3" asp-controller="User"
-    asp-action="Logout">Изход</a>
+    <a class="btn btn-success" asp-controller="User" asp-action="Logout">Изход</a>
 }
 </div>

@@ -1,26 +1,21 @@
 ﻿
-<div class="fs-4 fw-bold custom-shadow border-bottom">
-    <a asp-area="" asp-controller="Home" asp-action="Index">
-        Система за Автошколи
-    </a>
-</div>
-<div class="fs-2 mb-auto">
-    <ul class="custom-shadow">
+<div class="nav-menu-container">
+    <ul>
         <li>
             <a asp-area="" asp-controller="Home" asp-action="Index">
-                Начало
+                <i class="fa-solid fa-house"></i> Начало
             </a>
         </li>
         <li>
             <a asp-area="" asp-controller="Home" asp-action="About">
-                За нас
+                <i class="fa-solid fa-users-line"></i> За нас
             </a>
         </li>
         @if (User.Identity?.IsAuthenticated ?? false)
         {
             <li>
                 <a asp-area="" asp-controller="StudentCard" asp-action="All">
-                    Талони
+                    <i class="fa-solid fa-id-card-clip"></i> Талони
                 </a>
             </li>
         }
@@ -29,8 +24,8 @@
         {
             <li class="dropdown">
                 <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle color-yellow">
-                   Администрация
-                </a>
+                    <i class="fa-solid fa-user-shield"></i> Администрация
+                    </a>
                 <ul aria-labelledby="dropdownMenu1" class="dropdown-menu custom-color-background w-100 border-0 shadow">
                     <li>
                         <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">
