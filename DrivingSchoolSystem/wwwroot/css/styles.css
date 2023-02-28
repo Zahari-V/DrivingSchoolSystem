@@ -5,10 +5,12 @@
 }
 
 body {
+    padding: 0px;
+    margin: 0px;
     font-family: Cursive;
     color: white;
     background-color: dodgerblue; /* For browsers that do not support gradients */
-    background-image: linear-gradient(to bottom right,darkblue, dodgerblue, darkblue);
+    background-image: linear-gradient(to bottom, darkblue, darkblue, darkblue, dodgerblue);
 }
 
 a, a:hover {
@@ -51,6 +53,7 @@ nav .nav-menu-container ul li a {
     letter-spacing: 2px;
     transition-duration: 0.4s;
     padding: 6px 10px;
+    border-bottom: 2px solid white;
 }
 
 nav .nav-menu-container ul li a:hover {
@@ -71,9 +74,11 @@ nav .login-partial-container a {
     padding: 12px 0px;
 }
 
-body main {
+main {
     margin-left: 340px;
     padding: 26px;
+    height: 684px;
+    background-image: url("../Images/DriveCar.png");
 }
 
 main div {
@@ -84,23 +89,54 @@ main div {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    gap: 100px;
-    text-align: center;
     text-shadow: 0px 6px 20px black;
+    height: 100%;
+    background: #0000ff3d;
 }
 
-.home-section > div span {
-    display: block;
-    width: 100%;
+main .home-section .info-app {
+    line-height: 2;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 1.6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+}
+
+main .home-section .info-app .app-info {
+    text-align: right;
+}
+
+main .home-section .info-app #education-sign {
+    font-size: 22rem;
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: white;
+    padding: 0px 14px;
+}
+
+main .info-app > div > span {
+    font-weight: bold;
+}
+
+main .home-info {
+    text-align: center;
 }
 
 main h1#main-text {
     font-size: 4.4rem;
     letter-spacing: 1px;
-    line-height: 120px;
+    line-height: 100px;
 }
 
-.home-section .login-container {
-    display: grid;
-   grid-template-columns: repeat(2, 1fr);
+footer {
+    margin-left: 340px;
+    padding:24px;
+    text-align: center;
+    border-top: 2px solid white;
+    background-color: black;
+    color: white;
 }
