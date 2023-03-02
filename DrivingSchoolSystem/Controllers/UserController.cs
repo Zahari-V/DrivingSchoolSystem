@@ -193,7 +193,7 @@ namespace DrivingSchoolSystem.Controllers
             }
 
             var model = new RegisterModel();
-            
+
             model.Email = account.Email;
             model.DrivingSchoolName = account.DrivingSchool.Name;
             model.AccountId = account.Id;

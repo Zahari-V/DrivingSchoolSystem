@@ -4,69 +4,62 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<div class="w-100 mb-auto mt-auto">
-    <h1 class="text-center">@ViewData["Title"]</h1>
+<section class="form-container">
+    <h1 class="form-head">@ViewData["Title"]</h1>
 
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <form asp-area="" asp-controller="User" asp-action="Register" id="registerForm" method="post">
-                <hr />
-                <input type="hidden" asp-for="@Model.AccountId">
-                <div class="text-center mb-3">
-                    <label>Автошкола: @Model.DrivingSchoolName</label>
-                    <input type="hidden" asp-for="@Model.DrivingSchoolName">
-                </div>
-                <div class="text-center mb-3">
-                    <label>Имейл: @Model.Email</label>
-                    <input type="hidden" asp-for="@Model.Email">
-                </div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="text-center mb-3">
+    <form asp-area="" asp-controller="User" asp-action="Register" method="post">
+        <div class="form-main-content">
+            <input type="hidden" asp-for="@Model.AccountId">
+            <div>
+                <label>Автошкола: @Model.DrivingSchoolName</label>
+                <input type="hidden" asp-for="@Model.DrivingSchoolName">
+            </div>
+            <div>
+                <label>Имейл: @Model.Email</label>
+                <input type="hidden" asp-for="@Model.Email">
+            </div>
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
                 <label asp-for="@Model.FirstName">Собствено име</label>
-                <input class="form-control " aria-required="true" asp-for="@Model.FirstName" />
-                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+                <input aria-required="true" asp-for="@Model.FirstName" />
+                <span asp-validation-for="@Model.FirstName"></span>
             </div>
-            <div class="text-center mb-3">
+            <div>
                 <label asp-for="@Model.MiddleName">Бащино име</label>
-                <input class="form-control " aria-required="true" asp-for="@Model.MiddleName" />
-                <span asp-validation-for="@Model.MiddleName" class="text-danger"></span>
+                <input aria-required="true" asp-for="@Model.MiddleName" />
+                <span asp-validation-for="@Model.MiddleName"></span>
             </div>
-            <div class="text-center mb-3">
-                    <label asp-for="@Model.LastName">Фамилно име</label>
-                    <input class="form-control " aria-required="true" asp-for="@Model.LastName" />
-                <span asp-validation-for="@Model.LastName" class="text-danger"></span>
-                </div>
-            <div class="text-center mb-3">
+                <div>
+                <label asp-for="@Model.LastName">Фамилно име</label>
+                <input aria-required="true" asp-for="@Model.LastName" />
+                <span asp-validation-for="@Model.LastName"></span>
+            </div>
+            <div>
                 <label asp-for="@Model.PhoneNumber">Телефон</label>
-                <input class="form-control " aria-required="true" asp-for="@Model.PhoneNumber" />
-                <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                <input aria-required="true" asp-for="@Model.PhoneNumber" />
+                <span asp-validation-for="@Model.PhoneNumber"></span>
             </div>
-                <div class="text-center mb-3">
-                    <label asp-for="@Model.Username">Потребителско име</label>
-                    <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.Username" />
-                    <span asp-validation-for="@Model.Username" class="text-danger"></span>
-                </div>
-                <div class="text-center mb-3">
-                    <label asp-for="@Model.Password">Парола</label>
-                    <input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.Password" />
-                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
-                </div>
-                <div class="text-center mb-3">
-                    <label asp-for="@Model.ConfirmPassword">Потвърдете Паролата</label>
-                    <input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.ConfirmPassword" />
-                    <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="text-center">
-                    <button id="registerSubmit" type="submit" class="btn btn-primary">
-                        Регистрирай се
-                    </button>
-                </div>
-            </form>
+            <div>
+                <label asp-for="@Model.Username">Потребителско име</label>
+                <input autocomplete="username" aria-required="true" asp-for="@Model.Username" />
+                <span asp-validation-for="@Model.Username"></span>
+            </div>
+            <div>
+                <label asp-for="@Model.Password">Парола</label>
+                <input type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.Password" />
+                <span asp-validation-for="@Model.Password"></span>
+            </div>
+            <div>
+                <label asp-for="@Model.ConfirmPassword">Потвърдете Паролата</label>
+                <input type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.ConfirmPassword" />
+                <span asp-validation-for="@Model.ConfirmPassword"></span>
+            </div>
         </div>
-    </div>
-
-    <hr />
-</div>
+        <div>
+            <button class="submit register" type="submit">Регистрирай се</button>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

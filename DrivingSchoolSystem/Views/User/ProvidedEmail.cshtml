@@ -4,37 +4,35 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<div class="row">
-    <h2 class="text-center">Изберете вашата автошкола и имейла предоставен от вас на автошколата</h2>
+<section class="form-container">
+    <h1 class="form-head">Регистрация</h1>
 
-    <div class="col-md-4 offset-md-4">
-        <form method="post" asp-area="" asp-controller="User" asp-action="ProvidedEmail">
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="text-center mb-3">
+    <form method="post" asp-area="" asp-controller="User" asp-action="ProvidedEmail">
+        <div class="form-main-content">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
                 <label asp-for="@Model.DrivingSchoolId">Изберете вашата Автошкола</label>
-                <select asp-for="@Model.DrivingSchoolId" class="form-control">
+                <select asp-for="@Model.DrivingSchoolId">
                     @foreach (var drivingSchool in @Model.DrivingSchools)
                     {
                         <option value="@drivingSchool.Id">@drivingSchool.Name</option>
                     }
                 </select>
-                <span asp-validation-for="@Model.DrivingSchoolId" class="text-danger"></span>
+                <span asp-validation-for="@Model.DrivingSchoolId"></span>
             </div>
-            <div class="text-center mb-3">
+            <div>
                 <label asp-for="@Model.Email">
                     Въведете имейла предоставен от вас на автошколата
                 </label>
-                <input class="form-control" autocomplete="username" aria-required="true" asp-for="@Model.Email" />
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                <input autocomplete="username" aria-required="true" asp-for="@Model.Email" />
+                <span asp-validation-for="@Model.Email"></span>
             </div>
-            <div class="text-center">
-                <button id="registerSubmit" type="submit" class="btn btn-primary">Напред</button>
-            </div>
-        </form>
-    </div>
-</div>
-
+        </div>
+        <div>
+            <button class="submit register" type="submit">Напред</button>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
