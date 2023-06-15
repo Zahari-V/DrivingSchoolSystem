@@ -14,7 +14,7 @@ namespace DrivingSchoolSystem.Controllers
 
         public StudentCardController(IStudentCardService _studentCardService)
         {
-            studentCardService = _studentCardService;
+            this.studentCardService = _studentCardService;
         }
 
         [HttpGet]

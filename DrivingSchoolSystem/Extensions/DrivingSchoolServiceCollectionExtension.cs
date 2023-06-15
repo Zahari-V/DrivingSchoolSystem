@@ -1,7 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Contracts;
 using DrivingSchoolSystem.Core.Services;
-using DrivingSchoolSystem.Core.Contracts.Admin;
-using DrivingSchoolSystem.Core.Services.Admin;
 
 namespace DrivingSchoolSystem.Extensions
 {

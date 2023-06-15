@@ -53,6 +53,7 @@ namespace DrivingSchoolSystem.Infrastructure.Data
             builder.Entity<DrivingSchool>(ds =>
             {
                 ds.Property(ds => ds.IsDeleted).HasDefaultValue(false);
+                ds.Property(ds => ds.LogoImg).HasDefaultValue(DrivingSchoolConstant.LogoImgDefaultValue);
             });
 
             builder.Entity<Account>(a =>

@@ -31,6 +31,10 @@ namespace DrivingSchoolSystem.Infrastructure.Data.Models
         public string? PhoneContact { get; set; }
 
         [Required]
+        [StringLength(DrivingSchoolConstant.LogoImgMaxLength)]
+        public string LogoImg { get; set; } = null!;
+
+        [Required]
         public bool IsDeleted { get; set; }
 
         public IEnumerable<Account> Accounts { get; set; }

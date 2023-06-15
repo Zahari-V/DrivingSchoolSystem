@@ -11,7 +11,7 @@ namespace DrivingSchoolSystem.Core.Models.User
         [Required]
         public int DrivingSchoolId { get; set; }
 
-        public IEnumerable<DrivingSchoolModel> DrivingSchools { get; set; } =
-            new List<DrivingSchoolModel>();
+        public IEnumerable<UserDrivingSchoolModel> DrivingSchools { get; set; } =
+            new List<UserDrivingSchoolModel>();
     }
 }

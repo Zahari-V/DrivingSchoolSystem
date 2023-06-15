@@ -1,10 +1,31 @@
 ﻿@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css');
 
-/* common styles */
+/* reset styles */
 
 *, *::after, *::before {
     box-sizing: border-box;
 }
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3, h4, ul {
+    padding: 0px;
+    margin: 0px;    
+    font-weight: normal;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+button {
+    all: unset;
+}
+
+/* common styles */
 
 body {
     padding: 0px;
@@ -15,18 +36,42 @@ body {
     background-image: linear-gradient(to bottom, darkblue, darkblue, darkblue, dodgerblue);
 }
 
-a, a:hover {
-    text-decoration: none;
-    color: white;
+i {
+    margin-right: 8px;
 }
 
-button.submit {
-    all: unset;
+input, select {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 8px;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+}
+
+.submit {
     align-self: center;
     padding: 8px 40px;
     border: 4px solid white;
     border-radius: 16px;
     font-size: 20px;
+}
+
+.register {
+    background-color: #db0000;
+}
+
+.login {
+    background-color: green;
+}
+
+.login:hover {
+    cursor: pointer;
+    background-color: #00bc00;
+}
+
+.register:hover {
+    cursor: pointer;
+    background-color: red;
 }
 
 main {
@@ -60,24 +105,16 @@ body nav {
     justify-content: space-between;
     background-color: black; /* For browsers that do not support gradients */
     background-image: linear-gradient(to bottom, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, darkblue, darkblue);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 
 nav .nav-menu-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
-nav .nav-menu-container ul {
-    list-style: none;
-    padding: 0px;
-}
-
-nav .nav-menu-container ul li {
-    margin-bottom: 8px;
-}
-
-nav .nav-menu-container ul li a {
+nav .nav-menu-container > li > a {
     display: block;
     font-size: 1.6rem;
     letter-spacing: 2px;
@@ -86,26 +123,28 @@ nav .nav-menu-container ul li a {
     border-bottom: 2px solid white;
 }
 
-nav .nav-menu-container ul li a:hover {
+nav .nav-menu-container > li > a:hover, .clicked-link {
     background-color: white;
-    color: black
-} 
+    color: black;
+    cursor: pointer;
+}
 
 nav .login-partial-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    text-align: center;
 }
 
 nav .login-partial-container a {
     display: block;
     font-size: 18px;
-    padding: 12px 0px;
+    padding: 14px;
+    border-radius: 6px;
 }
 
 /* Index page styles */
-
 main .background-img {
     position: absolute;
     z-index: -1;
@@ -124,19 +163,16 @@ main .background-img {
     gap: 40px;
 }
 
-main .home-section > * {
-    box-shadow: 0px 0px 20px 16px white;
-    letter-spacing: 1.6px;
-}
-
 main .home-section .home-info {
-    font-size: 1.8rem;
+    font-size: 2rem;
     text-align: right;
     background-image: linear-gradient(to bottom, dodgerblue, darkblue, darkblue);
     padding: 16px 12px 16px 40px;
     align-self: end;
     border-bottom-left-radius: 60px;
     border-top-left-radius: 60px;
+    box-shadow: 0px 0px 20px 16px white;
+    letter-spacing: 1.6px;
 }
 
 main h1.main-text {
@@ -170,6 +206,8 @@ main .form-container h1.form-head {
     background-image: linear-gradient(to bottom, darkblue, darkblue, dodgerblue);
     border-bottom: 4px solid white;
     padding: 8px;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
 }
 
 main .form-container form {
@@ -185,38 +223,11 @@ main .form-container form > div {
 
 main .form-container form .form-main-content > div {
     gap: 6px;
-}
-
-main .form-container form .form-main-content label {
     font-size: 18px;
-}
-
-main .form-container form .form-main-content input,
-main .form-container form .form-main-content select {
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
 }
 
 main .form-container form .form-main-content span {
     color: red;
+    font-size: 16px;
     font-weight: bold;
-}
-
-form button.login {
-    background-color: green;
-}
-
-form button.login:hover {
-    cursor: pointer;
-    background-color: #00bc00;
-}
-
-form button.register {
-    background-color: #db0000;
-}
-
-form button.register:hover {
-    cursor: pointer;
-    background-color: red;
 }

@@ -1,66 +1,54 @@
-﻿
-<div class="nav-menu-container">
-    <ul>
+﻿<ul class="nav-menu-container">
+    <li>
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <i class="fa-solid fa-house"></i>Начало
+        </a>
+    </li>
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
         <li>
-            <a asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="fa-solid fa-house"></i> Начало
+            <a asp-area="" asp-controller="StudentCard" asp-action="All">
+                <i class="fa-solid fa-id-card-clip"></i>Талони
+            </a>
+        </li>
+        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+        {
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="All">
+                    <i class="fa-solid fa-user"></i>Акаунти
+                </a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Course" asp-action="All">
+                    <i class="fa-solid fa-book-open"></i>Курсове
+                </a>
+            </li>
+            <li>
+                @if (User.IsInRole("Manager"))
+                {
+                    <a asp-area="" asp-controller="DrivingSchool"
+           asp-action="Info" asp-route-id="@User.DrivingSchoolId()">
+                        <i class="fa-solid fa-school"></i>Автошколa
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="DrivingSchool" asp-action="All">
+                        <i class="fa-solid fa-school"></i>Автошколи
+                    </a>
+                }
+            </li>
+        }
+    } else {
+        <li>
+            <a asp-area="" asp-controller="DrivingSchool" asp-action="All">
+                <i class="fa-solid fa-school"></i>Автошколи
             </a>
         </li>
         <li>
             <a asp-area="" asp-controller="Home" asp-action="About">
-                <i class="fa-solid fa-users-line"></i> За нас
+                <i class="fa-solid fa-users-line"></i>За нас
             </a>
         </li>
-        @if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <li>
-                <a asp-area="" asp-controller="StudentCard" asp-action="All">
-                    <i class="fa-solid fa-id-card-clip"></i> Талони
-                </a>
-            </li>
-        }
-
-        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
-        {
-            <li class="dropdown">
-                <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle color-yellow">
-                    <i class="fa-solid fa-user-shield"></i> Администрация
-                    </a>
-                <ul aria-labelledby="dropdownMenu1" class="dropdown-menu custom-color-background w-100 border-0 shadow">
-                    <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">
-                            <span class="icon icon-dashboard"></span>
-                            Начало
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="All">
-                            Акаунти
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Course" asp-action="All">
-                            Курсове
-                        </a>
-                    </li>
-                    <li>
-                        @if (User.IsInRole("Manager"))
-                        {
-                            <a class="dropdown-item" asp-area="Admin"  asp-controller="DrivingSchool" 
-                            asp-action="Info" asp-route-id="@User.DrivingSchoolId()">
-                                Автошколa
-                            </a>
-                        }
-                        else
-                        {
-                            <a class="dropdown-item" asp-area="Admin" 
-                            asp-controller="DrivingSchool" asp-action="All">
-                                Автошколи
-                            </a>
-                        }
-                    </li>
-                </ul>
-            </li>
-        }
-    </ul>
-</div>
+    }
+</ul>
