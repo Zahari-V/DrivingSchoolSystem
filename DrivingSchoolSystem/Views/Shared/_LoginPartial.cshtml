@@ -6,11 +6,11 @@
 <div class="login-partial-container">
 @if (!SignInManager.IsSignedIn(User))
 {
-    <a class="login" asp-controller="User" asp-action="Login">Влез</a>
-     <a class="register" asp-controller="User" asp-action="ProvidedEmail">Регистрирай се</a>
+    <a id="login" class="login" asp-controller="User" asp-action="Login">Влез</a>
+        <a id="register" class="register" asp-controller="User" asp-action="ProvidedEmail">Регистрирай се</a>
 }
 else
 {
-    <a class="login" asp-controller="User" asp-action="Logout">Изход</a>
+    <a id="logout" class="login" asp-controller="User" asp-action="Logout">Изход</a>
 }
 </div>

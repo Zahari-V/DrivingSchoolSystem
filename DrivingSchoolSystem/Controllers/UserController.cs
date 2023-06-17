@@ -101,7 +101,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             //Deleting unnecessary cookies.
             Response.Cookies.Delete("userFullName");
-            
+
             if (!User.IsInRole(RoleConstant.Admin))
             {
                 Response.Cookies.Delete("userDrivingSchoolName");

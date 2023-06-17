@@ -1,4 +1,5 @@
 ﻿using DrivingSchoolSystem.Core.Models.Common;
+using DrivingSchoolSystem.Infrastructure.Data.DataConstants;
 using System.ComponentModel.DataAnnotations;
 
 namespace DrivingSchoolSystem.Core.Models.DrivingSchool
@@ -8,25 +9,29 @@ namespace DrivingSchoolSystem.Core.Models.DrivingSchool
         public int Id { get; set; }
 
         [Required]
-        [StringLength(30)]
-        [Display(Name = "Име на автошколата: ")]
+        [StringLength(DrivingSchoolConstant.NameMaxLength)]
+        [Display(Name = "Име: ")]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(25)]
+        [StringLength(DrivingSchoolConstant.TownMaxLength)]
         [Display(Name = "Град: ")]
         public string Town { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DrivingSchoolConstant.AddressMaxLength)]
         [Display(Name = "Адрес: ")]
         public string Address { get; set; } = null!;
 
-        [StringLength(15)]
+        [StringLength(DrivingSchoolConstant.PhoneContactMaxLength)]
         [Display(Name = "Телефон: ")]
         public string? PhoneContact { get; set; }
 
+        [Required]
+        [StringLength(DrivingSchoolConstant.LogoImgMaxLength)]
+        public string LogoImg { get; set; } = null!;
+
         [Display(Name = "Обучаващи категории: ")]
-        public List<CategoryModel> EducationCategories { get; set; } = new List<CategoryModel>();
+        public IEnumerable<string> EducationCategories { get; set; } = new List<string>();
     }
 }

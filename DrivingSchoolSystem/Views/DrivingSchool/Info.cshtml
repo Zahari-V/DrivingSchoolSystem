@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-2 fs-5">
                         <label class="fw-bold" asp-for="@Model.DrivingSchool.EducationCategories"></label>
-                        @if (Model.DrivingSchool.EducationCategories.Count > 0)
+                       @* @if (Model.DrivingSchool.EducationCategories.Count > 0)
                         {
                             foreach (var category in Model.DrivingSchool.EducationCategories)
                             {
@@ -40,7 +40,7 @@
                         else
                         {
                             <span class="ml-2 d-block">Автошколата няма обучаващи категории</span>
-                        }
+                        }*@
                     </div>
                 </div>
                 @if (User.IsInRole(RoleConstant.Admin))

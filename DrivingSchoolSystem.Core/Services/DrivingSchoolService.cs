@@ -34,15 +34,15 @@ namespace DrivingSchoolSystem.Core.Services
 
             await context.DrivingSchools.AddAsync(drivingSchool);
 
-            var drivingSchoolCategories = model.DrivingSchool.EducationCategories
-                .Where(ec => ec.IsMarked)
-                .Select(ec => new DrivingSchoolCategory()
-                {
-                    CategoryId = ec.Id,
-                    DrivingSchool = drivingSchool
-                });
+            //var drivingSchoolCategories = model.DrivingSchool.EducationCategories
+            //    .Where(ec => ec.IsMarked)
+            //    .Select(ec => new DrivingSchoolCategory()
+            //    {
+            //        CategoryId = ec.Id,
+            //        DrivingSchool = drivingSchool
+            //    });
 
-            await context.DrivingSchoolsCategories.AddRangeAsync(drivingSchoolCategories);
+            //await context.DrivingSchoolsCategories.AddRangeAsync(drivingSchoolCategories);
 
             if (model.Manager == null)
             {
@@ -125,32 +125,32 @@ namespace DrivingSchoolSystem.Core.Services
             drivingSchool.PhoneContact = model.DrivingSchool.PhoneContact;
             drivingSchool.Address = model.DrivingSchool.Address;
 
-            foreach (var category in model.DrivingSchool.EducationCategories)
-            {
-                var isEducationCategory = drivingSchool
-                    .EducationCategories.Any(ec => ec.CategoryId == category.Id);
+            //foreach (var category in model.DrivingSchool.EducationCategories)
+            //{
+            //    var isEducationCategory = drivingSchool
+            //        .EducationCategories.Any(ec => ec.CategoryId == category.Id);
 
-                if (category.IsMarked)
-                {
-                    if (!isEducationCategory)
-                    {
-                        var drivingSchoolCategory = new DrivingSchoolCategory()
-                        {
-                            DrivingSchoolId = drivingSchool.Id,
-                            CategoryId = category.Id
-                        };
+            //    if (category.IsMarked)
+            //    {
+            //        if (!isEducationCategory)
+            //        {
+            //            var drivingSchoolCategory = new DrivingSchoolCategory()
+            //            {
+            //                DrivingSchoolId = drivingSchool.Id,
+            //                CategoryId = category.Id
+            //            };
 
-                        await context.DrivingSchoolsCategories.AddAsync(drivingSchoolCategory);
-                    }
-                }
-                else if (isEducationCategory)
-                {
-                    var educationCategory = drivingSchool.EducationCategories
-                        .First(dsc => dsc.CategoryId == category.Id);
+            //            await context.DrivingSchoolsCategories.AddAsync(drivingSchoolCategory);
+            //        }
+            //    }
+            //    else if (isEducationCategory)
+            //    {
+            //        var educationCategory = drivingSchool.EducationCategories
+            //            .First(dsc => dsc.CategoryId == category.Id);
 
-                    context.DrivingSchoolsCategories.Remove(educationCategory);
-                }
-            }
+            //        context.DrivingSchoolsCategories.Remove(educationCategory);
+            //    }
+            //}
 
             var isAdmin = role == RoleConstant.Admin;
 
@@ -175,9 +175,9 @@ namespace DrivingSchoolSystem.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<DrivingSchoolModel> GetAll()
+        public async Task<IEnumerable<DrivingSchoolModel>> GetAllAsync()
         {
-            return context.DrivingSchools
+            return await context.DrivingSchools
                 .AsNoTracking()
                 .Where(ds => !ds.IsDeleted)
                 .Select(ds => new DrivingSchoolModel
@@ -186,8 +186,10 @@ namespace DrivingSchoolSystem.Core.Services
                     Name = ds.Name,
                     Town = ds.Town,
                     Address = ds.Address,
-                    PhoneContact = ds.PhoneContact
-                });
+                    PhoneContact = ds.PhoneContact,
+                    LogoImg = ds.LogoImg,
+                    EducationCategories = ds.EducationCategories.Select(ec => ec.Category.Name)
+                }).ToListAsync();
         }
 
         public async Task<List<CategoryModel>> GetCategoriesAsync()
@@ -205,70 +207,75 @@ namespace DrivingSchoolSystem.Core.Services
 
         public async Task<DrivingSchoolServiceModel> GetInfoByIdAsync(int drivingSchoolId, string role)
         {
-            var isAdmin = role == RoleConstant.Admin;
+            //    var isAdmin = role == RoleConstant.Admin;
 
-            var drivingSchool = await context.DrivingSchools
-                .AsNoTracking()
-                .Include(ds => ds.EducationCategories)
-                .ThenInclude(ec => ec.Category)
-                .FirstAsync(ds => ds.Id == drivingSchoolId);
+            //    var drivingSchool = await context.DrivingSchools
+            //        .AsNoTracking()
+            //        .Include(ds => ds.EducationCategories)
+            //        .ThenInclude(ec => ec.Category)
+            //        .FirstAsync(ds => ds.Id == drivingSchoolId);
 
+            //    var model = new DrivingSchoolServiceModel()
+            //    {
+            //        DrivingSchool = new DrivingSchoolModel()
+            //        {
+            //            Id = drivingSchool.Id,
+            //            Name = drivingSchool.Name,
+            //            Town = drivingSchool.Town,
+            //            Address = drivingSchool.Address,
+            //            PhoneContact = drivingSchool.PhoneContact,
+            //            EducationCategories = drivingSchool.EducationCategories
+            //            .Select(ec => new CategoryModel()
+            //            {
+            //                Id = ec.Category.Id,
+            //                Name = ec.Category.Name
+            //            })
+            //        }
+            //    };
 
-            var model = new DrivingSchoolServiceModel()
-            {
-                DrivingSchool = new DrivingSchoolModel()
-                {
-                    Id = drivingSchool.Id,
-                    Name = drivingSchool.Name,
-                    Town = drivingSchool.Town,
-                    Address = drivingSchool.Address,
-                    PhoneContact = drivingSchool.PhoneContact,
-                    EducationCategories = drivingSchool.EducationCategories
-                    .Select(ec => new CategoryModel()
-                    {
-                        Id = ec.Category.Id,
-                        Name = ec.Category.Name
-                    }).ToList()
-                }
-            };
+            //    if (isAdmin)
+            //    {
+            //        var manager = await context.Accounts
+            //                   .AsNoTracking()
+            //                   .FirstAsync(a => a.Role.NormalizedName == RoleConstant.NormalizedManager &&
+            //                   a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted);
 
-            if (isAdmin)
-            {
-                var manager = await context.Accounts
-                           .AsNoTracking()
-                           .FirstAsync(a => a.Role.NormalizedName == RoleConstant.NormalizedManager &&
-                           a.DrivingSchoolId == drivingSchoolId && !a.IsDeleted);
+            //        model.Manager = new ManagerModel()
+            //        {
+            //            Email = manager.Email,
+            //            FirstName = manager.FirstName,
+            //            MiddleName = manager.MiddleName,
+            //            LastName = manager.LastName,
+            //            PhoneNumber = manager.PhoneNumber
+            //        };
+            //    }
 
-                model.Manager = new ManagerModel()
-                {
-                    Email = manager.Email,
-                    FirstName = manager.FirstName,
-                    MiddleName = manager.MiddleName,
-                    LastName = manager.LastName,
-                    PhoneNumber = manager.PhoneNumber
-                };
-            }
+            //    return model;
+            //}
 
-            return model;
+            //public async Task<List<CategoryModel>> MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
+            //{
+            //    var categories = await context.Categories
+            //       .AsNoTracking()
+            //       .Select(c => new CategoryModel()
+            //       {
+            //           Id = c.Id,
+            //           Name = c.Name
+            //       }).ToListAsync();
+
+            //    foreach (var category in categories)
+            //    {
+            //        category.IsMarked = drivingSchoolCategories
+            //            .Any(dsc => dsc.Id == category.Id);
+            //    }
+
+            //    return categories;
+            return new DrivingSchoolServiceModel();
         }
 
-        public async Task<List<CategoryModel>> MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
+        public Task<List<CategoryModel>> MarkCategoriesAsync(IEnumerable<CategoryModel> drivingSchoolCategories)
         {
-            var categories = await context.Categories
-               .AsNoTracking()
-               .Select(c => new CategoryModel()
-               {
-                   Id = c.Id,
-                   Name = c.Name
-               }).ToListAsync();
-
-            foreach (var category in categories)
-            {
-                category.IsMarked = drivingSchoolCategories
-                    .Any(dsc => dsc.Id == category.Id);
-            }
-
-            return categories;
+            throw new NotImplementedException();
         }
     }
 }

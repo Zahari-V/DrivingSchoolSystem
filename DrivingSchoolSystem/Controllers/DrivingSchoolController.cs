@@ -17,10 +17,10 @@ namespace DrivingSchoolSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.Admin)]
-        public IActionResult All()
+        [AllowAnonymous]
+        public async Task<IActionResult> All()
         {
-            var model = drivingSchoolService.GetAll();
+            var model = await drivingSchoolService.GetAllAsync();
 
             return View(model);
         }
@@ -31,7 +31,7 @@ namespace DrivingSchoolSystem.Controllers
         {
             var model = new DrivingSchoolServiceModel();
 
-            model.DrivingSchool.EducationCategories = await drivingSchoolService.GetCategoriesAsync();
+           // model.DrivingSchool.EducationCategories = await drivingSchoolService.GetCategoriesAsync();
 
             return View(model);
         }
@@ -92,8 +92,8 @@ namespace DrivingSchoolSystem.Controllers
             {
                 var model = await drivingSchoolService.GetInfoByIdAsync(id, User.Role());
 
-                model.DrivingSchool.EducationCategories = await drivingSchoolService
-                .MarkCategoriesAsync(model.DrivingSchool.EducationCategories);
+                //model.DrivingSchool.EducationCategories = await drivingSchoolService
+                //.MarkCategoriesAsync(model.DrivingSchool.EducationCategories);
 
                 return View(model);
             }

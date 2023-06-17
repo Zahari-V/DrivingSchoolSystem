@@ -1,39 +1,39 @@
 ﻿<ul class="nav-menu-container">
     <li>
-        <a asp-area="" asp-controller="Home" asp-action="Index">
+        <a id="nav1" asp-area="" asp-controller="Home" asp-action="Index">
             <i class="fa-solid fa-house"></i>Начало
         </a>
     </li>
     @if (User.Identity?.IsAuthenticated ?? false)
     {
         <li>
-            <a asp-area="" asp-controller="StudentCard" asp-action="All">
+            <a id="nav2" asp-area="" asp-controller="StudentCard" asp-action="All">
                 <i class="fa-solid fa-id-card-clip"></i>Талони
             </a>
         </li>
         @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
         {
             <li>
-                <a asp-area="" asp-controller="Account" asp-action="All">
+                <a id="nav3" asp-area="" asp-controller="Account" asp-action="All">
                     <i class="fa-solid fa-user"></i>Акаунти
                 </a>
             </li>
             <li>
-                <a asp-area="" asp-controller="Course" asp-action="All">
+                <a id="nav4" asp-area="" asp-controller="Course" asp-action="All">
                     <i class="fa-solid fa-book-open"></i>Курсове
                 </a>
             </li>
             <li>
                 @if (User.IsInRole("Manager"))
                 {
-                    <a asp-area="" asp-controller="DrivingSchool"
+                    <a id="nav5" asp-area="" asp-controller="DrivingSchool"
            asp-action="Info" asp-route-id="@User.DrivingSchoolId()">
                         <i class="fa-solid fa-school"></i>Автошколa
                     </a>
                 }
                 else
                 {
-                    <a asp-area="" asp-controller="DrivingSchool" asp-action="All">
+                    <a id="nav5" asp-area="" asp-controller="DrivingSchool" asp-action="All">
                         <i class="fa-solid fa-school"></i>Автошколи
                     </a>
                 }
@@ -41,12 +41,12 @@
         }
     } else {
         <li>
-            <a asp-area="" asp-controller="DrivingSchool" asp-action="All">
+            <a id="nav5" asp-area="" asp-controller="DrivingSchool" asp-action="All">
                 <i class="fa-solid fa-school"></i>Автошколи
             </a>
         </li>
         <li>
-            <a asp-area="" asp-controller="Home" asp-action="About">
+            <a id="nav6" asp-area="" asp-controller="Home" asp-action="About">
                 <i class="fa-solid fa-users-line"></i>За нас
             </a>
         </li>

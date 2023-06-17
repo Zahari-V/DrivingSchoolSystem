@@ -5,7 +5,7 @@ namespace DrivingSchoolSystem.Core.Contracts
 {
     public interface IDrivingSchoolService
     {
-        IEnumerable<DrivingSchoolModel> GetAll();
+        Task<IEnumerable<DrivingSchoolModel>> GetAllAsync();
 
         Task AddAsync(DrivingSchoolServiceModel model);
 
